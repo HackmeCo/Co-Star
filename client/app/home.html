@@ -1,0 +1,7 @@
+<div>
+  <form>
+    <input name="actorSearch" placeholder="type here..." type="text" ng-model= "actorInput">
+    <button>Search Actor</button>
+  </form>
+  <h3 ng-repeat="actor in currentSearches" ng-click="removesActorInput(actor)">{{actor}}</h3>
+</div>
