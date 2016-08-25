@@ -3,7 +3,15 @@ var token = require('../../token.js');
 .factory("ApiCalls", function($http){
   
   /*
-  * Makes the search by person API call to TMDB. SBP calls return {???}
+  * Makes the search by person API call to TMDB. SBP calls return 
+  * {"page": Number, "results": Array, "total_results": Number, "total_pages": Number}.
+    In results: 
+    "Id": Number, "known_for": Array
+        In known_for, 3 objects, each for a movie
+          {"poster_path": URL (String), "overview": String, "release_date": String,
+          "original_title": String, "id": Number, "popularity": Number(Float), 
+          "vote_average": Number (2 decimals)}
+      NB: Poster_path needs to be appended to https://image.tmdb.org/t/p/w396
   * Used when the list of current searches is size 1
   * Also sends the information to our database
   * @params actor: The name of the actor to search, as a string
@@ -16,7 +24,7 @@ var token = require('../../token.js');
     //TODO: Consider checking the database here before doing the API call
     return $http({
       method: "GET",
-      url: "https://api.themoviedb.org/3/search/person?query=" + actor + "&api_key=" + token + "&sort_by=popularity.desc"
+      url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"
     })
     .then(function(resp){
       //send response to the database
@@ -37,7 +45,7 @@ var token = require('../../token.js');
   */
   
   var discover = function(actorIds){
-    var actorString = actors.reduce((a, id)=> a + id, "") //concats the whole actorId array into one string for the api call
+    var actorString = actorIds.join(',');
     return $http({
       method: "GET",
       url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
