@@ -19,7 +19,7 @@ angular.module(costars.home , [])
 
       for( let i = 0; i < currentSearches.length; i++){
         //currently i'm assumming that searchbyPerson is going to return an actors id.
-        $scope.ids.push(apiCalls.searchByPerson($scope.currentSearches[i]));
+        $scope.ids.push(ApiCalls.searchByPerson($scope.currentSearches[i]));
       }
 
       ApiCalls.discover($scope.actorIds);
