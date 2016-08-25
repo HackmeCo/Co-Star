@@ -37,7 +37,7 @@ var token = require('../../token.js');
   }
 
   /*
-  * Makes the discover API call for comparing several actors, returning a list of movies
+  * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "known_for"}
   * Used when the list of current searches has multiple actors
   * For the future, we can consider caching some results in our DB
   * @params actorIds: The IDs of all the actors to compare, as an array of numbers
@@ -45,7 +45,7 @@ var token = require('../../token.js');
   */
   
   var discover = function(actorIds){
-    var actorString = actorIds.join(',');
+    var actorString = actorIds.join(','); //the list of actor Ids, now separated by commas in a string
     return $http({
       method: "GET",
       url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
