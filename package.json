@@ -1,0 +1,30 @@
+{
+  "name": "costar",
+  "version": "1.0.0",
+  "description": "app for finding common movies between actors",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "jshint": "^2.9.3",
+    "mongodb": "^2.2.8",
+    "promised-mongo": "github:makersquare/promised-mongo"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HackmeCo/Co-Star.git"
+  },
+  "author": "HackmeCo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HackmeCo/Co-Star/issues"
+  },
+  "homepage": "https://github.com/HackmeCo/Co-Star#readme"
+}
