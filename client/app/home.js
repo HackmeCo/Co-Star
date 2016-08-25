@@ -16,17 +16,14 @@ angular.module(costars.home , [])
       ApiCalls.searchByPerson($scope.currentSearches[0]); // maybe .then( display stuff)
     }
     else{
-
       for( let i = 0; i < currentSearches.length; i++){
         //currently i'm assumming that searchbyPerson is going to return an actors id.
         $scope.ids.push(ApiCalls.searchByPerson($scope.currentSearches[i]));
       }
-
       ApiCalls.discover($scope.actorIds);
       //if database has id then make discover api call
       //else make searchByPerson api call and grab id
       //and make discover api call with that id.
-      
     }
     //some kind of api call
     .then(function(data){
