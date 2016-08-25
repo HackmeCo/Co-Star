@@ -6,6 +6,8 @@
   * Also sends the information to our database
   * @params actor: The name of the actor to search, as a string
   * @return the API call as a Promise, resolving with ???
+  * always searchByPerson for anyone new to gain the actor id so the discover call
+  * can be made
   */
   
   var searchByPerson = function(actor){
