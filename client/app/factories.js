@@ -1,4 +1,6 @@
-.factory("apiCalls", function($http){
+var token = require('../../token.js');
+
+.factory("ApiCalls", function($http){
   
   /*
   * Makes the search by person API call to TMDB. SBP calls return {???}

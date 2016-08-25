@@ -3,11 +3,11 @@ angular.module(costars.home , [])
 //i changed
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
-.controller('HomeController', function($scope, $location, $http, apiCalls)) {
+.controller('HomeController', function($scope, $location, $http, ApiCalls)) {
   //$scope.data = {}; will need for movies
   $scope.currentSearches = []; //array of actors with associated ids. 
-  $scope.ids = {} //it will be a mapping of actor names to ids.
-
+  $scope.actorIds = {}; //it will be a mapping of actor names to ids, to make removing easier
+  $scope.ids = []; //list of all IDs being searched, used to make Discover calls easier
 
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
