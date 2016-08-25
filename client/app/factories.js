@@ -37,10 +37,10 @@ var token = require('../../token.js');
   */
   
   var discover = function(actorIds){
-    //TODO: convert actorIds into a string for the URL
+    var actorString = actors.reduce((a, id)=> a + id, "") //concats the whole actorId array into one string for the api call
     return $http({
       method: "GET",
-      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorId + actorId + "&sort_by=vote_average.desc"
+      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
     })
     .then(function(resp){
       //display movies on the page
