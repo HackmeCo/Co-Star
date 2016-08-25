@@ -3,19 +3,26 @@ angular.module(costars.home , [])
 //i changed
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
-.controller('HomeController', function($scope, $location, $http, ApiCalls)) {
+.controller('HomeController', function($scope, $location, $http, apiCalls)) {
   //$scope.data = {}; will need for movies
   $scope.currentSearches = []; //array of actors with associated ids. 
-  $scope.actorIds = {}; //it will be a mapping of actor names to ids, to make removing easier
-  $scope.ids = []; //list of all IDs being searched, used to make Discover calls easier
+  $scope.actorIds = []; //it will be a mapping of actor names to ids.
+
 
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
-    if(currentSearches.length === 1){
+    if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      apiCalls.searchByPerson(currentSearches[0]); // maybe .then( display stuff)
+      apiCalls.searchByPerson($scope.currentSearches[0]); // maybe .then( display stuff)
     }
     else{
+
+      for( let i = 0; i < currentSearches.length; i++){
+        //currently i'm assumming that searchbyPerson is going to return an actors id.
+        $scope.ids.push(apiCalls.searchByPerson($scope.currentSearches[i]));
+      }
+
+      apiCalls.discover($scope.actorIds);
       //if database has id then make discover api call
       //else make searchByPerson api call and grab id
       //and make discover api call with that id.
