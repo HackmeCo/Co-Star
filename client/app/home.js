@@ -3,7 +3,7 @@ angular.module(costars.home , [])
 //i changed
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
-.controller('HomeController', function($scope, $location, $http, apiCalls)) {
+.controller('HomeController', function($scope, $location, $http, ApiCalls)) {
   //$scope.data = {}; will need for movies
   $scope.currentSearches = []; //array of actors with associated ids. 
   $scope.actorIds = []; //it will be a mapping of actor names to ids.
@@ -13,7 +13,7 @@ angular.module(costars.home , [])
   $scope.getMovies = function (){
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      apiCalls.searchByPerson($scope.currentSearches[0]); // maybe .then( display stuff)
+      ApiCalls.searchByPerson($scope.currentSearches[0]); // maybe .then( display stuff)
     }
     else{
 
@@ -22,7 +22,7 @@ angular.module(costars.home , [])
         $scope.ids.push(apiCalls.searchByPerson($scope.currentSearches[i]));
       }
 
-      apiCalls.discover($scope.actorIds);
+      ApiCalls.discover($scope.actorIds);
       //if database has id then make discover api call
       //else make searchByPerson api call and grab id
       //and make discover api call with that id.
@@ -41,6 +41,7 @@ angular.module(costars.home , [])
   $scope.addsActorInput = function (actorInput){
     $scope.currentSearches.push(actorInput);
     //eventually we will call getMovies here. AV EC KH 
+    $scope.getMovies();
 
     
 
