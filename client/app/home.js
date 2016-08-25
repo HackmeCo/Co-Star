@@ -1,6 +1,6 @@
 
 angular.module(costars.home , [])
-//i changed
+
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
 .controller('HomeController', function($scope, $location, $http, ApiCalls)) {
