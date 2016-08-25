@@ -16,7 +16,7 @@ var token = require('../../token.js');
     //TODO: Consider checking the database here before doing the API call
     return $http({
       method: "GET",
-      url: ???
+      url: "https://api.themoviedb.org/3/search/person?query=" + actor + "&api_key=" + token + "&sort_by=popularity.desc"
     })
     .then(function(resp){
       //send response to the database
@@ -40,7 +40,7 @@ var token = require('../../token.js');
     //TODO: convert actorIds into a string for the URL
     return $http({
       method: "GET",
-      url: ??? //discover URL
+      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorId + actorId + "&sort_by=vote_average.desc"
     })
     .then(function(resp){
       //display movies on the page
