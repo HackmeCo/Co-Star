@@ -1,5 +1,5 @@
 
-angular.module(costars.home , [])
+angular.module('costars.home' , [])
 
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
