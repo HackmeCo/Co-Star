@@ -1,2 +1,4 @@
 node_modules/
 token.js
+bower_components/
+npm-debug.log
