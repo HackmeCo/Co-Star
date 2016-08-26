@@ -75,7 +75,8 @@ angular.module('costars.factories', [])
   */
 
   var getActor = function(actorName){
-    var dataString = actorName.split(' ').join('+'); //converts spaces to '+'s
+    actorName = actorName.trim();
+    var dataString = actorName.replace(/\s+/g, '+'); //replaces all whitespace blocks with '+'
     return $http({
       method: 'GET',
       url: '/thespians?name=' + dataString
