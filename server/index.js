@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var pmongo = require('promised-mongo');
 var mongodb = require('mongodb');
 var path = require('path');
-//var -- = require('');
+var db = require('./db');
 
 var app = express();
 module.exports = app;
@@ -11,14 +11,10 @@ module.exports = app;
 app.use( bodyParser.json() );      // Parse JSON request body
 app.use( bodyParser.urlencoded({ extended: true }) );
 
-// =================================
-//           Endpoints
-// =================================
+app.use(express.static(path.join(__dirname, '../client')));
 
-app.get('/', function (req, res) {
-  res.sendFile( path.join(__dirname, '../client', 'index.html') );
-});
+app.listen(process.env.PORT || 3000, function(){
+	console.log(process.env.PORT ? 'Express app listening on port ' + process.env.PORT 
+		                         : 'Express app listening on port 3000');
 
-app.listen(3000, function(){
-	console.log('Express app listening on port 3000 !!!!');
 });
