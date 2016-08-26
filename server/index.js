@@ -12,6 +12,7 @@ app.use( bodyParser.json() );      // Parse JSON request body
 app.use( bodyParser.urlencoded({ extended: true }) );
 
 app.use(express.static(path.join(__dirname, '../client')));
+app.use('/bower_components', express.static(path.join(__dirname, '../bower_components')));
 
 app.listen(process.env.PORT || 3000, function(){
 	console.log(process.env.PORT ? 'Express app listening on port ' + process.env.PORT 
