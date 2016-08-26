@@ -3,6 +3,7 @@ var pmongo = require('promised-mongo');
 var mongodb = require('mongodb');
 var uri = require('./uri.js');
 var db = pmongo(uri.uri, {authMechanism: 'ScramSHA1'});
+
 module.exports = db;
 
 
