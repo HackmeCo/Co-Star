@@ -9,8 +9,7 @@ var token = require('../../token.js');
     "Id": Number, "known_for": Array
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
-          "original_title": String, "id": Number, "popularity": Number(Float), 
-          "vote_average": Number (2 decimals)}
+          "original_title": String, "id": Number, "popularity": Number(Float)}
       NB: Poster_path needs to be appended to https://image.tmdb.org/t/p/w396
   * Used when the list of current searches is size 1
   * Also sends the information to our database
@@ -63,4 +62,33 @@ var token = require('../../token.js');
     searchByPerson: searchByPerson,
     discover: discover
   }
-})
+}) //END OF API FACTORY
+
+.factory('DB', function($http){
+
+  /*
+  * getActor makes a GET request to our database with an actor's name, searching for the actor's info
+  * @param actorName the name of the actor we are searching for, as a String
+  * @return A Promise that resolves with the actor's info, formatted similarly to the response given by TMDB
+  * @return A Promise that will reject if the actor is not found; we'll then make a call to TMDB (we'll get a 404)
+  */
+
+  var getActor = function(actorName){
+    
+  }
+
+  /*
+  * storeActor makes a POST request to our database to store an actor.
+  * @param actorData, the actor's info as an object
+  *   Object format: {"Id": Number, "known_for": Array}
+        In known_for, 3 objects, each for a movie
+          {"poster_path": URL (String), "overview": String, "release_date": String,
+          "original_title": String, "id": Number, "popularity": Number(Float)}
+  * @return A Promise that will resolve if the post was successful, and will reject if not
+  */
+
+  var storeActor = function(actorData){
+
+  }
+
+}) //END OF DB FACTORY
