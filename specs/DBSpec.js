@@ -25,6 +25,11 @@ describe("The Thespian Database", function(){
 
   }));
 
+  it('should have a list of actor Ids and current searches on the $scope', function(){
+    createController();
+    expect($scope.currentSearches).to.be.an('object');
+    expect($scope.actorIds).to.be.an('object');
+  });
 
 })
 
