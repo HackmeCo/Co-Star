@@ -16,24 +16,27 @@ angular.module('costars.home' , [])
       ApiCalls.searchByPerson($scope.currentSearches[0]); // maybe .then( display stuff)
     }
     else{
+      var promise = [];
       for( let i = 0; i < currentSearches.length; i++){
+        
+        promise.push(getActor(currentSearches[i])
+        .then(function(data){
+          $scope.ids.push(data.id);
+        })
+        .catch(function(){
+          $scope.ids.push(ApiCalls.searchByPerson($scope.currentSearches[i]));
+        }));
         //currently i'm assumming that searchbyPerson is going to return an actors id.
-        $scope.ids.push(ApiCalls.searchByPerson($scope.currentSearches[i]));
       }
+      Promise.all(promise).then(function(){
 
       ApiCalls.discover($scope.actorIds);
-      //if database has id then make discover api call
-      //else make searchByPerson api call and grab id
-      //and make discover api call with that id.
+        
+      });
     }
-    //some kind of api call
-    .then(function(data){
-      //do stuff
-
-
-    })
-
-  }
+    
+    
+  };
   // adding selected actor to the view and the currentSearches Array
   //actorInput is the input that the user gave us 
   $scope.addsActorInput = function (actorInput){
