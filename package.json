@@ -8,6 +8,7 @@
     "bower": "^1.7.9",
     "express": "^4.14.0",
     "jshint": "^2.9.3",
+    "mocha": "^3.0.2",
     "mongodb": "^2.2.8",
     "nodemon": "^1.10.2",
     "promised-mongo": "github:makersquare/promised-mongo"
