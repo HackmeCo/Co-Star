@@ -1,5 +1,5 @@
-angular.module('costars.factories', [])
 var token = require('../../token.js');
+angular.module('costars.factories', [])
 .factory("ApiCalls", function($http){
   
   /*

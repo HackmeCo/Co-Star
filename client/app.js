@@ -14,4 +14,4 @@ angular.module('costars', [
     })
 })
 
-.run(){}
+.run()

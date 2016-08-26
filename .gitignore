@@ -1,4 +1,4 @@
 node_modules/
-token.js
+client/app/token.js
 bower_components/
 npm-debug.log
