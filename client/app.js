@@ -1,4 +1,5 @@
 angular.module('costars', [
+  'costars.factories',
   'costars.home',
   'ngRoute'])
 
@@ -13,4 +14,4 @@ angular.module('costars', [
     })
 })
 
-.run(){}
+.run()

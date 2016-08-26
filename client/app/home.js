@@ -3,7 +3,7 @@ angular.module('costars.home' , [])
 
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
-.controller('HomeController', function($scope, $location, $http, ApiCalls, DB)) {
+.controller('HomeController', function($scope, $location, $http, ApiCalls, DB) {
   //$scope.data = {}; will need for movies
   $scope.currentSearches = []; //array of actors with associated ids. 
   $scope.actorIds = []; //it will be a mapping of actor names to ids.
@@ -88,5 +88,5 @@ angular.module('costars.home' , [])
       console.log("removing actor input failed");
     }
   }
-}
+}) //END OF CONTROLLER
 
