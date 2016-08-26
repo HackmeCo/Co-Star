@@ -1,4 +1,3 @@
-
 var token = window.token;
 angular.module('costars.factories', [])
 
