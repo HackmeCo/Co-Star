@@ -11,7 +11,7 @@ angular.module('costars.home' , [])
   $scope.getMovies = function (){
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      DB.getActor($scope.currentSearches[0])
+      return DB.getActor($scope.currentSearches[0])
       .then(function(data){
         console.log('1 actor only data', data)
         //show this data!!
@@ -50,7 +50,7 @@ angular.module('costars.home' , [])
         );
       }
       //promise.all your promises.
-      Promise.all(promise)
+      return Promise.all(promise)
         .then(function(){
           //make discover api call finally
           ApiCalls.discover($scope.actorIds)
@@ -63,7 +63,7 @@ angular.module('costars.home' , [])
   };
   //calls on storeActor from factories and makes it a promise
   $scope.storeActorDb = function(){
-    DB.storeActor(data)
+    return DB.storeActor(data)
       .then(function(resp){
         console.log("actor stored",resp);
       })
