@@ -84,6 +84,7 @@ angular.module('costars.home' , [])
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
+      $scope.getMovies();
     }else{
       console.log("removing actor input failed");
     }
