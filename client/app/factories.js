@@ -75,18 +75,17 @@ angular.module('costars.factories', [])
   */
 
   var getActor = function(actorName){
-    var theOne = actorName
-    var actorGot = function(){
-      return $http({
-        method: 'GET',
-        url: '/thespians/' +theOne
-      })
-      .then(function(resp){
-        console.log('resp', resp);
-        console.log('resp.data', resp.data);
-        return resp.data;
-      });
-    };
+    var dataString = actorName.split(' ').join('+'); //converts spaces to '+'s
+    return $http({
+      method: 'GET',
+      url: '/thespians?name=' + dataString
+    })
+    .then(function(resp){
+      console.log('resp', resp);
+      console.log('resp.data', resp.data);
+      return resp.data;
+    })
+  };
 
 
   }
