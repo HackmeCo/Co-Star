@@ -1,12 +1,12 @@
+angular.module(costars.factories , [])
 var token = require('../../token.js');
-
 .factory("ApiCalls", function($http){
   
   /*
   * Makes the search by person API call to TMDB. SBP calls return 
   * {"page": Number, "results": Array, "total_results": Number, "total_pages": Number}.
     In results: 
-    "Id": Number, "known_for": Array
+    "Id": Number, "known_for": Array, "Name": string, "Popularity": number
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
@@ -74,13 +74,26 @@ var token = require('../../token.js');
   */
 
   var getActor = function(actorName){
+    var theOne = actorName
+    var actorGot = function(){
+      return $http({
+        method: 'GET',
+        url: '/thespians/' +theOne
+      })
+      .then(function(resp){
+        console.log('resp', resp);
+        console.log('resp.data', resp.data);
+        return resp.data;
+      });
+    };
+
 
   }
 
   /*
   * storeActor makes a POST request to our database to store an actor.
   * @param actorData, the actor's info as an object
-  *   Object format: {"Id": Number, "known_for": Array}
+  *   Object format: {"Id": Number, "known_for": Array, "Name": string, "Popularity": number}
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
@@ -88,7 +101,23 @@ var token = require('../../token.js');
   */
 
   var storeActor = function(actorData){
+    //MUST CHECK IS DATA INPUT IS CORRECT!!!!!!! KH 
 
-  }
+    var attrs = Object.assign({}, actorData);
+    return $http({
+      method:'POST',
+      url:'/thespians/',
+      data: {data: attrs}
+    })
+    .then(function(resp){
+      console.log('store actor resp', resp)
+      console.log('store actor resp.data', resp.data)
+      return resp.data;
+    })
+ }
+ return{
+  getActor: getActor,
+  storeActor: storeActor
+ };
 
 }) //END OF DB FACTORY

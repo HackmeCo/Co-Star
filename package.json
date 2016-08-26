@@ -4,10 +4,11 @@
   "description": "app for finding common movies between actors",
   "main": "index.js",
   "dependencies": {
-    "angular": "^1.5.8",
     "body-parser": "^1.15.2",
+    "bower": "^1.7.9",
     "express": "^4.14.0",
     "jshint": "^2.9.3",
+    "mocha": "^3.0.2",
     "mongodb": "^2.2.8",
     "nodemon": "^1.10.2",
     "promised-mongo": "github:makersquare/promised-mongo"
