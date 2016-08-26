@@ -70,11 +70,11 @@ var token = require('../../token.js');
   * getActor makes a GET request to our database with an actor's name, searching for the actor's info
   * @param actorName the name of the actor we are searching for, as a String
   * @return A Promise that resolves with the actor's info, formatted similarly to the response given by TMDB
-  * @return A Promise that will reject if the actor is not found; we'll then make a call to TMDB (we'll get a 404)
+  * The Promise will reject if the actor is not found; we'll then make a call to TMDB (we'll get a 404)
   */
 
   var getActor = function(actorName){
-    
+
   }
 
   /*
