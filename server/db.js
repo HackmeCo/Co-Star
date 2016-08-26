@@ -27,8 +27,9 @@ module.exports = db;
 
  	db.addThespian = function(thespianObj){
         return db.collection('thespians').insert(thespianObj)
-                 .then(function(){
-                 	console.log('addThespian(db.js): A thespian has entered our cast', thespianObj)
+                 .then(function(data){
+                 	console.log('addThespian(db.js): A thespian has entered our cast', thespianObj);
+                 	return data;
                  })
  	}
     
