@@ -21,6 +21,7 @@ angular.module(costars.home , [])
         $scope.ids.push(ApiCalls.searchByPerson($scope.currentSearches[i]));
       }
 
+      ApiCalls.discover($scope.actorIds);
       //if database has id then make discover api call
       //else make searchByPerson api call and grab id
       //and make discover api call with that id.
