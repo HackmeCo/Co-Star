@@ -2,3 +2,4 @@ node_modules/
 client/app/token.js
 bower_components/
 npm-debug.log
+server/uri.js
