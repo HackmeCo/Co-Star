@@ -1,0 +1,20 @@
+{
+  "name": "costar",
+  "description": "app for finding common movies between actors",
+  "main": "index.js",
+  "authors": [
+    "HackmeCo"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Macabre1/Co-Star",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8"
+  }
+}

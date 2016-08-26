@@ -4,7 +4,6 @@
   "description": "app for finding common movies between actors",
   "main": "index.js",
   "dependencies": {
-    "angular": "^1.5.8",
     "body-parser": "^1.15.2",
     "bower": "^1.7.9",
     "express": "^4.14.0",
