@@ -1,4 +1,5 @@
 angular.module('costars', [
+  'costars.factories',
   'costars.home',
   'ngRoute'])
 
