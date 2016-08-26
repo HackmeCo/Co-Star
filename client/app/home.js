@@ -13,16 +13,26 @@ angular.module('costars.home' , [])
   $scope.getMovies = function (){
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      ApiCalls.searchByPerson($scope.currentSearches[0]) // maybe .then( display stuff)\
-        .then(function(data){
-          //stores all the information given in the database
-          DB.storeActor(data)
-          .then(function(resp){
-            //must .then a promise.
-            console.log("actor information stored");
-            console.log('resp', resp);
-          })
-        }) 
+      DB.getActor($scope.currentSearches[0])
+      .then(function(data){
+        console.log('1 actor only data', data)
+        //show this data!!
+      })
+      .catch(function(){
+        //wasn't in the data base so do an api call
+        ApiCalls.searchByPerson($scope.currentSearches[0]) // maybe .then( display stuff)\
+          .then(function(data){
+            //show at the data once obtained!!
+            //stores all the information given in the database
+            DB.storeActor(data)
+            .then(function(resp){
+              //must .then a promise.
+              console.log("actor information stored");
+              console.log('resp', resp);
+            })
+          }) 
+        
+      })
     }
     else{
       //need a promise array so we can .then the for loop
