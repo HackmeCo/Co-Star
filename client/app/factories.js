@@ -21,6 +21,7 @@ angular.module('costars.factories', [])
   */
   
   var searchByPerson = function(actor){
+    //NB: the API call doesn't care if there's extraneous whitespace in the actor name, but words MUST be separated by whitespace
     return $http({
       method: "GET",
       url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"

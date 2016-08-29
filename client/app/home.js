@@ -11,18 +11,25 @@ angular.module('costars.home' , [])
   $scope.getMovies = function (){
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
+      console.log("In getMovies, length is one, about to make DB call")
       return DB.getActor($scope.currentSearches[0])
       .then(function(data){
         console.log('1 actor only data', data)
+        $scope.actorIds.push(data.id); //add the id to the list
         //show this data!!
       })
       .catch(function(){
         //wasn't in the data base so do an api call
+        console.log("In getMovies, length is one, DB call failed, make API call");
         ApiCalls.searchByPerson($scope.currentSearches[0]) // maybe .then( display stuff)\
           .then(function(data){
             //show at the data once obtained!!
             //stores all the information given in the database
+          $scope.actorIds.push(data.id); //add the id to our list for discover calls
           $scope.storeActorDb(data);
+          })
+          .catch(function(err){
+            console.log("Error making SBP call: ", err);
           }) 
       })
     }
@@ -34,7 +41,7 @@ angular.module('costars.home' , [])
         //get your actor information from the database
         promise.push(DB.getActor(currentSearches[i])
           .then(function(data){
-            $scope.ids.push(data.id);
+            $scope.actorIds.push(data.id);
           })
           //if we dont get any data back, api call time
           .catch(function(){
@@ -42,7 +49,7 @@ angular.module('costars.home' , [])
               .then(function(data){
               //assuming that data.id is id. DOUBLE CHECK THAT!!
                 var id = data.id
-                $scope.ids.push(id)
+                $scope.actorIds.push(id);
                 //we need to store the new information in the database
                 $scope.storeActorDb(data);
               })
@@ -74,8 +81,14 @@ angular.module('costars.home' , [])
   // adding selected actor to the view and the currentSearches Array
   //actorInput is the input that the user gave us 
   $scope.addActorInput = function (actorInput){
+    //Possible TODO: Don't display input if the search comes back empty
+    actorInput = actorInput.trim();
+    actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
     $scope.currentSearches.push(actorInput);
-    //eventually we will call getMovies here. AV EC KH 
+
+    DB.getActor(actorInput){
+
+    }
     $scope.getMovies();
   }
   //removing the actor from the view and currentSearches Array
