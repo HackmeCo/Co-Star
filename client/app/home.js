@@ -82,6 +82,7 @@ angular.module('costars.home' , [])
   // adding selected actor to the view and the currentSearches Array
   //actorInput is the input that the user gave us 
   $scope.addActorInput = function (actorInput){
+    //Possible TODO: Don't display input if the search comes back empty
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
     $scope.currentSearches.push(actorInput);
