@@ -9,6 +9,11 @@ angular.module('costars.home' , [])
   $scope.actorIds = []; //it will be a list of ids
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
+    if(!$scope.currentSearches.length){
+      $scope.movies = []; //Empty the movie list
+      $scope.actorIds = []; //Shouldn't be necessary, just a precaution
+      return; 
+    }
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
       console.log("In getMovies, length is one, about to make DB call")
@@ -83,6 +88,14 @@ angular.module('costars.home' , [])
   $scope.addActorInput = function (actorInput){
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
+    actorInput = actorInput.split(' ').map(function(actorName){
+      actorName = actorName.toLowerCase();
+      return actorName.charAt(0).toUpperCase() + actorName.slice(1); //Capitalize first letter
+    }).join(' '); //format all names the same
+    if($scope.currentSearches.includes(actorInput)){
+      console.log("Already stored ", actorInput);
+      return;
+    }
     $scope.currentSearches.push(actorInput);
 
     DB.getActor(actorInput)
