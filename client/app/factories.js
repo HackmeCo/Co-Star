@@ -21,7 +21,6 @@ angular.module('costars.factories', [])
   */
   
   var searchByPerson = function(actor){
-    //TODO: Consider checking the database here before doing the API call
     return $http({
       method: "GET",
       url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"
@@ -87,9 +86,6 @@ angular.module('costars.factories', [])
       return resp.data;
     })
   };
-
-
-  }
 
   /*
   * storeActor makes a POST request to our database to store an actor.

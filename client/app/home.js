@@ -73,7 +73,7 @@ angular.module('costars.home' , [])
   };
   // adding selected actor to the view and the currentSearches Array
   //actorInput is the input that the user gave us 
-  $scope.addsActorInput = function (actorInput){
+  $scope.addActorInput = function (actorInput){
     $scope.currentSearches.push(actorInput);
     //eventually we will call getMovies here. AV EC KH 
     $scope.getMovies();
