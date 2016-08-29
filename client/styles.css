@@ -1,8 +1,23 @@
-body{
+body {
   background-color:#2f4f4f;
   color:white;
 }
 
-input{
+input { 
   color:black;
+}
+
+button {
+  color: black;
+}
+
+ul {
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  padding: 2px;
+}
+
+li {
+  display: block;
 }
