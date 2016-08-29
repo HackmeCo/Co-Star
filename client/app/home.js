@@ -69,7 +69,7 @@ angular.module('costars.home' , [])
     }
   };
   //calls on storeActor from factories and makes it a promise
-  $scope.storeActorDb = function(){
+  $scope.storeActorDb = function(data){
     return DB.storeActor(data)
       .then(function(resp){
         console.log("actor stored",resp);
@@ -78,19 +78,41 @@ angular.module('costars.home' , [])
         console.log("actor not stored:",error);
       });
   };
+
   // adding selected actor to the view and the currentSearches Array
   //actorInput is the input that the user gave us 
   $scope.addActorInput = function (actorInput){
-    //Possible TODO: Don't display input if the search comes back empty
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
     $scope.currentSearches.push(actorInput);
 
-    DB.getActor(actorInput){
-
-    }
-    $scope.getMovies();
+    DB.getActor(actorInput)
+    .then(function(actorData){
+      actorIds.push(actorData.id); //add the id to our list
+    })
+    .catch(function(err){ //not found in DB
+      console.log("Didn't find " + actorInput + "in database, making API call");
+      ApiCalls.searchByPerson(actorInput)
+      .then(function(actorData){
+        if(!actorData.results.length){ //not found
+          alert(actorInput + "not found!") //TODO: make a better way to display this error
+          $scope.currentSearches.pop(); //remove from searches
+          //no need to getMovies here, list shouldn't have changed
+        }else{
+          actorIds.push(actorData.results[0].id); //add the id to our list
+          $scope.storeActorDb(actorData.results[0]) //store the data
+          .then(function(resp){
+            $scope.getMovies(); //get the movies for the current actor list
+          })
+          .catch(function(err){
+            console.log("Error storing to database (in addActorInput): ", err);
+            $scope.getMovies() //still want to retrieve movies
+          })
+        }
+      })
+    }) 
   }
+
   //removing the actor from the view and currentSearches Array
   //actor is the specific actor clicked on the page
   $scope.removesActorInput = function(actor){
