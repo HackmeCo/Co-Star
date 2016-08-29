@@ -5,8 +5,8 @@ angular.module('costars.home' , [])
 
 .controller('HomeController', function($scope, $location, $http, ApiCalls, DB) {
   //$scope.data = {}; will need for movies
-  $scope.currentSearches = []; //array of actors with associated ids. 
-  $scope.actorIds = []; //it will be a mapping of actor names to ids.
+  $scope.currentSearches = []; //array of actor names
+  $scope.actorIds = []; //it will be a list of ids
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
     if($scope.currentSearches.length === 1){
