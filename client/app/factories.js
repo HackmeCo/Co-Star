@@ -1,4 +1,5 @@
 var token = window.token;
+console.log("Our token: ", token);
 angular.module('costars.factories', [])
 
 .factory("ApiCalls", function($http){
@@ -22,6 +23,7 @@ angular.module('costars.factories', [])
   
   var searchByPerson = function(actor){
     //NB: the API call doesn't care if there's extraneous whitespace in the actor name, but words MUST be separated by whitespace
+    console.log("Making SBP call for: ", actor);
     return $http({
       method: "GET",
       url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"
@@ -29,6 +31,8 @@ angular.module('costars.factories', [])
     .then(function(resp){
       //send response to the database
       //display on the page
+      console.log("Success retrieving " + actor + "!\nGot back: ", resp);
+      return resp.data;
     })
     .catch(function(err){
       //Do something with the error (display on the page somewhere?)
@@ -104,7 +108,7 @@ angular.module('costars.factories', [])
     var attrs = Object.assign({}, actorData);
     return $http({
       method:'POST',
-      url:'/thespians/',
+      url:'/thespians',
       data: {data: attrs}
     })
     .then(function(resp){

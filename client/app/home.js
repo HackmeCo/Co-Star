@@ -88,10 +88,10 @@ angular.module('costars.home' , [])
 
     DB.getActor(actorInput)
     .then(function(actorData){
-      actorIds.push(actorData.id); //add the id to our list
+      $scope.actorIds.push(actorData.id); //add the id to our list
     })
     .catch(function(err){ //not found in DB
-      console.log("Didn't find " + actorInput + "in database, making API call");
+      console.log("Didn't find " + actorInput + " in database, making API call");
       ApiCalls.searchByPerson(actorInput)
       .then(function(actorData){
         if(!actorData.results.length){ //not found
@@ -99,7 +99,7 @@ angular.module('costars.home' , [])
           $scope.currentSearches.pop(); //remove from searches
           //no need to getMovies here, list shouldn't have changed
         }else{
-          actorIds.push(actorData.results[0].id); //add the id to our list
+          $scope.actorIds.push(actorData.results[0].id); //add the id to our list
           $scope.storeActorDb(actorData.results[0]) //store the data
           .then(function(resp){
             $scope.getMovies(); //get the movies for the current actor list
@@ -109,6 +109,10 @@ angular.module('costars.home' , [])
             $scope.getMovies() //still want to retrieve movies
           })
         }
+      })
+      .catch(function(err){
+        console.log("Error getting actor from tmDB: ", err);
+        $scope.currentSearches.pop();
       })
     }) 
   }
