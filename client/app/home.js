@@ -38,37 +38,13 @@ angular.module('costars.home' , [])
       })
     }
     else{
-      //need a promise array so we can .then the for loop
-      var promise = [];
-      //loop through all the current searches
-      for( let i = 0; i < currentSearches.length; i++){
-        //get your actor information from the database
-        promise.push(DB.getActor(currentSearches[i])
-          .then(function(data){
-            $scope.actorIds.push(data.id);
-          })
-          //if we dont get any data back, api call time
-          .catch(function(){
-            ApiCalls.searchByPerson($scope.currentSearches[i])
-              .then(function(data){
-              //assuming that data.id is id. DOUBLE CHECK THAT!!
-                var id = data.id
-                $scope.actorIds.push(id);
-                //we need to store the new information in the database
-                $scope.storeActorDb(data);
-              })
-          })  
-        );
-      }
-      //promise.all your promises.
-      return Promise.all(promise)
-        .then(function(){
-          //make discover api call finally
-          ApiCalls.discover($scope.actorIds)
-            .then(function(data){
-              //eventually we need to show the data here!!!
-              console.log("DATA FROM DISCOVER CALL", data);
-            });
+      return ApiCalls.discover($scope.actorIds)
+        .then(function(movies) {
+          console.log("Movies from discover call: ", movies);
+          $scope.movies = movies;
+        })
+        .catch(function(error) {
+          console.log("couldn't search multiple actors: ", error);
         });
     }
   };
@@ -135,6 +111,7 @@ angular.module('costars.home' , [])
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
+      $scope.actorIds.splice(index, 1);
       $scope.getMovies();
     }else{
       console.log("removing actor input failed");
