@@ -4,7 +4,7 @@ angular.module('costars.home' , [])
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
 .controller('HomeController', function($scope, $location, $http, ApiCalls, DB) {
-  //$scope.data = {}; will need for movies
+  $scope.movies = []; //the movies we're currently displaying
   $scope.currentSearches = []; //array of actor names
   $scope.actorIds = []; //it will be a list of ids
   //getMovies is called every time an actor is removed or added to the list
@@ -14,19 +14,18 @@ angular.module('costars.home' , [])
       console.log("In getMovies, length is one, about to make DB call")
       return DB.getActor($scope.currentSearches[0])
       .then(function(data){
-        console.log('1 actor only data', data)
-        $scope.actorIds.push(data.id); //add the id to the list
-        //show this data!!
+        console.log('1 actor only data', data);
+        $scope.movies = data.known_for; //set it to the well known movies
       })
       .catch(function(){
-        //wasn't in the data base so do an api call
+        //wasn't in the data base so do an api call, this probably means there's a DB error
         console.log("In getMovies, length is one, DB call failed, make API call");
         ApiCalls.searchByPerson($scope.currentSearches[0]) // maybe .then( display stuff)\
           .then(function(data){
             //show at the data once obtained!!
             //stores all the information given in the database
-          $scope.actorIds.push(data.id); //add the id to our list for discover calls
-          $scope.storeActorDb(data);
+          $scope.storeActorDb(data.results[0]);
+          $scope.movies = data.results[0].known_for;
           })
           .catch(function(err){
             console.log("Error making SBP call: ", err);
@@ -95,7 +94,7 @@ angular.module('costars.home' , [])
       ApiCalls.searchByPerson(actorInput)
       .then(function(actorData){
         if(!actorData.results.length){ //not found
-          alert(actorInput + "not found!") //TODO: make a better way to display this error
+          alert(actorInput + " not found!") //TODO: make a better way to display this error
           $scope.currentSearches.pop(); //remove from searches
           //no need to getMovies here, list shouldn't have changed
         }else{
