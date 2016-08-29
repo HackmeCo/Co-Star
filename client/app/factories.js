@@ -8,7 +8,7 @@ angular.module('costars.factories', [])
   * Makes the search by person API call to TMDB. SBP calls return 
   * {"page": Number, "results": Array, "total_results": Number, "total_pages": Number}.
     In results: 
-    "Id": Number, "known_for": Array, "Name": string, "Popularity": number
+    "id": Number, "known_for": Array, "name": string, "popularity": number
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
@@ -95,7 +95,7 @@ angular.module('costars.factories', [])
   /*
   * storeActor makes a POST request to our database to store an actor.
   * @param actorData, the actor's info as an object
-  *   Object format: {"Id": Number, "known_for": Array, "Name": string, "Popularity": number}
+  *   Object format: {"id": Number, "known_for": Array, "name": string, "popularity": number}
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
