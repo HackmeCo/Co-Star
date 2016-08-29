@@ -83,6 +83,14 @@ angular.module('costars.home' , [])
   $scope.addActorInput = function (actorInput){
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
+    actorInput = actorInput.split(' ').map(function(actorName){
+      actorName = actorName.toLowerCase();
+      return actorName.charAt(0).toUpperCase() + actorName.slice(1); //Capitalize first letter
+    }).join(' '); //format all names the same
+    if($scope.currentSearches.includes(actorInput)){
+      console.log("Already stored ", actorInput);
+      return;
+    }
     $scope.currentSearches.push(actorInput);
 
     DB.getActor(actorInput)
