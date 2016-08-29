@@ -4,4 +4,5 @@
     <button ng-click="addActorInput(actorInput)">Search Actor</button>
   </form>
   <h3 ng-repeat="actor in currentSearches" ng-click="removesActorInput(actor)">{{actor}}</h3>
+  <div ng-repeat="movie in movies">{{movie.title}}</div>
 </div>
