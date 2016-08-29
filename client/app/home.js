@@ -91,7 +91,7 @@ angular.module('costars.home' , [])
       $scope.actorIds.push(actorData.id); //add the id to our list
     })
     .catch(function(err){ //not found in DB
-      console.log("Didn't find " + actorInput + "in database, making API call");
+      console.log("Didn't find " + actorInput + " in database, making API call");
       ApiCalls.searchByPerson(actorInput)
       .then(function(actorData){
         if(!actorData.results.length){ //not found
