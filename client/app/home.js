@@ -77,18 +77,17 @@ angular.module('costars.home' , [])
     actorInput = actorInput.split(' ').map(function(actorName){
       actorName = actorName.toLowerCase();
       return actorName.charAt(0).toUpperCase() + actorName.slice(1); //Capitalize first letter
-    }).join(' '); //format all names the same
-    
-    for(var i = 0; i < $scope.currentSearches.length; i++){
-      if($scope.currentSearches[i].name === actorInput){ //already searching for this actor
-        alert(actorInput + " is already in the list")
-        return;
-      }
-    }
+    }).join(' '); //format all names the same    
 
     DB.getActor(actorInput)
     .then(function(actorData){
       $scope.actorIds.push(actorData.id); //add the id to our list
+      for(var i = 0; i < $scope.currentSearches.length; i++){
+        if($scope.currentSearches[i].name === actorData.name){ //already searching for this actor
+          alert(actorData.name + " is already in the list")
+          return;
+        }
+      }
       $scope.currentSearches.push({
         name: actorData.name,
         id: actorData.id,
@@ -105,6 +104,12 @@ angular.module('costars.home' , [])
           //no need to getMovies here, list shouldn't have changed
         }else{
           $scope.actorIds.push(actorData.results[0].id); //add the id to our list
+          for(var i = 0; i < $scope.currentSearches.length; i++){
+            if($scope.currentSearches[i].name === actorData.results[0].name){ //already searching for this actor
+              alert(actorData.name + " is already in the list")
+              return;
+            }
+          }
           $scope.currentSearches.push({
             name: actorData.results[0].name,
             id: actorData.results[0].id,
