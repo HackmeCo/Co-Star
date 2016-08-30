@@ -7,10 +7,13 @@ input {
   color:black;
 }
 
-h3 {
+div.actorInfo {
 	width: 80px;
 	display: inline-table;
 	padding: 2px;
+}
+
+h3 {
 	font-size: 13px;
 }
 
@@ -22,7 +25,7 @@ ul {
   display: inline-block;
 }
 
-li {
+li.movies {
   display: inline-table;
   width: 150px;
   height: 200px;
