@@ -5,8 +5,7 @@
   </form>
   <div class="actorInfo" ng-repeat="actor in currentSearches">
     <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
-    <button class="removeActor" ng-click="removeActorInput(actor)">x</button> 
-    <h3 class="actorName">{{actor.name}}</h3>
+    <h3 class="actorName">  <button class="removeActor" ng-click="removeActorInput(actor)">x</button> {{actor.name}}</h3>
   </div>
   <div>
   <div class="movieInfo">
