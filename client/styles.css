@@ -16,8 +16,9 @@ ul {
 }
 
 li {
-  display: inline-block;
+  display: inline-table;
   width: 150px;
   height: 200px;
-  padding: 2px;
+  padding: 3px;
+  font-size: 13px;
 }
