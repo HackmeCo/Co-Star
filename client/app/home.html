@@ -3,7 +3,7 @@
     <input name="actorSearch" placeholder="type here..." type="text" ng-model= "actorInput">
     <button ng-click="addActorInput(actorInput)">Search Actor</button>
   </form>
-  <h3 ng-repeat="actor in currentSearches" ng-click="removesActorInput(actor)">{{actor}}</h3>
+  <h3 ng-repeat="actor in currentSearches" ng-click="removesActorInput(actor)"><img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>{{actor}}</h3>
   <p class="movieInfo">
   	<ul>
     	<li class="movies" ng-repeat="movie in movies"><img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
