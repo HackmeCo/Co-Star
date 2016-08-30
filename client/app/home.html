@@ -12,9 +12,13 @@
   <div class="movieInfo">
   <div ng-if="currentSearches.length && !movies.length">No movies found</div>
     <ul>
-      <li class="movies" ng-repeat="movie in movies"><img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
-      {{movie.title}}
-      <br>({{movie.release_date.slice(0,4)}})</li>
+      <li class="movies" ng-repeat="movie in movies">
+        <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'
+        ng-mouseover="showOverview(movie)" ng-mouseleave="hideOverview(movie)">
+        <div class="movieTitle">{{movie.title}}</div>
+        <div class="movieYear">{{movie.release_date.slice(0,4)}}</div>
+        <div class="movieOverview" ng-show=movie.showOverview>{{movie.overview}}</div>
+      </li>
     </ul>
   </div>
 </div>
