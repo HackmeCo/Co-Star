@@ -5,7 +5,7 @@ angular.module('costars.home' , [])
 
 .controller('HomeController', function($scope, $location, $http, ApiCalls, DB) {
   $scope.movies = []; //the movies we're currently displaying
-  $scope.currentSearches = []; //array of actor names
+  $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
@@ -17,7 +17,7 @@ angular.module('costars.home' , [])
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
       console.log("In getMovies, length is one, about to make DB call")
-      return DB.getActor($scope.currentSearches[0])
+      return DB.getActor($scope.currentSearches[0].name)
       .then(function(data){
         console.log('1 actor only data', data);
         $scope.movies = data.known_for; //set it to the well known movies
@@ -25,7 +25,7 @@ angular.module('costars.home' , [])
       .catch(function(){
         //wasn't in the data base so do an api call, this probably means there's a DB error
         console.log("In getMovies, length is one, DB call failed, make API call");
-        ApiCalls.searchByPerson($scope.currentSearches[0]) // maybe .then( display stuff)\
+        ApiCalls.searchByPerson($scope.currentSearches[0].name) // maybe .then( display stuff)\
           .then(function(data){
             //show at the data once obtained!!
             //stores all the information given in the database
@@ -68,15 +68,23 @@ angular.module('costars.home' , [])
       actorName = actorName.toLowerCase();
       return actorName.charAt(0).toUpperCase() + actorName.slice(1); //Capitalize first letter
     }).join(' '); //format all names the same
-    if($scope.currentSearches.includes(actorInput)){
-      console.log("Already stored ", actorInput);
-      return;
+    
+    for(var i = 0; i < $scope.currentSearches.length; i++){
+      if($scope.currentSearches[i].name === actorInput){ //already searching for this actor
+        alert(actorInput + " is already in the list")
+        return;
+      }
     }
 
     DB.getActor(actorInput)
     .then(function(actorData){
       $scope.actorIds.push(actorData.id); //add the id to our list
-      $scope.currentSearches.push(actorData.name) //add the name to our current searches
+      $scope.currentSearches.push({
+        name: actorData.name,
+        id: actorData.id,
+        profile_path: actorData.profile_path,
+        popularity: actorData.popularity
+      }) //add the actor to our current searches
     })
     .catch(function(err){ //not found in DB
       console.log("Didn't find " + actorInput + " in database, making API call");
@@ -87,7 +95,12 @@ angular.module('costars.home' , [])
           //no need to getMovies here, list shouldn't have changed
         }else{
           $scope.actorIds.push(actorData.results[0].id); //add the id to our list
-          $scope.currentSearches.push(actorData.results[0].name) //store the actor name
+          $scope.currentSearches.push({
+            name: actorData.results[0].name,
+            id: actorData.results[0].id,
+            profile_path: actorData.results[0].profile_path,
+            popularity: actorData.results[0].popularity
+          }) //store the actor name
           $scope.storeActorDb(actorData.results[0]) //store the data
           .then(function(resp){
             $scope.getMovies(); //get the movies for the current actor list
@@ -117,4 +130,3 @@ angular.module('costars.home' , [])
     }
   }
 }) //END OF CONTROLLER
-
