@@ -48,6 +48,16 @@ angular.module('costars.home' , [])
         });
     }
   };
+
+  //shows a movie overview, to be called on image hover
+  $scope.showOverview(movie){
+    movie.showOverview = true;
+  }
+  //hides a movie overview, to be called when mouse leaves
+  $scope.hideOverview(movie){
+    movie.showOverview = false;
+  }
+
   //calls on storeActor from factories and makes it a promise
   $scope.storeActorDb = function(data){
     return DB.storeActor(data)
