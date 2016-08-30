@@ -50,11 +50,11 @@ angular.module('costars.home' , [])
   };
 
   //shows a movie overview, to be called on image hover
-  $scope.showOverview(movie){
+  $scope.showOverview = function(movie){
     movie.showOverview = true;
   }
   //hides a movie overview, to be called when mouse leaves
-  $scope.hideOverview(movie){
+  $scope.hideOverview = function(movie){
     movie.showOverview = false;
   }
 
