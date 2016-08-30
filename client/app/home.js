@@ -9,6 +9,11 @@ angular.module('costars.home' , [])
   $scope.actorIds = []; //it will be a list of ids
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
+    if(!$scope.currentSearches.length){
+      $scope.movies = []; //Empty the movie list
+      $scope.actorIds = []; //Shouldn't be necessary, just a precaution
+      return; 
+    }
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
       console.log("In getMovies, length is one, about to make DB call")
@@ -33,37 +38,13 @@ angular.module('costars.home' , [])
       })
     }
     else{
-      //need a promise array so we can .then the for loop
-      var promise = [];
-      //loop through all the current searches
-      for( let i = 0; i < currentSearches.length; i++){
-        //get your actor information from the database
-        promise.push(DB.getActor(currentSearches[i])
-          .then(function(data){
-            $scope.actorIds.push(data.id);
-          })
-          //if we dont get any data back, api call time
-          .catch(function(){
-            ApiCalls.searchByPerson($scope.currentSearches[i])
-              .then(function(data){
-              //assuming that data.id is id. DOUBLE CHECK THAT!!
-                var id = data.id
-                $scope.actorIds.push(id);
-                //we need to store the new information in the database
-                $scope.storeActorDb(data);
-              })
-          })  
-        );
-      }
-      //promise.all your promises.
-      return Promise.all(promise)
-        .then(function(){
-          //make discover api call finally
-          ApiCalls.discover($scope.actorIds)
-            .then(function(data){
-              //eventually we need to show the data here!!!
-              console.log("DATA FROM DISCOVER CALL", data);
-            });
+      return ApiCalls.discover($scope.actorIds)
+        .then(function(movies) {
+          console.log("Movies from discover call: ", movies);
+          $scope.movies = movies;
+        })
+        .catch(function(error) {
+          console.log("couldn't search multiple actors: ", error);
         });
     }
   };
@@ -83,6 +64,14 @@ angular.module('costars.home' , [])
   $scope.addActorInput = function (actorInput){
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
+    actorInput = actorInput.split(' ').map(function(actorName){
+      actorName = actorName.toLowerCase();
+      return actorName.charAt(0).toUpperCase() + actorName.slice(1); //Capitalize first letter
+    }).join(' '); //format all names the same
+    if($scope.currentSearches.includes(actorInput)){
+      console.log("Already stored ", actorInput);
+      return;
+    }
     $scope.currentSearches.push(actorInput);
 
     DB.getActor(actorInput)
@@ -122,6 +111,7 @@ angular.module('costars.home' , [])
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
+      $scope.actorIds.splice(index, 1);
       $scope.getMovies();
     }else{
       console.log("removing actor input failed");

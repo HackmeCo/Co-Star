@@ -8,7 +8,7 @@ angular.module('costars.factories', [])
   * Makes the search by person API call to TMDB. SBP calls return 
   * {"page": Number, "results": Array, "total_results": Number, "total_pages": Number}.
     In results: 
-    "Id": Number, "known_for": Array, "Name": string, "Popularity": number
+    "id": Number, "known_for": Array, "name": string, "popularity": number
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
@@ -41,11 +41,12 @@ angular.module('costars.factories', [])
   }
 
   /*
-  * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "known_for"}
+  * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "results"}
+  * Results is an array that has a list of movies, formatted the same as they are in "known_for"
   * Used when the list of current searches has multiple actors
   * For the future, we can consider caching some results in our DB
   * @params actorIds: The IDs of all the actors to compare, as an array of numbers
-  * @return the discover API call as a Promise, resolving with ???
+  * @return the discover API call as a Promise, resolving with the list of movies
   */
   
   var discover = function(actorIds){
@@ -55,7 +56,8 @@ angular.module('costars.factories', [])
       url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
     })
     .then(function(resp){
-      //display movies on the page
+      console.log("Resp directly from discover call: ", resp);
+      return resp.data.results;
     })
     .catch(function(err){
       //Do something with the error (display on the page?)
@@ -95,7 +97,7 @@ angular.module('costars.factories', [])
   /*
   * storeActor makes a POST request to our database to store an actor.
   * @param actorData, the actor's info as an object
-  *   Object format: {"Id": Number, "known_for": Array, "Name": string, "Popularity": number}
+  *   Object format: {"id": Number, "known_for": Array, "name": string, "popularity": number}
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
