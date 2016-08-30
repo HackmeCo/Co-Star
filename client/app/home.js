@@ -119,7 +119,7 @@ angular.module('costars.home' , [])
 
   //removing the actor from the view and currentSearches Array
   //actor is the specific actor clicked on the page
-  $scope.removesActorInput = function(actor){
+  $scope.removeActorInput = function(actor){
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
