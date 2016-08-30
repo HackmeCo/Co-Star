@@ -89,16 +89,12 @@ angular.module('costars.home' , [])
     DB.getActor(actorInput)
     .then(function(actorData){
       $scope.actorIds.push(actorData.id); //add the id to our list
-<<<<<<< 826ea149d6487e09ee2829b6f6b4a0bc0df8af54
       $scope.currentSearches.push({
         name: actorData.name,
         id: actorData.id,
         profile_path: actorData.profile_path,
         popularity: actorData.popularity
       }) //add the actor to our current searches
-=======
-      $scope.currentSearches.push(actorData.name) //add the name to our current searches
->>>>>>> Now autocompletes names in current searches
     })
     .catch(function(err){ //not found in DB
       console.log("Didn't find " + actorInput + " in database, making API call");
@@ -109,16 +105,12 @@ angular.module('costars.home' , [])
           //no need to getMovies here, list shouldn't have changed
         }else{
           $scope.actorIds.push(actorData.results[0].id); //add the id to our list
-<<<<<<< 826ea149d6487e09ee2829b6f6b4a0bc0df8af54
           $scope.currentSearches.push({
             name: actorData.results[0].name,
             id: actorData.results[0].id,
             profile_path: actorData.results[0].profile_path,
             popularity: actorData.results[0].popularity
           }) //store the actor name
-=======
-          $scope.currentSearches.push(actorData.results[0].name) //store the actor name
->>>>>>> Now autocompletes names in current searches
           $scope.storeActorDb(actorData.results[0]) //store the data
           .then(function(resp){
             $scope.getMovies(); //get the movies for the current actor list
