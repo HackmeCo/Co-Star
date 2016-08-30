@@ -7,11 +7,12 @@ angular.module('costars.home' , [])
   $scope.movies = []; //the movies we're currently displaying
   $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
+
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
     if(!$scope.currentSearches.length){
       $scope.movies = []; //Empty the movie list
-      $scope.actorIds = []; //Shouldn't be necessary, just a precaution
+      $scope.actorIds = []; //Shouldn't be necessary (should already be removed), just a precaution
       return; 
     }
     if($scope.currentSearches.length === 1){
@@ -25,10 +26,9 @@ angular.module('costars.home' , [])
       .catch(function(){
         //wasn't in the data base so do an api call, this probably means there's a DB error
         console.log("In getMovies, length is one, DB call failed, make API call");
-        ApiCalls.searchByPerson($scope.currentSearches[0].name) // maybe .then( display stuff)\
-          .then(function(data){
-            //show at the data once obtained!!
-            //stores all the information given in the database
+        ApiCalls.searchByPerson($scope.currentSearches[0].name)
+        .then(function(data){
+          //posts retrieved info to the database
           $scope.storeActorDb(data.results[0]);
           $scope.movies = data.results[0].known_for;
           })
@@ -37,7 +37,7 @@ angular.module('costars.home' , [])
           }) 
       })
     }
-    else{
+    else{ //list contains multiple actors, we need to make a "discover" call
       return ApiCalls.discover($scope.actorIds)
         .then(function(movies) {
           console.log("Movies from discover call: ", movies);
@@ -49,16 +49,23 @@ angular.module('costars.home' , [])
     }
   };
 
-  //shows a movie overview, to be called on image hover
+  /*
+  * Shows the movie overview, called when the mouse enters the movie display
+  */
   $scope.showOverview = function(movie){
     movie.showOverview = true;
   }
-  //hides a movie overview, to be called when mouse leaves
+  /*
+  * Hides the movie overview, called when the mouse leaves the movie display
+  */
   $scope.hideOverview = function(movie){
     movie.showOverview = false;
   }
 
-  //calls on storeActor from factories and makes it a promise
+  /*
+  * Posts information to our database
+  * @param data should be an object, formatted the same as the "results" returned from a SBP API call
+  */
   $scope.storeActorDb = function(data){
     return DB.storeActor(data)
       .then(function(resp){
@@ -69,8 +76,14 @@ angular.module('costars.home' , [])
       });
   };
 
-  // adding selected actor to the view and the currentSearches Array
-  //actorInput is the input that the user gave us 
+  /*
+  * Function called whenever a user clicks the "add actor" button
+  * Formats the input, then searches the database, then makes an API call if necessary
+  * After DB call or API call is successful, the actor's information is stored to the in-memory variables
+  * Calls $scope.getMovies to refresh the movie list after completion
+  * @param actorInput - The input from the text box, as a string (should be an actor's name)
+  */
+
   $scope.addActorInput = function (actorInput){
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
@@ -132,8 +145,11 @@ angular.module('costars.home' , [])
     }) 
   }
 
-  //removing the actor from the view and currentSearches Array
-  //actor is the specific actor clicked on the page
+  /*
+  * Removes an actor from our list and refreshes the movie list
+  * @param actor an actor object, as stored in $scope.currentSearches
+  */
+
   $scope.removeActorInput = function(actor){
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
