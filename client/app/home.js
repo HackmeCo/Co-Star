@@ -106,7 +106,7 @@ angular.module('costars.home' , [])
           $scope.actorIds.push(actorData.results[0].id); //add the id to our list
           for(var i = 0; i < $scope.currentSearches.length; i++){
             if($scope.currentSearches[i].name === actorData.results[0].name){ //already searching for this actor
-              alert(actorData.name + " is already in the list")
+              alert(actorData.results[0].name + " is already in the list")
               return;
             }
           }
