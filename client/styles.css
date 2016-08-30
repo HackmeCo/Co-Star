@@ -13,11 +13,11 @@ button {
 
 ul {
   display: inline-block;
-  width: 150px;
-  height: 200px;
-  padding: 2px;
 }
 
 li {
-  display: block;
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  padding: 2px;
 }
