@@ -7,6 +7,13 @@ input {
   color:black;
 }
 
+h3 {
+	width: 80px;
+	display: inline-table;
+	padding: 2px;
+	font-size: 13px;
+}
+
 button {
   color: black;
 }
@@ -20,5 +27,5 @@ li {
   width: 150px;
   height: 200px;
   padding: 3px;
-  font-size: 13px;
+  font-size: 15px;
 }
