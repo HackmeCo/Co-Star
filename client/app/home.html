@@ -4,10 +4,11 @@
     <button ng-click="addActorInput(actorInput)">Search Actor</button>
   </form>
   <h3 ng-repeat="actor in currentSearches" ng-click="removesActorInput(actor)">{{actor}}</h3>
-  <p class="movies">
-  	<ul class="movieInfo" ng-repeat="movie in movies">
-    	<li><img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
-    	{{movie.title}}</li>
+  <p class="movieInfo">
+  	<ul>
+    	<li class="movies" ng-repeat="movie in movies"><img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
+    	{{movie.title}}
+    	<br>({{movie.release_date.slice(0,4)}})</li>
     </ul>
   </p>
 </div>
