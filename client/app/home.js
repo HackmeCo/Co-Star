@@ -72,11 +72,11 @@ angular.module('costars.home' , [])
       console.log("Already stored ", actorInput);
       return;
     }
-    $scope.currentSearches.push(actorInput);
 
     DB.getActor(actorInput)
     .then(function(actorData){
       $scope.actorIds.push(actorData.id); //add the id to our list
+      $scope.currentSearches.push(actorData.name) //add the name to our current searches
     })
     .catch(function(err){ //not found in DB
       console.log("Didn't find " + actorInput + " in database, making API call");
@@ -84,10 +84,10 @@ angular.module('costars.home' , [])
       .then(function(actorData){
         if(!actorData.results.length){ //not found
           alert(actorInput + " not found!") //TODO: make a better way to display this error
-          $scope.currentSearches.pop(); //remove from searches
           //no need to getMovies here, list shouldn't have changed
         }else{
           $scope.actorIds.push(actorData.results[0].id); //add the id to our list
+          $scope.currentSearches.push(actorData.results[0].name) //store the actor name
           $scope.storeActorDb(actorData.results[0]) //store the data
           .then(function(resp){
             $scope.getMovies(); //get the movies for the current actor list
@@ -100,7 +100,6 @@ angular.module('costars.home' , [])
       })
       .catch(function(err){
         console.log("Error getting actor from tmDB: ", err);
-        $scope.currentSearches.pop();
       })
     }) 
   }
