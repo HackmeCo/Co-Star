@@ -7,10 +7,13 @@ input {
   color:black;
 }
 
-h3 {
+div.actorInfo {
 	width: 80px;
 	display: inline-table;
-	padding: 2px;
+	padding: 1px;
+}
+
+h3 {
 	font-size: 13px;
 }
 
@@ -18,11 +21,19 @@ button {
   color: black;
 }
 
+button.removeActor {
+	background: none;
+	outline: 0;
+	border: 0;
+	font-size: 13px;
+	color: red;
+}
+
 ul {
   display: inline-block;
 }
 
-li {
+li.movies {
   display: inline-table;
   width: 150px;
   height: 200px;
