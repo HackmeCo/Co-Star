@@ -35,7 +35,7 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/nodemon server/index.js --ignore client/",
-    "test": "mocha ./specs/endpointsTest.js ./specs/DBSpec.js"
+    "test": "mocha ./specs/endpointsTest.js"  
   },
   "repository": {
     "type": "git",

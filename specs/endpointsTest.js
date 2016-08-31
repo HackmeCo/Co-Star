@@ -1,5 +1,5 @@
-var database = require('../server/db');
-var endpoints = require('../server/endpoints');
+var database = require('../server/model/db');
+var endpoints = require('../server/model/thespian');
 var chai = require('chai');
 var chaihttp = require('chai-http');
 var request = require('chai').request;
@@ -7,7 +7,7 @@ var should = require('chai').should();
 var expect = require('chai').expect;
 var supertest = require('supertest');
 var api = supertest('http://localhost:3000');
-var app = require('../server/index.js')
+var app = require('../server/index.js');
 
 chai.use(chaihttp)
 
@@ -37,7 +37,7 @@ describe('POST', function () {
           "popularity": 13.676511}
         })
         .end(function (res) {
-            should.equal(err, null);  
+            //should.equal(err, null);  
             res.should.be.json; 
             res.should.have.status(200);
             res.body.should.be.a('object');  
@@ -59,7 +59,7 @@ describe('GET', function () {
         chai.request(app)
             .get('/thespians')
             .end(function (res) {
-                should.equal(err, null);  
+                //should.equal(err, null);  
                 res.should.be.json; 
                 res.should.have.status(200);
                 res.body.should.be.a('object');  

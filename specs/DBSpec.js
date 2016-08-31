@@ -28,7 +28,7 @@ describe("The Thespian Database", function(){
     $scope = $rootScope.$new();
 
     var $controller = $injector.get('$controller');
-
+    console.log('in beforeEach', $scope.currentSearches);
     createController = function () {
       return $controller('HomeController', {
         $scope: $scope,
@@ -37,7 +37,7 @@ describe("The Thespian Database", function(){
     };
 
   }));
-
+  console.log($scope.currentSearches);
   it('should have a list of actor Ids and current searches on the $scope', function(){
     //createController();
     expect($scope.currentSearches).to.be.an('object');
