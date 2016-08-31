@@ -1,5 +1,5 @@
 var mongoose = require( 'mongoose' );
-var co = require('co');
+var random = require('mongoose-simple-random'); 
 
 var thespianSchema = new mongoose.Schema({
   // dropDups: true forces the creation of a unique index on the collection.  This will force
@@ -11,5 +11,6 @@ var thespianSchema = new mongoose.Schema({
   profile_path: String,
   adult       : Boolean
 });
+thespianSchema.plugin(random); //used in generating random thespian object
 
 var Thespian = module.exports = mongoose.model('Thespian', thespianSchema);
