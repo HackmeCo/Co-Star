@@ -4,6 +4,13 @@ angular.module('costars.game', [])
   $scope.actors = Game.actors;
   $scope.score = Game.score;
   $scope.movieChoices = Game.choices;
+  $scope.playing = false;
+  $scope.create = Game.create;
+
+  $scope.startGame = function(){
+    $scope.playing = true;
+    $scope.create();
+  }
 
   $scope.submitChoice = function(movie){
     Game.checkAnswer(movie.title);
@@ -115,7 +122,8 @@ angular.module('costars.game', [])
     actors: actors,
     score: score,
     checkAnswer: checkAnswer,
-    choices: choices
+    choices: choices,
+    create: create
   }
   
 })
