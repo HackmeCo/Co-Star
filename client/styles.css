@@ -1,23 +1,64 @@
 body {
-  background-color:#2f4f4f;
+  background-color: floralwhite;
   color:white;
+}
+
+form {
+  background-color: #2F4F4F;
+}
+
+html {
+  background-color: floralwhite;
 }
 
 input { 
   color:black;
 }
 
+div.movieInfo {
+  background-color: floralwhite;
+  color: black;
+}
+
+div.actorInfo {
+  color: black;
+  width: 80px;
+  display: inline-table;
+  padding: 1px;
+}
+
+h1 {
+  background-color: #2F4F4F;
+}
+
+h2 {
+  background-color: #2F4F4F;
+}
+
+h3 {
+  font-size: 13px;
+}
+
 button {
   color: black;
+}
+
+button.removeActor {
+  background: none;
+  outline: 0;
+  border: 0;
+  font-size: 13px;
+  color: red;
 }
 
 ul {
   display: inline-block;
 }
 
-li {
-  display: inline-block;
+li.movies {
+  display: inline-table;
   width: 150px;
   height: 200px;
-  padding: 2px;
+  padding: 3px;
+  font-size: 15px;
 }

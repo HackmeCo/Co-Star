@@ -81,6 +81,7 @@ angular.module('costars.factories', [])
   */
 
   var getActor = function(actorName){
+    console.log("Making DB call for: ", actorName);
     actorName = actorName.trim();
     var dataString = actorName.replace(/\s+/g, '+'); //replaces all whitespace blocks with '+'
     return $http({
@@ -88,9 +89,11 @@ angular.module('costars.factories', [])
       url: '/thespians?name=' + dataString
     })
     .then(function(resp){
-      console.log('resp', resp);
-      console.log('resp.data', resp.data);
+      console.log('Response from DB.getActor (in DB.getActor): ', resp.data);
       return resp.data;
+    })
+    .catch(function(err){
+      console.log("Error retrieving "+ actorName + ", " + err);
     })
   };
 
