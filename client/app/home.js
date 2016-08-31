@@ -17,10 +17,11 @@ angular.module('costars.home' , [])
     }
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      console.log("In getMovies, length is one, about to make DB call")
+      console.log("In getMovies, length is one, about to make DB call for: ", $scope.currentSearches[0].name)
       return DB.getActor($scope.currentSearches[0].name)
       .then(function(data){
-        console.log('1 actor only data', data);
+        console.log('DB call getActor retrieved: ', data);
+        console.log("Setting $scope.movies to: ", data.known_for);
         $scope.movies = data.known_for; //set it to the well known movies
       })
       .catch(function(){
@@ -94,6 +95,7 @@ angular.module('costars.home' , [])
 
     DB.getActor(actorInput)
     .then(function(actorData){
+      console.log("In addActorInput, got back from DB: ", actorData);
       $scope.actorIds.push(actorData.id); //add the id to our list
       for(var i = 0; i < $scope.currentSearches.length; i++){
         if($scope.currentSearches[i].name === actorData.name){ //already searching for this actor
@@ -107,6 +109,12 @@ angular.module('costars.home' , [])
         profile_path: actorData.profile_path,
         popularity: actorData.popularity
       }) //add the actor to our current searches
+      console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches)
+      if($scope.currentSearches.length === 1){
+        $scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
+      }else{
+        $scope.getMovies();
+      }
     })
     .catch(function(err){ //not found in DB
       console.log("Didn't find " + actorInput + " in database, making API call");
