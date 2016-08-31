@@ -1,6 +1,6 @@
 <div>
   <div class="gameInfo">Score: {{score}}</div>
-  <div class="actorInfo" ng-repeat="actor in currentSearches">
+  <div class="actorInfo" ng-repeat="actor in actors">
     <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
     <!--"Image not found" image-->
     <img ng-if=!actor.profile_path ng-src='http://imgur.com/Rg00Mu8.png'>
@@ -10,4 +10,5 @@
   <button class="choices" ng-repeat="movie in movieChoices" ng-click="submitChoice(movie)">
     {{movie.title}}
   </button>
+  <button class="noneOfTheAbove" ng-click="submitChoice({title: ''})">None of these!</button>
 </div>
