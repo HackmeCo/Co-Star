@@ -115,6 +115,7 @@ angular.module('costars.home' , [])
       }else{
         $scope.getMovies();
       }
+      $scope.actorInput = '';
     })
     .catch(function(err){ //not found in DB
       console.log("Didn't find " + actorInput + " in database, making API call");
@@ -139,6 +140,7 @@ angular.module('costars.home' , [])
           }) //store the actor name
           $scope.storeActorDb(actorData.results[0]) //store the data
           .then(function(resp){
+            $scope.actorInput = '';
             $scope.getMovies(); //get the movies for the current actor list
           })
           .catch(function(err){
