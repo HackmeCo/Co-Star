@@ -1,5 +1,16 @@
 <div>
 
+  <div class="rules" ng-show=!playing>
+    <h2>Welcome to the Co-stars game!</h2>
+    <br>
+    How to play:
+    <br>
+    - Select the movie that both actors are in
+    <br>
+    - If they aren't cast together in any of those movies, select "None of these!"
+    <br>
+    - Play till you lose; try to get the highest score!
+  </div>
   <button class="start" ng-show=!playing ng-click="startGame()">Play!</button>
   <div class="gameInfo" ng-show=playing>Score: {{score}}</div>
   <div class="actorInfo" ng-repeat="actor in actors" ng-show=playing>
