@@ -117,5 +117,4 @@ angular.module('costars.game', [])
     checkAnswer: checkAnswer,
     choices: choices
   }
-
-})
+}
