@@ -1,12 +1,12 @@
-angular.module('costars.game' , [])
+angular.module('costars.game', [])
 
 .controller('GameController', function(Game, $scope, $location){
   $scope.actors = Game.actors;
   $scope.score = Game.score;
-  $scope.movieChoices = Game.movies;
+  $scope.movieChoices = Game.choices;
 
   $scope.submitChoice = function(movie){
-
+    Game.checkAnswer(movie.title);
   };
 })
 
@@ -59,18 +59,45 @@ angular.module('costars.game' , [])
   var create = function(){
     return updateGameState()
     .then(function(){
-      choices.push(getRand(correctMovies));
-      movies1 = movies1.filter(movie => !correctMovies.includes(movie));
-      movies2 = movies2.filter(movie => !correctMovies.includes(movie)); //filter out movies they've both been in
-      var numFrom1 = Math.floor(Math.random() * 4);
-      var numFrom2 = 3 - numFrom1; //number from each actor we're going to take
-      for(var i = 0; i < numFrom1; i++){
-        choices.push(getRand(movies1));
-      }
-      for(var j = 0; j < numFrom2; j++){
-        choices.push(getRand(movies2));
-      }
-    })
+        movies1 = movies1.filter(movie => !correctMovies.includes(movie));
+        movies2 = movies2.filter(movie => !correctMovies.includes(movie)); //filter out movies they've both been in
+        if(correctMovies.length){
+          var correctChoice = getRand(correctMovies);
+          answer = correctChoice.title;
+          choices.push(correctChoice);
+        }
+        else{
+          answer = "";
+        }
+        var numFrom1 = Math.floor(Math.random() * 4); //number of choices we take from the first actor
+        for(var i = 0; i < numFrom1 && movies1.length; i++){
+          var movie = getRandIndex(movies1);
+          if(!choices.includes(movies1[movie])){
+            choices.push(movies1.splice(movie, 1));
+          }
+          else{
+            i -= 1; //roll again
+          }
+        }
+        while(choices.length < 4 && movies2.length){
+          var movie = getRandIndex(movies2);
+          if(!choices.includes(movies2[movie])){
+            choices.push(movies2.splice(movie, 1));
+          }
+        }
+      })
+  }
+
+  var checkAnswer = function(movieTitle){
+    if(answer === movieTitle){
+      score++;
+      create();
+    }
+    else{
+      score = 0;
+      alert("You lose! The correct answer was: ", answer !== "" ? answer : "None of these!");
+      create();
+    }
   }
 
   /*
@@ -79,4 +106,16 @@ angular.module('costars.game' , [])
   var getRand = function(arr){
     return arr[Math.floor(Math.random() * arr.length)];
   }
+
+  var getRandIndex = function(arr){
+    return Math.floor(Math.random() * arr.length);
+  }
+
+  return {
+    actors: actors,
+    score: score,
+    checkAnswer: checkAnswer,
+    choices: choices
+  }
+
 })
