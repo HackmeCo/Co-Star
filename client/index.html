@@ -12,15 +12,16 @@
 <script src="bower_components/moment/min/moment-with-locales.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/lumx/dist/lumx.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
 <h1>Co-Star<h1>
 	<h2>Please add actors to the list!</h2>
-		<input type="text" class="Actor" placeholder="Actor name..." />
-		<button type="submit" class="submitBtn">Add Actor</button>
-		
-		
-		<table class="Actors list: "></table>
 <!-- the ng-view directive is where our templates will be loaded into when navigated too-->
 <div ng-view class="jumbotron"><div>
 
 </body>
+
+<script src="app/token.js"></script> <!--Setting window.token-->
+<script src="app/factories.js"></script>
+<script src="app/home.js"></script>
+<script src="app.js"></script>
 </html>

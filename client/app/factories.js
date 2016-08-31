@@ -1,12 +1,14 @@
-angular.module(costars.factories , [])
-var token = require('../../token.js');
+var token = window.token;
+console.log("Our token: ", token);
+angular.module('costars.factories', [])
+
 .factory("ApiCalls", function($http){
   
   /*
   * Makes the search by person API call to TMDB. SBP calls return 
   * {"page": Number, "results": Array, "total_results": Number, "total_pages": Number}.
     In results: 
-    "Id": Number, "known_for": Array, "Name": string, "Popularity": number
+    "id": Number, "known_for": Array, "name": string, "popularity": number
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
@@ -20,7 +22,8 @@ var token = require('../../token.js');
   */
   
   var searchByPerson = function(actor){
-    //TODO: Consider checking the database here before doing the API call
+    //NB: the API call doesn't care if there's extraneous whitespace in the actor name, but words MUST be separated by whitespace
+    console.log("Making SBP call for: ", actor);
     return $http({
       method: "GET",
       url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"
@@ -28,6 +31,8 @@ var token = require('../../token.js');
     .then(function(resp){
       //send response to the database
       //display on the page
+      console.log("Success retrieving " + actor + "!\nGot back: ", resp);
+      return resp.data;
     })
     .catch(function(err){
       //Do something with the error (display on the page somewhere?)
@@ -36,11 +41,12 @@ var token = require('../../token.js');
   }
 
   /*
-  * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "known_for"}
+  * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "results"}
+  * Results is an array that has a list of movies, formatted the same as they are in "known_for"
   * Used when the list of current searches has multiple actors
   * For the future, we can consider caching some results in our DB
   * @params actorIds: The IDs of all the actors to compare, as an array of numbers
-  * @return the discover API call as a Promise, resolving with ???
+  * @return the discover API call as a Promise, resolving with the list of movies
   */
   
   var discover = function(actorIds){
@@ -50,7 +56,8 @@ var token = require('../../token.js');
       url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
     })
     .then(function(resp){
-      //display movies on the page
+      console.log("Resp directly from discover call: ", resp);
+      return resp.data.results;
     })
     .catch(function(err){
       //Do something with the error (display on the page?)
@@ -74,26 +81,26 @@ var token = require('../../token.js');
   */
 
   var getActor = function(actorName){
-    var theOne = actorName
-    var actorGot = function(){
-      return $http({
-        method: 'GET',
-        url: '/thespians/' +theOne
-      })
-      .then(function(resp){
-        console.log('resp', resp);
-        console.log('resp.data', resp.data);
-        return resp.data;
-      });
-    };
-
-
-  }
+    console.log("Making DB call for: ", actorName);
+    actorName = actorName.trim();
+    var dataString = actorName.replace(/\s+/g, '+'); //replaces all whitespace blocks with '+'
+    return $http({
+      method: 'GET',
+      url: '/thespians?name=' + dataString
+    })
+    .then(function(resp){
+      console.log('Response from DB.getActor (in DB.getActor): ', resp.data);
+      return resp.data;
+    })
+    .catch(function(err){
+      console.log("Error retrieving "+ actorName + ", " + err);
+    })
+  };
 
   /*
   * storeActor makes a POST request to our database to store an actor.
   * @param actorData, the actor's info as an object
-  *   Object format: {"Id": Number, "known_for": Array, "Name": string, "Popularity": number}
+  *   Object format: {"id": Number, "known_for": Array, "name": string, "popularity": number}
         In known_for, 3 objects, each for a movie
           {"poster_path": URL (String), "overview": String, "release_date": String,
           "original_title": String, "id": Number, "popularity": Number(Float)}
@@ -106,7 +113,7 @@ var token = require('../../token.js');
     var attrs = Object.assign({}, actorData);
     return $http({
       method:'POST',
-      url:'/thespians/',
+      url:'/thespians',
       data: {data: attrs}
     })
     .then(function(resp){

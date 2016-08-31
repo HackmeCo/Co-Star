@@ -1,7 +1,31 @@
 <div>
   <form>
     <input name="actorSearch" placeholder="type here..." type="text" ng-model= "actorInput">
-    <button>Search Actor</button>
+    <button ng-click="addActorInput(actorInput)">Search Actor</button>
   </form>
-  <h3 ng-repeat="actor in currentSearches" ng-click="removesActorInput(actor)">{{actor}}</h3>
+  <!--Display for each actor-->
+  <div class="actorInfo" ng-repeat="actor in currentSearches">
+    <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
+    <!--"Image not found" image-->
+    <img ng-if=!actor.profile_path ng-src='http://imgur.com/Rg00Mu8.png'>
+    <h3 class="actorName">  <button class="removeActor" ng-click="removeActorInput(actor)">x</button> {{actor.name}}</h3>
+  </div>
+  <div>
+  <div class="movieInfo">
+  <!--If no movies are found for the current list (and there is a list)-->
+  <div ng-if="currentSearches.length && !movies.length">No movies found</div>
+  <ul>
+    <!--Format for each movie display-->
+    <li class="movies" ng-repeat="movie in movies" ng-mouseover="showOverview(movie)" ng-mouseleave="hideOverview(movie)">
+      <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
+      <!--"Image not found" image-->
+      <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>
+      <div class="movieTitle">{{movie.title}}</div>
+      <!--Slices the year out of the full release date-->
+      <div class="movieYear">{{movie.release_date.slice(0,4)}}</div>
+      <!--Only shows if movie.showOverview, which changes on mouseEnter and mouseLeave-->
+      <div class="movieOverview" ng-show=movie.showOverview>{{movie.overview}}</div>
+    </li>
+  </ul>
+  </div>
 </div>
