@@ -7,8 +7,10 @@
     <h3 class="actorName">{{actor.name}}</h3>
   </div>
 
-  <button class="choices" ng-repeat="movie in movieChoices" ng-click="submitChoice(movie)">
-    {{movie.title}}
-  </button>
-  <button class="noneOfTheAbove" ng-click="submitChoice({title: ''})">None of these!</button>
+  <div class="choices" ng-show=movieChoices.length>
+    <button class="choice" ng-repeat="movie in movieChoices" ng-click="submitChoice(movie)">
+      {{movie.title}}
+    </button>
+    <button class="noneOfTheAbove" ng-click="submitChoice({title: ''})">None of these!</button>
+  </div>
 </div>
