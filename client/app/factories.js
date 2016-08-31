@@ -53,7 +53,7 @@ angular.module('costars.factories', [])
     var actorString = actorIds.join(','); //the list of actor Ids, now separated by commas in a string
     return $http({
       method: "GET",
-      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
+      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=popularity.desc"
     })
     .then(function(resp){
       console.log("Resp directly from discover call: ", resp);
