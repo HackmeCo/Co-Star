@@ -5,21 +5,21 @@
   "main": "index.js",
   "dependencies": {
     "angular-route": "^1.5.8",
+    "bluebird": "^3.4.5",
     "body-parser": "^1.15.2",
     "bower": "^1.7.9",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
-    "co": "^4.6.0",
     "express": "^4.14.0",
     "jshint": "^2.9.3",
     "karma": "^1.2.0",
     "mocha": "^3.0.2",
     "mongodb": "^2.2.8",
+    "mongoose": "^4.5.10",
+    "mongoose-simple-random": "^0.3.3",
     "nodemon": "^1.10.2",
     "promised-mongo": "github:makersquare/promised-mongo",
-    "supertest": "^2.0.0",
-    "mongoose": "^4.5.10",
-    "nodemon": "^1.10.2"
+    "supertest": "^2.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var co = require('co');
+//var random = require('mongoose-simple-random');
 
 var path = require('path');
 
@@ -53,6 +53,25 @@ app.get('/thespians', function (req, res) {
     }
   })
 
+});
+
+    /*
+    get to /thespians/random will return a random document from the Thespian DB,
+    returns the same thespian object as the single response from get /thespians
+    */
+
+app.get('/thespians/random', function(req, res) {
+  console.log('random get has been triggered here.');
+  // findOneRandom is a funciton from npm mongoose-simple-random
+  Thespian.findOneRandom(function(err, results) {
+    if(err) {
+      console.error('error in findOneRandom: ', err);
+      return helpers.errorHandler(err, req, res);
+    } else {
+      console.log('success findOneRandom');
+      res.send(results);
+    }
+  })
 });
 
     /*
