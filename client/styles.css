@@ -13,6 +13,7 @@ html {
 .banner{
 max-height: 150px;
 width: 1400px;
+transform: scaleX(-1);
 }
 
 input { 
