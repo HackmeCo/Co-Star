@@ -1,6 +1,6 @@
 angular.module('costars.game', [])
 
-.controller('GameController', function(Game, $scope, $location){
+.controller('GameController', function(Game, $scope, $location, ApiCalls, DB){
   $scope.actors = Game.actors;
   $scope.score = Game.score;
   $scope.movieChoices = Game.choices;
