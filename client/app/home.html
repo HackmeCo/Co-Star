@@ -1,4 +1,5 @@
 <div>
+  <h2><button class="tutBtn" ng-click="switch1 = switch1 ? false : true">x</button ng-if="switch1">Enter one actor to see their top three most populat movies! Enter two or more actors to see which films they both have starred in!</h2>
   <form>
     <input name="actorSearch" placeholder="type here..." type="text" ng-model= "actorInput">
     <button class="searchBtn" ng-click="addActorInput(actorInput)">Search Actor</button>
