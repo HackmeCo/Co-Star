@@ -13,7 +13,6 @@ html {
 .banner{
 max-height: 150px;
 width: 1400px;
-transform: scaleX(-1);
 }
 
 input { 
@@ -44,6 +43,29 @@ h3 {
   font-size: 13px;
 }
 
+.movieOverview {
+  position: absolute;
+  display: inline-table;
+  width: 300px;
+  height: 200px;
+  padding: 3px;
+  font-size: 15px;
+  border-style: solid;
+  border-color: #a97930;
+  border-width: 2px 2px 2px 2px;
+  margin: 3px;
+  border-radius: 6px;
+  border-collapse: separate;
+  border-spacing: inherit;
+  color: white;
+  background-color: rgba(50, 50, 50, 0.9);
+  z-index: 100;
+  bottom: 2px;
+}
+
+.finalScore {
+  font-size: 30px;
+}
 
 .searchBtn {
    background-color: #E50914 ;
@@ -78,7 +100,6 @@ button.removeActor {
   color: red;
   padding: -3px;
   margin:-5px;
-
 }
 
 ul {
@@ -96,8 +117,13 @@ ul {
   border: none;
 }
 
+.goHome{
+  float: right;
+}
+
 li.movies {
   display: inline-table;
+  position: relative;
   width: 150px;
   height: 200px;
   padding: 3px;
@@ -110,5 +136,4 @@ li.movies {
   border-collapse: separate;
   border-spacing: inherit;
   color: white;
-
 }
