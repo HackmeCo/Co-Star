@@ -1,5 +1,4 @@
 var token = window.token;
-console.log("Our token: ", token);
 angular.module('costars.factories', [])
 
 .factory("ApiCalls", function($http){
@@ -37,6 +36,7 @@ angular.module('costars.factories', [])
     .catch(function(err){
       //Do something with the error (display on the page somewhere?)
       console.log("Error: ", err) //TODO: remove/comment this for release
+      throw new Error(err)
     })
   }
 
@@ -94,6 +94,7 @@ angular.module('costars.factories', [])
     })
     .catch(function(err){
       console.log("Error retrieving "+ actorName + ", " + err);
+      throw new Error(err);
     })
   };
 
@@ -121,10 +122,22 @@ angular.module('costars.factories', [])
       console.log('store actor resp.data', resp.data)
       return resp.data;
     })
- }
+  }
+
+  var randomActor = function(){
+    return $http({
+      method: 'GET',
+      url:'/thespians/random'
+    })
+    .then(function(resp){
+      console.log("Got Random Actor: ", resp.data);
+      return resp.data;
+    })
+  }
  return{
   getActor: getActor,
-  storeActor: storeActor
+  storeActor: storeActor,
+  randomActor: randomActor
  };
 
 }) //END OF DB FACTORY

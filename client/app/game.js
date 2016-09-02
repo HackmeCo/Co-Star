@@ -1,54 +1,58 @@
 angular.module('costars.game', [])
 
-.controller('GameController', function(Game, $scope, $location){
-  $scope.actors = Game.actors;
-  $scope.score = Game.score;
-  $scope.movieChoices = Game.choices;
+.controller('GameController', function($scope, $location, ApiCalls, DB){
+  $scope.playing = false;
+  $scope.loaded = false;
+  $scope.actors = [];
+  $scope.choices = [];
+  $scope.correctMovies = [];
+  $scope.movies1 = [];
+  $scope.movies2 = [];
+  $scope.answer = "";
+  $scope.score = 0;
 
-  $scope.submitChoice = function(movie){
-    Game.checkAnswer(movie.title);
-  };
-})
+  setInterval(function(){
+   console.log("Answer: ", $scope.answer);
+  }, 3000);
 
-.factory('Game', function(ApiCalls, DB){
-
-  var actors = [];
-  var choices = [];
-  var correctMovies = [];
-  var movies1 = [];
-  var movies2 = [];
-  var answer = "";
-  var score = 0;
-
-  
   /*
   * Makes database and API calls to update our actors and movie lists
   */
-  var updateGameState = function(){
-    actors = [];
-    movies = [];
+  $scope.updateGameState = function(){
+    $scope.actors = [];
+    $scope.choices = [];
+    $scope.answer = "";
 
-    return DB.randomActor().then(function(actor1){ //get actor1
-      actors.push(actor1);
-      DB.randomActor().then(function(actor2){ //get actor2
-        actors.push(actor2);
-        return Promise.all([
-          ApiCalls.discover(actors.map(act => act.id)) //get the movies they're in together
-          .then(function(films){
-            correctMovies = films;
-          }),
+    return Promise.all([
+      DB.randomActor()
+      .then(function(actor1){ //get actor1
+        console.log("In updateGameState, actor1: ", actor1);
+        $scope.actors.push(actor1)
+      }),
 
-          ApiCalls.discover([actor1.id, actor1.id])
-          .then(function(actor1films){
-            movies1 = actor1films;
-          }),
-
-          ApiCalls.discover([actor2.id, actor2.id])
-          .then(function(actor2films){
-            movies2 = actor2films;
-          })
-        ])
+      DB.randomActor()
+      .then(function(actor2){ //get actor2
+        console.log("In updateGameState, actor2: ", actor2);
+        $scope.actors.push(actor2)
       })
+    ])
+    .then(function(){
+      return Promise.all([
+        ApiCalls.discover($scope.actors.map(act => act.id)) //get the movies they're in together
+        .then(function(films){
+          $scope.correctMovies = films;
+        }),
+
+        ApiCalls.discover([$scope.actors[0].id, $scope.actors[0].id])
+        .then(function(actor1films){
+          $scope.movies1 = actor1films;
+        }),
+
+        ApiCalls.discover([$scope.actors[1].id, $scope.actors[1].id])
+        .then(function(actor2films){
+          $scope.movies2 = actor2films;
+        })
+      ])
     })
   }
 
@@ -56,47 +60,59 @@ angular.module('costars.game', [])
   * Updates the game state, then creates a new question
   */
 
-  var create = function(){
-    return updateGameState()
+  $scope.create = function(){
+    $scope.loaded = false;
+    return $scope.updateGameState()
     .then(function(){
-        movies1 = movies1.filter(movie => !correctMovies.includes(movie));
-        movies2 = movies2.filter(movie => !correctMovies.includes(movie)); //filter out movies they've both been in
-        if(correctMovies.length){
-          var correctChoice = getRand(correctMovies);
-          answer = correctChoice.title;
-          choices.push(correctChoice);
+        console.log("Finished updating game state");
+        console.log("Actors: ", $scope.actors);
+        console.log("Movies (both): ", $scope.correctMovies);
+        console.log("Movies for " + $scope.actors[0] + ":", $scope.movies1);
+        console.log("Movies for " + $scope.actors[1] + ":", $scope.movies2);
+        $scope.movies1 = $scope.movies1.filter(movie => !$scope.correctMovies.includes(movie));
+        $scope.movies2 = $scope.movies2.filter(movie => !$scope.correctMovies.includes(movie)); //filter out movies they've both been in
+        if($scope.correctMovies.length){
+          var correctChoice = getRand($scope.correctMovies);
+          $scope.answer = correctChoice.title;
+          $scope.choices.push(correctChoice);
         }
         else{
-          answer = "";
+          $scope.answer = "";
         }
         var numFrom1 = Math.floor(Math.random() * 4); //number of choices we take from the first actor
-        for(var i = 0; i < numFrom1 && movies1.length; i++){
-          var movie = getRandIndex(movies1);
-          if(!choices.includes(movies1[movie])){
-            choices.push(movies1.splice(movie, 1));
+        console.log("Taking " + numFrom1 + " from first actor");
+        for(var i = 0; i < numFrom1 && $scope.movies1.length; i++){
+          var movie = getRandIndex($scope.movies1);
+          console.log("Pushing to choices: ", $scope.movies1[movie]);
+          if(!$scope.choices.includes($scope.movies1[movie])){
+            $scope.choices.push($scope.movies1.splice(movie, 1)[0]);
           }
           else{
             i -= 1; //roll again
           }
         }
-        while(choices.length < 4 && movies2.length){
-          var movie = getRandIndex(movies2);
-          if(!choices.includes(movies2[movie])){
-            choices.push(movies2.splice(movie, 1));
+        while($scope.choices.length < 4 && $scope.movies2.length){
+          var movie = getRandIndex($scope.movies2);
+          if(!$scope.choices.includes($scope.movies2[movie])){
+            $scope.choices.push($scope.movies2.splice(movie, 1)[0]);
           }
         }
+        $scope.loaded = true;
+        $scope.$apply(); //updates the page
       })
   }
 
-  var checkAnswer = function(movieTitle){
-    if(answer === movieTitle){
-      score++;
-      create();
+  $scope.checkAnswer = function(movieTitle){
+    console.log("The correct answer is: ", $scope.answer);
+    if($scope.answer === movieTitle){
+      $scope.score++;
+      $scope.create();
     }
     else{
-      score = 0;
-      alert("You lose! The correct answer was: ", answer !== "" ? answer : "None of these!");
-      create();
+      $scope.score = 0;
+      var displayAnswer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
+      alert("You lose! The correct answer was: " + displayAnswer);
+      $scope.create();
     }
   }
 
@@ -111,11 +127,16 @@ angular.module('costars.game', [])
     return Math.floor(Math.random() * arr.length);
   }
 
-  return {
-    actors: actors,
-    score: score,
-    checkAnswer: checkAnswer,
-    choices: choices
+  $scope.startGame = function(){
+    $scope.playing = true;
+    $scope.create();
   }
 
-})
+  $scope.submitChoice = function(movie){
+    $scope.checkAnswer(movie.title);
+  }
+
+}) //END OF GAME CONTROLLER
+
+
+  
