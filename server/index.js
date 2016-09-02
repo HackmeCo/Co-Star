@@ -116,6 +116,7 @@ app.get('/leaderboard', function (req, res) {
       }
     }
   })
+})
 
 app.post('/leaderboard', function (req, res) {
   var highScoreObj = req.body.data;
