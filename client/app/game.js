@@ -68,8 +68,8 @@ angular.module('costars.game', [])
         if($scope.actors[0].id === $scope.actors[1].id){
           return $scope.create(); //roll again, we got the same actor twice
         }
-        $scope.movies1 = $scope.movies1.filter(movie => !$scope.correctMovies.includes(movie));
-        $scope.movies2 = $scope.movies2.filter(movie => !$scope.correctMovies.includes(movie)); //filter out movies they've both been in
+        $scope.movies1 = $scope.movies1.filter(movie => !$scope.correctMovies.map(cm=>cm.title).includes(movie.title));
+        $scope.movies2 = $scope.movies2.filter(movie => !$scope.correctMovies.map(cm=>cm.title).includes(movie.title)); //filter out movies they've both been in
         if($scope.correctMovies.length){
           var correctChoice = getRand($scope.correctMovies);
           $scope.answer = correctChoice.title;
