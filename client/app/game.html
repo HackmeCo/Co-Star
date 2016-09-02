@@ -1,0 +1,46 @@
+<div>
+
+  <div class="rules" ng-show=!playing>
+    <h2>Welcome to the Co-stars game!</h2>
+    <br>
+    How to play:
+    <br>
+    - Select the movie that both actors are in
+    <br>
+    - If they aren't cast together in any of those movies, select "None of these!"
+    <br>
+    - Play till you lose; try to get the highest score!
+  </div>
+  <button class="start searchBtn" ng-show=!playing ng-click="startGame()">Play!</button>
+  <div class="gameInfo" ng-show=playing>Score: {{score}}</div>
+  <div class="loading" ng-show="playing && !loaded && !lost">Loading...</div>
+  <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded && !lost">
+    <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
+    <!--"Image not found" image-->
+    <img ng-if=!actor.profile_path ng-src='http://imgur.com/Rg00Mu8.png'>
+    <h3 class="actorName">{{actor.name}}</h3>
+  </div>
+
+  <div class="choices" ng-show="playing && loaded && !lost">
+    
+    <button class="choice" ng-repeat="movie in choices" ng-click="submitChoice(movie)">
+      <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
+      <!--"Image not found" image-->
+      <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>
+      {{movie.title}}
+    </button>
+    
+    <button class="choice" ng-click="submitChoice({title: ''})">None of these!</button>
+  </div>
+
+  <div class="loseDisplay" ng-show=lost>
+    <div>You lose :( The correct answer was: {{answer}}</div>
+    <div>Your final score: {{score}}</div>
+    <label>Enter your name to submit your score to our leaderboard!</label>
+    <h3>(usernames must be between 2 and 10 characters)</h3>
+    <input class="username" ng-model="username"><br>
+    <button class="submitScore" ng-click="submitScore(username)">Submit your score!</button>
+    <button class="playAgain" ng-click="startGame()">Don't submit, just let me play again!</button>
+  </div>
+
+</div>

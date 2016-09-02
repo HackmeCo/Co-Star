@@ -1,5 +1,5 @@
 var mongoose = require( 'mongoose' );
-var co = require('co');
+mongoose.Promise = require('bluebird');  //fixes mongoose promise deprecation
 
 var uri = require( '../uri' );
 

@@ -1,5 +1,5 @@
-var database = require('../server/db');
-var endpoints = require('../server/endpoints');
+var database = require('../server/model/db');
+var endpoints = require('../server/model/thespian');
 var chai = require('chai');
 var chaihttp = require('chai-http');
 var request = require('chai').request;

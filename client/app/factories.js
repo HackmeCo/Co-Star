@@ -1,5 +1,4 @@
 var token = window.token;
-console.log("Our token: ", token);
 angular.module('costars.factories', [])
 
 .factory("ApiCalls", function($http){
@@ -37,6 +36,7 @@ angular.module('costars.factories', [])
     .catch(function(err){
       //Do something with the error (display on the page somewhere?)
       console.log("Error: ", err) //TODO: remove/comment this for release
+      throw new Error(err)
     })
   }
 
@@ -53,7 +53,7 @@ angular.module('costars.factories', [])
     var actorString = actorIds.join(','); //the list of actor Ids, now separated by commas in a string
     return $http({
       method: "GET",
-      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=vote_average.desc"
+      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=popularity.desc"
     })
     .then(function(resp){
       console.log("Resp directly from discover call: ", resp);
@@ -94,6 +94,7 @@ angular.module('costars.factories', [])
     })
     .catch(function(err){
       console.log("Error retrieving "+ actorName + ", " + err);
+      throw new Error(err);
     })
   };
 
@@ -121,10 +122,75 @@ angular.module('costars.factories', [])
       console.log('store actor resp.data', resp.data)
       return resp.data;
     })
- }
+  }
+
+  var randomActor = function(){
+    return $http({
+      method: 'GET',
+      url:'/thespians/random'
+    })
+    .then(function(resp){
+      console.log("Got Random Actor: ", resp.data);
+      return resp.data;
+    })
+  }
  return{
   getActor: getActor,
-  storeActor: storeActor
+  storeActor: storeActor,
+  randomActor: randomActor
  };
 
 }) //END OF DB FACTORY
+
+/*
+* The factory for making DB requests concerning the leaderboard
+*/
+
+.factory('Leaderboard', function($http){
+
+  /*
+  * Gets all high scores stored in the DB
+  * @return a promise which resolves with the scores
+  */
+  var getScores = function(){
+    return $http({
+      method: 'GET',
+      url:'/leaderboard'
+    })
+    .then(function(resp){
+      console.log("Got from leaderboard.getScores: ", resp);
+      return resp.data; //filters to only the scores
+    })
+    .catch(function(err){
+      console.log("Error getting scores: ", err);
+      throw new Error(err);
+    })
+  }
+
+  /*
+  * Posts to the leaderboard table
+  * @param name: The player's inputted name, as a string
+  * @param score: The player's score, as a number
+  * @return a promise that resolves when the database finishes posting
+  */
+
+  var postScore = function(name, score){
+    return $http({
+      method: 'POST',
+      url: '/leaderboard',
+      data: {name: name, score: score}
+    })
+    .then(function(resp){
+      console.log("Success posting score");
+    })
+    .catch(function(err){
+      console.log("Error posting score: ", err);
+      throw new Error(err);
+    })
+  }
+
+  return {
+    getScores: getScores,
+    postScore: postScore
+  }
+})
