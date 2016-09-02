@@ -32,6 +32,8 @@
   <ul>
     <!--Format for each movie display-->
     <li class="movies" ng-repeat="movie in movies" ng-mouseover="showOverview(movie)" ng-mouseleave="hideOverview(movie)">
+    <div class="movieOverview" ng-show=movie.showOverview>{{movie.title}}
+    <br><br>{{movie.overview}}</div>
       <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
       <!--"Image not found" image-->
       <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>
@@ -39,7 +41,6 @@
       <!--Slices the year out of the full release date-->
       <div class="movieYear">{{movie.release_date.slice(0,4)}}</div>
       <!--Only shows if movie.showOverview, which changes on mouseEnter and mouseLeave-->
-      <div class="movieOverview" ng-show=movie.showOverview>{{movie.overview}}</div>
     </li>
   </ul>
   </div>
