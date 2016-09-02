@@ -22,14 +22,15 @@
   </div>
 
   <div class="choices" ng-show="playing && loaded">
+    
     <button class="choice" ng-repeat="movie in choices" ng-click="submitChoice(movie)">
       <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
       <!--"Image not found" image-->
       <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>
       {{movie.title}}
     </button>
-    <br>
-    <button class="noneOfTheAbove" ng-click="submitChoice({title: ''})">None of these!</button>
+    
+    <button class="choice" ng-click="submitChoice({title: ''})">None of these!</button>
   </div>
 
 </div>
