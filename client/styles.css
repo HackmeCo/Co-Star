@@ -117,6 +117,10 @@ ul {
   border: none;
 }
 
+.goHome{
+  float: right;
+}
+
 li.movies {
   display: inline-table;
   position: relative;
