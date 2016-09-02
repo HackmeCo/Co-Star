@@ -138,3 +138,21 @@ li.movies {
   color: white;
 }
 
+table {
+  border-collapse: collapse;
+  width: 30%;
+  margin-left: 5px;
+}
+
+td, th {
+  text-align: left;
+  border: 2px solid #a97930;
+}
+
+.place{
+  width: 50px;
+}
+
+tr:hover{
+  background-color: rgba(60, 60, 60, 0.8)
+}
