@@ -12,8 +12,14 @@
     - Play till you lose; try to get the highest score!
   </div>
   <button class="start searchBtn" ng-show=!playing ng-click="startGame()">Play!</button>
-  <div class="gameInfo" ng-show=playing>Score: {{score}}</div>
-  <div class="loading" ng-show="playing && !loaded && !lost">Loading...</div>
+
+  <div class="gameInfo" ng-show="playing && !lost">Score: {{score}}</div>
+
+  <div class="loading" ng-show="playing && !loaded && !lost">
+  Loading...
+  <img src="http://www.lovethisgif.com/uploaded_images/54170-Classic-Film-Countdown-Agif-By-Mrangrydog-On-Deviantart.gif">
+  </div>
+
   <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded && !lost">
     <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
     <!--"Image not found" image-->
@@ -34,13 +40,16 @@
   </div>
 
   <div class="loseDisplay" ng-show=lost>
+    <div class="finalScore">Your final score: {{score}}</div>
+    <br>
     <div>You lose :( The correct answer was: {{answer}}</div>
-    <div>Your final score: {{score}}</div>
+    <br>
     <label>Enter your name to submit your score to our leaderboard!</label>
     <h3>(usernames must be between 2 and 10 characters)</h3>
     <input class="username" ng-model="username"><br>
-    <button class="submitScore" ng-click="submitScore(username)">Submit your score!</button>
-    <button class="playAgain" ng-click="startGame()">Don't submit, just let me play again!</button>
+    <br>
+    <button class="searchBtn  submitScore" ng-click="submitScore(username)">Submit your score!</button>
+    <button class="playAgain  searchBtn" ng-click="startGame()">Don't submit, just let me play again!</button>
   </div>
 
 </div>
