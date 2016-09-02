@@ -8,6 +8,7 @@ var db = require('./model/db');
 var helpers = require('./config/helpers');
 
 var Thespian = require('./model/thespian');
+var Highscore = require('./model/thespian');
 
 
 var app = express();
@@ -94,7 +95,42 @@ app.post('/thespians', function (req, res) {
   })
 });
 
+app.get('/leaderboard', function (req, res) {
+  Highscore.find( {points: {$exists: true}} ).sort({score: -1}).limit(10).toArray()
+  .exec(function(err, result) {
+    if(err) {
+      return helpers.errorHandler(err, req, res);
+    } else {
+      //console.log('this is the returned item from Highscore.find: ', result);
+      if (result.length > 1) {
+        //if there is more than one thespian by the same name, this will send an array
+        //with the object for each thespian
+        res.send(result);
+      } else if (result.length === 1) {
+        //this is the normal operation, removes the single thespian from the array and
+        //only returns the single object
+        res.send(result[0]);
+      } else {
+        //returns 404 if array length is 0, nothing found in DB
+        return helpers.noHighScoresYet(result, req, res);
+      }
+    }
+  })
+})
 
+app.post('/leaderboard', function (req, res) {
+  var highScoreObj = req.body.data;
+  console.log('The post to Leaderboard getting triggered');
+  var NewHighScore = new Highscore (highScoreObj);
+  NewHighscore.save(function (err, post) {
+    if (err) {
+      console.error('This highscore could not be posted to the database: ', err);
+      return helpers.errorHandler(err, req, res);
+    }
+    console.log('A new highscore has entered our DB');
+    res.send(post);
+  })
+});
 
 
 //        Start the server on PORT or 3000
