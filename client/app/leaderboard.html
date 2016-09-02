@@ -1,1 +1,14 @@
-leaderboard.html
+<div class="leaderboard">
+  <div class="loading" ng-show=!loaded>Loading scores...</div>
+  <table class="highscores" ng-show=loaded>
+    <tr class="headers">
+      <th>Name</th>
+      <th>Score</th>
+    </tr>
+    <tr class="leaderboardRow" ng-repeat="score in scores">
+      <td class="name">{{score.name}}</td>
+      <td class="highscore">{{score.score}}</td>
+    </tr>
+  </table>
+  <div class="backToGame" ng-click=goToGame()><-- Back to the game</div>
+</div>

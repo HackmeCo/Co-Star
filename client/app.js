@@ -2,6 +2,7 @@ angular.module('costars', [
   'costars.factories',
   'costars.home',
   'costars.game',
+  'costars.leaderboard',
   'ngRoute'])
 
 .config(function($routeProvider, $httpProvider){
