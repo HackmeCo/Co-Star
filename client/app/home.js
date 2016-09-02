@@ -170,4 +170,13 @@ angular.module('costars.home' , [])
       console.log("removing actor input failed");
     }
   }
+
+   $scope.startGame = function(){
+    $scope.playing = true;
+    $scope.create();
+  }
+  
+$scope.goToGame = function(){
+   $location.path("/game");
+ }
 }) //END OF CONTROLLER
