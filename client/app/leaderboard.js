@@ -13,7 +13,6 @@ angular.module('costars.leaderboard', [])
     $scope.error = false;
     $scope.scores = data;
     $scope.loaded = true;
-    $scope.$apply();
   })
   .catch(function(err){
     console.log("Scores failed to load: ", err);
