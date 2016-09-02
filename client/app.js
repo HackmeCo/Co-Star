@@ -14,6 +14,10 @@ angular.module('costars', [
       templateUrl: 'app/game.html',
       controller: 'GameController'
     })
+    .when('/leaderboard', {
+      templateUrl: 'app/leaderboard.html',
+      controller: 'LeaderboardController'
+    })
     .otherwise({
       redirectTo: '/'
     })

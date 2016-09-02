@@ -140,9 +140,4 @@ angular.module('costars.game', [])
   }
 
 }) //END OF GAME CONTROLLER
-<<<<<<< 9eec4eb1ac4493e022d2c44a080a19dac3051a43
-=======
 
-
-  
->>>>>>> Added a missing bracket
