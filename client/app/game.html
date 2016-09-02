@@ -13,17 +13,19 @@
   </div>
   <button class="start" ng-show=!playing ng-click="startGame()">Play!</button>
   <div class="gameInfo" ng-show=playing>Score: {{score}}</div>
-  <div class="actorInfo" ng-repeat="actor in actors" ng-show=playing>
+  <div class="loading" ng-show="playing && !loaded">Loading...</div>
+  <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded">
     <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
     <!--"Image not found" image-->
     <img ng-if=!actor.profile_path ng-src='http://imgur.com/Rg00Mu8.png'>
     <h3 class="actorName">{{actor.name}}</h3>
   </div>
 
-  <div class="choices" ng-show=playing>
-    <button class="choice" ng-repeat="movie in movieChoices" ng-click="submitChoice(movie)">
+  <div class="choices" ng-show="playing && loaded">
+    <button class="choice" ng-repeat="movie in choices" ng-click="submitChoice(movie)">
       {{movie.title}}
     </button>
+    <br>
     <button class="noneOfTheAbove" ng-click="submitChoice({title: ''})">None of these!</button>
   </div>
 
