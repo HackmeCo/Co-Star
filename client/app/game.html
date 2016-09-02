@@ -11,7 +11,7 @@
     <br>
     - Play till you lose; try to get the highest score!
   </div>
-  <button class="start" ng-show=!playing ng-click="startGame()">Play!</button>
+  <button class="start searchBtn" ng-show=!playing ng-click="startGame()">Play!</button>
   <div class="gameInfo" ng-show=playing>Score: {{score}}</div>
   <div class="loading" ng-show="playing && !loaded">Loading...</div>
   <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded">
