@@ -141,3 +141,56 @@ angular.module('costars.factories', [])
  };
 
 }) //END OF DB FACTORY
+
+/*
+* The factory for making DB requests concerning the leaderboard
+*/
+
+.factory('Leaderboard', function($http){
+
+  /*
+  * Gets all high scores stored in the DB
+  * @return a promise which resolves with the scores
+  */
+  var getScores = function(){
+    return $http({
+      method: 'GET',
+      url:'/leaderboard'
+    })
+    .then(function(resp){
+      console.log("Got from leaderboard.getScores: ", resp);
+      return resp.data; //filters to only the scores
+    })
+    .catch(function(err){
+      console.log("Error getting scores: ", err);
+      throw new Error(err);
+    })
+  }
+
+  /*
+  * Posts to the leaderboard table
+  * @param name: The player's inputted name, as a string
+  * @param score: The player's score, as a number
+  * @return a promise that resolves when the database finishes posting
+  */
+
+  var postScore = function(name, score){
+    return $http({
+      method: 'POST',
+      url: '/leaderboard',
+      data: {name: name, score: score}
+    })
+    .then(function(resp){
+      console.log("Success posting score");
+    })
+    .catch(function(err){
+      console.log("Error posting score: ", err);
+      throw new Error(err);
+    })
+  }
+
+  return {
+    getScores: getScores,
+    postScore: postScore
+  }
+})
