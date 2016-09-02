@@ -26,13 +26,13 @@ angular.module('costars.game', [])
     return Promise.all([
       DB.randomActor()
       .then(function(actor1){ //get actor1
-        console.log("In updateGameState, actor1: ", actor1);
+        // console.log("In updateGameState, actor1: ", actor1);
         $scope.actors.push(actor1)
       }),
 
       DB.randomActor()
       .then(function(actor2){ //get actor2
-        console.log("In updateGameState, actor2: ", actor2);
+        // console.log("In updateGameState, actor2: ", actor2);
         $scope.actors.push(actor2)
       })
     ])
@@ -62,13 +62,12 @@ angular.module('costars.game', [])
 
   $scope.create = function(){
     $scope.loaded = false;
+    console.log("Creating a new question");
     return $scope.updateGameState()
     .then(function(){
-        console.log("Finished updating game state");
-        console.log("Actors: ", $scope.actors);
-        console.log("Movies (both): ", $scope.correctMovies);
-        console.log("Movies for " + $scope.actors[0] + ":", $scope.movies1);
-        console.log("Movies for " + $scope.actors[1] + ":", $scope.movies2);
+        if($scope.actors[0].id === $scope.actors[1].id){
+          return $scope.create(); //roll again, we got the same actor twice
+        }
         $scope.movies1 = $scope.movies1.filter(movie => !$scope.correctMovies.includes(movie));
         $scope.movies2 = $scope.movies2.filter(movie => !$scope.correctMovies.includes(movie)); //filter out movies they've both been in
         if($scope.correctMovies.length){
@@ -77,13 +76,17 @@ angular.module('costars.game', [])
           $scope.choices.push(correctChoice);
         }
         else{
-          $scope.answer = "";
+          if(Math.random() < .7){ //reroll 70% of the time -> Increases the number of good questions at the cost of load time
+            return $scope.create();
+          }else{
+            $scope.answer = "";
+          }
         }
         var numFrom1 = Math.floor(Math.random() * 4); //number of choices we take from the first actor
-        console.log("Taking " + numFrom1 + " from first actor");
+        // console.log("Taking " + numFrom1 + " from first actor");
         for(var i = 0; i < numFrom1 && $scope.movies1.length; i++){
           var movie = getRandIndex($scope.movies1);
-          console.log("Pushing to choices: ", $scope.movies1[movie]);
+          // console.log("Pushing to choices: ", $scope.movies1[movie]);
           if(!$scope.choices.includes($scope.movies1[movie])){
             $scope.choices.push($scope.movies1.splice(movie, 1)[0]);
           }
