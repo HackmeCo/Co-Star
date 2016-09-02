@@ -1,8 +1,9 @@
 angular.module('costars.game', [])
 
-.controller('GameController', function($scope, $location, ApiCalls, DB){
+.controller('GameController', function($scope, $location, ApiCalls, DB, Leaderboard){
   $scope.playing = false;
   $scope.loaded = false;
+  $scope.lost = false;
   $scope.actors = [];
   $scope.choices = [];
   $scope.correctMovies = [];
@@ -112,10 +113,8 @@ angular.module('costars.game', [])
       $scope.create();
     }
     else{
-      $scope.score = 0;
-      var displayAnswer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
-      alert("You lose! The correct answer was: " + displayAnswer);
-      $scope.create();
+      $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
+      $scope.lost = true;
     }
   }
 
@@ -132,11 +131,28 @@ angular.module('costars.game', [])
 
   $scope.startGame = function(){
     $scope.playing = true;
+    $scope.score = 0;
+    $scope.lost = false;
     $scope.create();
   }
 
   $scope.submitChoice = function(movie){
     $scope.checkAnswer(movie.title);
+  }
+
+  $scope.submitScore = function(name){
+    if(name && (name.length >= 2 && name.length <= 10)){
+      Leaderboard.postScore(name, $scope.score)
+      .then(function(){
+        $location.path('/leaderboard');
+      })
+      .catch(function(err){
+        console.log("Error submitting score: ", err);
+        $location.path('/leaderboard');
+      })
+    } else{
+      alert("Username must be between 2 and 10 characters");
+    }
   }
 
 }) //END OF GAME CONTROLLER
