@@ -7,6 +7,7 @@ angular.module('costars.home' , [])
   $scope.movies = []; //the movies we're currently displaying
   $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
+  $scope.rules = true;
 
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
@@ -171,12 +172,15 @@ angular.module('costars.home' , [])
     }
   }
 
-   $scope.startGame = function(){
-    $scope.playing = true;
-    $scope.create();
+  $scope.startGame = function(){
+    $scope.playing = !$scope.playing;
+  }
+
+  $scope.showRules = function(){
+    $scope.rules = !$scope.rules;
   }
   
-$scope.goToGame = function(){
+  $scope.goToGame = function(){
    $location.path("/game");
- }
+  }
 }) //END OF CONTROLLER
