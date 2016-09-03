@@ -4,6 +4,7 @@ angular.module('costars.game', [])
   $scope.playing = false;
   $scope.loaded = false;
   $scope.lost = false;
+  $scope.highscorer = false;
   $scope.actors = [];
   $scope.choices = [];
   $scope.correctMovies = [];
@@ -136,8 +137,7 @@ angular.module('costars.game', [])
       $scope.create();
     }
     else{
-      $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
-      $scope.lost = true;
+      lose()
     }
   }
 
@@ -165,9 +165,7 @@ angular.module('costars.game', [])
   timer = $interval(function(){
     $scope.time -= 1;
     if($scope.time <= 0){
-      $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
-      $scope.lost = true;
-      stopTimer();
+      lose();
     }
   }, 1000)
  }
@@ -176,6 +174,12 @@ angular.module('costars.game', [])
   if(timer){
     $interval.cancel(timer);
   }
+ }
+
+ var lose = function(){
+  $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
+  $scope.lost = true;
+  stopTimer();
  }
 
 }) //END OF GAME CONTROLLER
