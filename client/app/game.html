@@ -1,7 +1,6 @@
 <div>
   <br>
-  <button class= "searchBtn goHome" ng-click="goHome()">Go back to Home Page</button>
-
+  <button class="searchBtn goHome" ng-click="goHome()">Go back to Home Page</button>
   <div class="rules" ng-show=!playing>
     <h2>Welcome to the Co-STAR game!</h2>
     <br>
@@ -18,6 +17,7 @@
     - Watch out for the timer!
   </div>
   <button class="start searchBtn" ng-show=!playing ng-click="startGame()">Play!</button>
+  <button class="searchBtn goToLeaderboard" ng-show=!playing ng-click="goToLeaderboard()">Check out the high scores!</button>
 
   <div class="gameInfo" ng-show="playing && !lost">Score: {{score}}</div>
 
@@ -76,6 +76,7 @@
       <br>
       <button class="searchBtn  submitScore" ng-click="submitScore(username)">Submit my score!</button>
       <button class="playAgain  searchBtn" ng-click="startGame()">Don't submit, just let me play again!</button>
+      <button class="goToLeaderboard searchBtn" ng-click="goToLeaderboard()">Don't submit, but I want to see the high scores!</button>
     </div>
   </div>
 
