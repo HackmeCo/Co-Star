@@ -3,15 +3,19 @@
   <button class= "searchBtn goHome" ng-click="goHome()">Go back to Home Page</button>
 
   <div class="rules" ng-show=!playing>
-    <h2>Welcome to the Co-stars game!</h2>
+    <h2>Welcome to the Co-STAR game!</h2>
     <br>
     How to play:
+    <br>
+    - 2 actors will be displayed on the screen with a list of movies
     <br>
     - Select the movie that both actors are in
     <br>
     - If they aren't cast together in any of those movies, select "None of these!"
     <br>
     - Play till you lose; try to get the highest score!
+    <br>
+    - Watch out for the timer!
   </div>
   <button class="start searchBtn" ng-show=!playing ng-click="startGame()">Play!</button>
 
@@ -22,9 +26,11 @@
   <img src="http://www.lovethisgif.com/uploaded_images/54170-Classic-Film-Countdown-Agif-By-Mrangrydog-On-Deviantart.gif">
   </div>
 
-  <div class="timer" ng-class="{hightime: time>=7, medtime: time<7 && time >= 3, lowtime: time < 3}" 
-  ng-show="playing && loaded">
-  {{time}}
+  <div class="timeInfo" ng-show="playing && loaded && !lost">
+    <label>Time Remaining: </label>
+    <h2 class="timer" ng-class="{hightime: time>=7, medtime: time<7 && time >= 4, lowtime: time < 4 && time > 0}">
+    {{time}}
+    </h2>
   </div>
 
   <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded && !lost">
@@ -50,7 +56,7 @@
     <div class="finalScore">Your final score: {{score}}</div>
     <div class="outOfTime" ng-show="time<=0">
       <br>
-      Uh oh, you ran out of time!
+      You ran out of time!
     </div>
     <br>
     <div>You lose :( The correct answer was: {{answer}}</div>
