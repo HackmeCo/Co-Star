@@ -202,3 +202,20 @@ tr:hover{
   0% {color: white;}
   50% {color: red;}
 }
+
+.tmdbattribute{
+  position: relative;
+  top: 150px;
+}
+
+.tmdblogo{
+  height: 30px;
+  width: 30px;
+  display: inline;
+  position: relative;
+  top: 10px;
+}
+
+.tmdbmessage{
+  display: inline;
+}
