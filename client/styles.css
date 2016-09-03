@@ -183,3 +183,22 @@ td, th {
 tr:hover{
   background-color: rgba(60, 60, 60, 0.8)
 }
+
+.timeInfo{
+  text-align: center;
+}
+
+.timer{
+  font-size: 300%;
+}
+
+.lowtime{
+  animation: pulse;
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse{
+  0% {color: white;}
+  50% {color: red;}
+}
