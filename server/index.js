@@ -110,7 +110,7 @@ app.delete('/thespians', function(req, res){
 */
 
 app.get('/allthespians', function(req, res){
-  Thespian.find({popularity: {$lt: 1.5}}).exec(function(err, result){
+  Thespian.find().exec(function(err, result){
     res.send(result);
   })
 })
