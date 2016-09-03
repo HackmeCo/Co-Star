@@ -187,7 +187,6 @@ app.post('/leaderboard', function (req, res) {
 
 //        Start the server on PORT or 3000
 app.listen(process.env.PORT || 3000, function(){
-	console.log(process.env.PORT ? 'Express app listening on port ' + process.env.PORT 
-		                         : 'Express app listening on port 3000');
+	console.log(process.env.PORT ? 'Express app listening on port ' + process.env.PORT : 'Express app listening on port 3000');
 
 });
