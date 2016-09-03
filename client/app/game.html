@@ -22,6 +22,11 @@
   <img src="http://www.lovethisgif.com/uploaded_images/54170-Classic-Film-Countdown-Agif-By-Mrangrydog-On-Deviantart.gif">
   </div>
 
+  <div class="timer" ng-class="{hightime: time>=7, medtime: time<7 && time >= 3, lowtime: time < 3}" 
+  ng-show="playing && loaded">
+  {{time}}
+  </div>
+
   <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded && !lost">
     <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
     <!--"Image not found" image-->
@@ -43,6 +48,10 @@
 
   <div class="loseDisplay" ng-show=lost>
     <div class="finalScore">Your final score: {{score}}</div>
+    <div class="outOfTime" ng-show="time<=0">
+      <br>
+      Uh oh, you ran out of time!
+    </div>
     <br>
     <div>You lose :( The correct answer was: {{answer}}</div>
     <br>
