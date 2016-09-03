@@ -4,7 +4,7 @@ angular.module('costars.game', [])
   $scope.playing = false;
   $scope.loaded = false;
   $scope.lost = false;
-  $scope.highscorer = false;
+  $scope.leaderboardPos = null;
   $scope.actors = [];
   $scope.choices = [];
   $scope.correctMovies = [];
@@ -122,6 +122,7 @@ angular.module('costars.game', [])
     $scope.playing = true;
     $scope.score = 0;
     $scope.lost = false;
+    $scope.leaderboardPos = null;
     $scope.create();
   }
 
@@ -177,9 +178,30 @@ angular.module('costars.game', [])
  }
 
  var lose = function(){
+  $scope.loaded = false;
   $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
-  $scope.lost = true;
-  stopTimer();
+  Leaderboard.getScores()
+  .then(function(highscores){
+    $scope.lost = true;
+    stopTimer();
+    if($scope.score > highscores[0].score){
+      $scope.leaderboardPos = 0;
+    } else if($scope.score > highscores[highscores.length - 1].score){
+      for(var i = highscores.length - 2; i >= 0; i--){
+        if(highscores[i].score > $scope.score){
+          $scope.leaderboardPos = i+1;
+          break;
+        }
+      }
+    }
+    $scope.loaded = true;
+  })
+  .catch(function(err){
+    console.log("Scores failed to load: ", err);
+    $scope.lost = true;
+    stopTimer();
+    $scope.loaded = true;
+  })
  }
 
 }) //END OF GAME CONTROLLER
