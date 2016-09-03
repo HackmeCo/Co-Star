@@ -188,7 +188,7 @@ angular.module('costars.game', [])
       $scope.leaderboardPos = 0;
     } else if($scope.score > highscores[highscores.length - 1].score){
       for(var i = highscores.length - 2; i >= 0; i--){
-        if(highscores[i].score > $scope.score){
+        if(highscores[i].score >= $scope.score){
           $scope.leaderboardPos = i+1;
           break;
         }
