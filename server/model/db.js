@@ -14,7 +14,7 @@ mongoose.connect(uri);
 //=====================================
 // When successfully connected
 mongoose.connection.on('connected', function  () {
-  console.log('Mongoose default connection open to ' + uri.uri);
+  console.log('Mongoose default connection open to ' + uri);
 });
 
 // If the connection throws an error
