@@ -7,7 +7,7 @@ angular.module('costars.home' , [])
   $scope.movies = []; //the movies we're currently displaying
   $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
-  $scope.rules = true;
+  $scope.rules = true; //rules display if this is true
 
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){

@@ -95,12 +95,19 @@ app.post('/thespians', function (req, res) {
   })
 });
 
+/*
+* Deletes all thespians who don't have an associated picture; preventing no-names from entering the DB
+*/
 app.delete('/thespians', function(req, res){
   Thespian.remove({profile_path: null})
   .exec(function(err, result){
     res.send(result);
   })
 })
+
+/*
+* Returns all thespians in the database
+*/
 
 app.get('/allthespians', function(req, res){
   Thespian.find({popularity: {$lt: 1.5}}).exec(function(err, result){

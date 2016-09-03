@@ -18,6 +18,7 @@ angular.module('costars.game', [])
 
   /*
   * Makes database and API calls to update our actors and movie lists
+  * @return A Promise that resolves when 3 discover calls have completed
   */
   $scope.updateGameState = function(){
     $scope.actors = [];
@@ -119,6 +120,10 @@ angular.module('costars.game', [])
     return Math.floor(Math.random() * arr.length);
   }
 
+  /*
+  * Starts a new game and creates the first question
+  */
+
   $scope.startGame = function(){
     $scope.playing = true;
     $scope.score = 0;
@@ -127,10 +132,19 @@ angular.module('costars.game', [])
     $scope.create();
   }
 
+  /*
+  * Submits an answer; called when a choice is clicked
+  */
+
   $scope.submitChoice = function(movie){
     stopTimer();
     checkAnswer(movie.title);
   }
+
+  /*
+  * Checks the submitted answer against the correct answer
+  * Triggers a loss if the answer is wrong, increments score and makes a new question otherwise
+  */
 
   var checkAnswer = function(movieTitle){
     console.log("The correct answer is: ", answer);
@@ -142,6 +156,10 @@ angular.module('costars.game', [])
       lose()
     }
   }
+
+  /*
+  * Submits the player's score and username to the leaderboard
+  */
 
   $scope.submitScore = function(name){
     if(name && (name.length >= 2 && name.length <= 10)){
@@ -158,56 +176,68 @@ angular.module('costars.game', [])
     }
   }
 
+  /*
+  * Pathing to other pages
+  */
+
   $scope.goHome = function(){
    $location.path("/");
- }
-
- $scope.goToLeaderboard = function(){
-  $location.path("/leaderboard");
- }
-
- var startTimer = function(){
-  stopTimer();
-  $scope.time = 10; //reset to 10 seconds
-  timer = $interval(function(){
-    $scope.time -= 1;
-    if($scope.time <= 0){
-      lose();
-    }
-  }, 1000)
- }
-
- var stopTimer = function(){
-  if(timer){
-    $interval.cancel(timer);
   }
- }
 
- var lose = function(){
-  $scope.loaded = false;
-  $scope.dispAnswer = answer.length ? answer : "None of these!"; //checks if there was a correct answer
-  Leaderboard.getScores()
-  .then(function(highscores){
-    $scope.lost = true;
+  $scope.goToLeaderboard = function(){
+    $location.path("/leaderboard");
+  }
+
+  /*
+  * For starting and stopping the game timer
+  */
+
+   var startTimer = function(){
     stopTimer();
-    if($scope.score > highscores[0].score){
-      $scope.leaderboardPos = 0;
-    } else if($scope.score > highscores[highscores.length - 1].score){
-      for(var i = highscores.length - 2; i >= 0; i--){
-        if(highscores[i].score >= $scope.score){
-          $scope.leaderboardPos = i+1;
-          break;
+    $scope.time = 10; //reset to 10 seconds
+    timer = $interval(function(){
+      $scope.time -= 1;
+      if($scope.time <= 0){
+        lose();
+      }
+    }, 1000)
+   }
+
+   var stopTimer = function(){
+    if(timer){
+      $interval.cancel(timer);
+    }
+   }
+
+   /*
+   * Triggers a loss when called, hiding the game and displaying the losing screen
+   * Checks if the player has scored high enough to place on the leaderboard
+   */
+   var lose = function(){
+    $scope.loaded = false;
+    $scope.dispAnswer = answer.length ? answer : "None of these!"; //checks if there was a correct answer
+    Leaderboard.getScores()
+    .then(function(highscores){
+      $scope.lost = true;
+      stopTimer();
+      if($scope.score > highscores[0].score){
+        $scope.leaderboardPos = 0;
+      } else if($scope.score > highscores[highscores.length - 1].score){
+        for(var i = highscores.length - 2; i >= 0; i--){
+          if(highscores[i].score >= $scope.score){
+            $scope.leaderboardPos = i+1;
+            break;
+          }
         }
       }
-    }
-    $scope.loaded = true;
-  })
-  .catch(function(err){
-    console.log("Scores failed to load: ", err);
-    $scope.lost = true;
-    stopTimer();
-    $scope.loaded = true;
-  })
- }
+      $scope.loaded = true;
+    })
+    .catch(function(err){
+      console.log("Scores failed to load: ", err);
+      $scope.lost = true;
+      stopTimer();
+      $scope.loaded = true;
+    })
+   }
 
 }) //END OF GAME CONTROLLER
