@@ -140,7 +140,27 @@ app.post('/leaderboard', function (req, res) {
       return helpers.errorHandler(err, req, res);
     }
     console.log('A new highscore has entered our DB');
-    res.send(post);
+    Highscore.find( {score: {$exists: true}} ).sort({score: -1}).limit(10)
+    .exec(function(err, result){
+      if(err){
+        return err
+      }
+      else{
+        console.log("The result is: " + result)
+        var tenth = result[result.length-1].score
+        Highscore.find({"score": {'$lt': tenth}}).remove().exec(function(err, result){
+          if(err){
+            return err
+          }
+          else{
+            console.log('The database now only contains the top 10 scores.')
+            res.send(post);
+          }
+        })  
+            
+      }
+    
+    })
   })
 });
 
