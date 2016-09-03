@@ -4,16 +4,18 @@ angular.module('costars.leaderboard', [])
   $scope.goToGame = function(){
     $location.path("/game");
   }
+  $scope.goToHome = function(){
+    $location.path("/");
+  }
   $scope.scores = [];
   $scope.loaded = false;
   $scope.error = false;
 
-  Leaderboard.getScores()
+  Leaderboard.getScores() //fetch high scores
   .then(function(data){
     $scope.error = false;
     $scope.scores = data;
     $scope.loaded = true;
-    $scope.$apply();
   })
   .catch(function(err){
     console.log("Scores failed to load: ", err);

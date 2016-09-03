@@ -95,6 +95,26 @@ app.post('/thespians', function (req, res) {
   })
 });
 
+/*
+* Deletes all thespians who don't have an associated picture; preventing no-names from entering the DB
+*/
+app.delete('/thespians', function(req, res){
+  Thespian.remove({profile_path: null})
+  .exec(function(err, result){
+    res.send(result);
+  })
+})
+
+/*
+* Returns all thespians in the database
+*/
+
+app.get('/allthespians', function(req, res){
+  Thespian.find().exec(function(err, result){
+    res.send(result);
+  })
+})
+
 //===============================================
 //              Leaderboard routes
 //===============================================
@@ -140,14 +160,33 @@ app.post('/leaderboard', function (req, res) {
       return helpers.errorHandler(err, req, res);
     }
     console.log('A new highscore has entered our DB');
-    res.send(post);
+    Highscore.find( {score: {$exists: true}} ).sort({score: -1}).limit(10)
+    .exec(function(err, result){
+      if(err){
+        return err
+      }
+      else{
+        console.log("The result is: " + result)
+        var tenth = result[result.length-1].score
+        Highscore.find({"score": {'$lt': tenth}}).remove().exec(function(err, result){
+          if(err){
+            return err
+          }
+          else{
+            console.log('The database now only contains the top 10 scores.')
+            res.send(post);
+          }
+        })  
+            
+      }
+    
+    })
   })
 });
 
 
 //        Start the server on PORT or 3000
 app.listen(process.env.PORT || 3000, function(){
-	console.log(process.env.PORT ? 'Express app listening on port ' + process.env.PORT 
-		                         : 'Express app listening on port 3000');
+	console.log(process.env.PORT ? 'Express app listening on port ' + process.env.PORT : 'Express app listening on port 3000');
 
 });

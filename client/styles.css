@@ -13,6 +13,7 @@ html {
 .banner{
 max-height: 150px;
 width: 1400px;
+cursor: pointer;
 }
 
 input { 
@@ -67,30 +68,57 @@ h3 {
   font-size: 30px;
 }
 
-.searchBtn {
-   background-color: #E50914 ;
-   border-color: #FF0A16 ;
-}
-.searchBtn {
+button.gameBtn {
+   background-color: #E50914;
+   border-color: #FF0A16;
    font-size: 1vw;
    margin-right: .75em;
    padding: .57em 1.35em;
    border: 1px solid rgba(255,255,255,.4);
    box-shadow: 0 1px 2px rgba(0,0,0,.3);
-}
-.searchBtn {
    color: #fff;
    background-image: none;
    text-transform: uppercase;
    font-weight: 700;
-}
-.searchBtn {
    display: inline-block;
    position: relative;
 }
- .gameInfo{
+
+button.rulesBtn {
+   background-color: #E50914;
+   border-color: #FF0A16;
+   font-size: 1vw;
+   margin-right: .75em;
+   padding: .57em 1.35em;
+   border: 1px solid rgba(255,255,255,.4);
+   box-shadow: 0 1px 2px rgba(0,0,0,.3);
+   color: #fff;
+   background-image: none;
+   text-transform: uppercase;
+   font-weight: 700;
+   display: inline-block;
+   position: relative;
+}
+
+button.searchBtn {
+   background-color: #E50914;
+   border-color: #FF0A16;
+   font-size: 1vw;
+   margin-right: .75em;
+   padding: .57em 1.35em;
+   border: 1px solid rgba(255,255,255,.4);
+   box-shadow: 0 1px 2px rgba(0,0,0,.3);
+   color: #fff;
+   background-image: none;
+   text-transform: uppercase;
+   font-weight: 700;
+   display: inline-block;
+   position: relative;
+}
+
+.gameInfo {
   font-size: 30px;
- }
+}
 
 button.removeActor {
   background: none;
@@ -105,8 +133,8 @@ button.removeActor {
 ul {
   display: inline-block;
 }
+
 .choice {
-  
   width: 150px;
   height: 200px;
   padding: 3px;
@@ -115,6 +143,11 @@ ul {
   background-color: black;
   color: white;
   border: none;
+}
+
+.none{
+  height: 150px;
+  padding-top: 150px;
 }
 
 .goHome{
@@ -136,4 +169,68 @@ li.movies {
   border-collapse: separate;
   border-spacing: inherit;
   color: white;
+}
+
+table {
+  border-collapse: collapse;
+  width: 30%;
+  margin-left: 5px;
+}
+
+td, th {
+  text-align: left;
+  border: 2px solid #a97930;
+}
+
+.place{
+  width: 50px;
+  text-align: center;
+}
+
+tr:hover{
+  background-color: rgba(60, 60, 60, 0.8)
+}
+
+.timeInfo{
+  text-align: center;
+}
+
+.timer{
+  font-size: 300%;
+}
+
+.lowtime{
+  animation: pulse;
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse{
+  0% {color: white;}
+  50% {color: red;}
+}
+
+.tmdbattribute{
+  position: relative;
+  top: 150px;
+}
+
+.tmdblogo{
+  height: 30px;
+  width: 30px;
+  display: inline;
+  position: relative;
+  top: 10px;
+}
+
+.tmdbmessage{
+  display: inline;
+}
+
+.backToGame{
+  cursor: pointer;
+}
+
+.backToGame:hover{
+  text-decoration: underline;
 }

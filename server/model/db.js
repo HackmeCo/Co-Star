@@ -1,9 +1,13 @@
 var mongoose = require( 'mongoose' );
 mongoose.Promise = require('bluebird');  //fixes mongoose promise deprecation
 
-var uri = require( '../uri' );
+if(!process.env.URI){
+  var uri = require( '../uri' ).uri;
+} else{
+  var uri = process.env.URI;
+}
 
-mongoose.connect(uri.uri);
+mongoose.connect(uri);
 
 //=====================================
 //        Connection Events

@@ -3,16 +3,26 @@
   Loading scores...
   <img src="http://www.lovethisgif.com/uploaded_images/54170-Classic-Film-Countdown-Agif-By-Mrangrydog-On-Deviantart.gif">
   </div>
+  <h1 class="leaderboardHeader" ng-show="loaded && !error">Our A-Listers</h1>
   <table class="highscores" ng-show="loaded && !error">
     <tr class="headers">
+      <th class="place">Place</th>
       <th>Name</th>
       <th>Score</th>
     </tr>
     <tr class="leaderboardRow" ng-repeat="score in scores">
+      <td class="place">
+      <!--First 3 places get trophy images-->
+      <img ng-show="scores.indexOf(score)+1===1" src=http://imgur.com/93aXV7e.png>
+      <img ng-show="scores.indexOf(score)+1===2" src=http://imgur.com/NHj6IRf.png>
+      <img ng-show="scores.indexOf(score)+1===3" src=http://imgur.com/oDKfKNk.png>
+      <label ng-show="scores.indexOf(score)+1>3">{{scores.indexOf(score)+1}}</label>
+      </td>
       <td class="name">{{score.name}}</td>
       <td class="highscore">{{score.score}}</td>
     </tr>
   </table>
   <div class="error" ng-show="loaded && error">An error occurred when loading the leaderboard</div>
   <div class="backToGame" ng-click=goToGame()><-- Back to the game</div>
+  <div class="backToGame" ng-click=goToHome()><-- Back to home</div>
 </div>

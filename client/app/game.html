@@ -1,25 +1,36 @@
 <div>
   <br>
-  <button class= "searchBtn goHome" ng-click="goHome()">Go back to Home Page</button>
-
+  <button class="searchBtn goHome" ng-click="goHome()">Go back to Home Page</button>
   <div class="rules" ng-show=!playing>
-    <h2>Welcome to the Co-stars game!</h2>
+    <h2>Welcome to the Co-STAR game!</h2>
     <br>
     How to play:
+    <br>
+    - 2 actors will be displayed on the screen with a list of movies
     <br>
     - Select the movie that both actors are in
     <br>
     - If they aren't cast together in any of those movies, select "None of these!"
     <br>
     - Play till you lose; try to get the highest score!
+    <br>
+    - Watch out for the timer!
   </div>
   <button class="start searchBtn" ng-show=!playing ng-click="startGame()">Play!</button>
+  <button class="searchBtn goToLeaderboard" ng-show=!playing ng-click="goToLeaderboard()">Check out the high scores!</button>
 
   <div class="gameInfo" ng-show="playing && !lost">Score: {{score}}</div>
 
   <div class="loading" ng-show="playing && !loaded && !lost">
   Loading...
   <img src="http://www.lovethisgif.com/uploaded_images/54170-Classic-Film-Countdown-Agif-By-Mrangrydog-On-Deviantart.gif">
+  </div>
+
+  <div class="timeInfo" ng-show="playing && loaded && !lost">
+    <label>Time Remaining: </label>
+    <h2 class="timer" ng-class="{hightime: time>=7, medtime: time<7 && time >= 4, lowtime: time < 4 && time > 0}">
+    {{time}}
+    </h2>
   </div>
 
   <div class="actorInfo" ng-repeat="actor in actors" ng-show="playing && loaded && !lost">
@@ -38,20 +49,38 @@
       {{movie.title}}
     </button>
     
-    <button class="choice" ng-click="submitChoice({title: ''})">None of these!</button>
+    <button class="choice none" ng-click="submitChoice({title: ''})">
+      <img ng-src='https://farm1.staticflickr.com/407/19403171218_995823d153_b.jpg'>
+      None of these!
+    </button>
   </div>
 
   <div class="loseDisplay" ng-show=lost>
     <div class="finalScore">Your final score: {{score}}</div>
+    <div class="outOfTime" ng-show="time<=0">
+      <br>
+      You ran out of time!
+    </div>
     <br>
-    <div>You lose :( The correct answer was: {{answer}}</div>
+    <div>You lose :( The correct answer was: {{dispAnswer}}</div>
     <br>
-    <label>Enter your name to submit your score to our leaderboard!</label>
-    <h3>(usernames must be between 2 and 10 characters)</h3>
-    <input class="username" ng-model="username"><br>
-    <br>
-    <button class="searchBtn  submitScore" ng-click="submitScore(username)">Submit your score!</button>
-    <button class="playAgain  searchBtn" ng-click="startGame()">Don't submit, just let me play again!</button>
+    <div class="lowscore" ng-show="leaderboardPos === null">
+      <button class="playAgain searchBtn" ng-click="startGame()">Play Again!</button>
+      <button class="goToLeaderboard searchBtn" ng-click="goToLeaderboard()">See high scores!</button>
+    </div>
+    <div class="highscoreform" ng-show="leaderboardPos !== null">
+      <label>Congratulations! You've been nominated for the number {{leaderboardPos + 1}} spot on our leaderboard!</label>
+      <br>
+      <h3>Better get your acceptance speech ready...</h3>
+      <br>
+      <label>Enter your name below to submit your score!</label>
+      <h3>(names must be between 2 and 10 characters)</h3>
+      <input class="username" ng-model="username"><br>
+      <br>
+      <button class="searchBtn  submitScore" ng-click="submitScore(username)">Submit my score!</button>
+      <button class="playAgain  searchBtn" ng-click="startGame()">Don't submit, just let me play again!</button>
+      <button class="goToLeaderboard searchBtn" ng-click="goToLeaderboard()">Don't submit, but I want to see the high scores!</button>
+    </div>
   </div>
 
 </div>
