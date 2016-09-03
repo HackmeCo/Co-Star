@@ -31,7 +31,9 @@ angular.module('costars.home' , [])
         ApiCalls.searchByPerson($scope.currentSearches[0].name)
         .then(function(data){
           //posts retrieved info to the database
-          $scope.storeActorDb(data.results[0]);
+          if(data.results[0].profile_path){ //don't store if they don't have a picture
+            $scope.storeActorDb(data.results[0]);
+          }
           $scope.movies = data.results[0].known_for;
           })
           .catch(function(err){
@@ -139,15 +141,20 @@ angular.module('costars.home' , [])
             profile_path: actorData.results[0].profile_path,
             popularity: actorData.results[0].popularity
           }) //store the actor name
-          $scope.storeActorDb(actorData.results[0]) //store the data
-          .then(function(resp){
-            $scope.actorInput = '';
-            $scope.getMovies(); //get the movies for the current actor list
-          })
-          .catch(function(err){
-            console.log("Error storing to database (in addActorInput): ", err);
-            $scope.getMovies() //still want to retrieve movies
-          })
+          if(actorData.results[0].profile_path){
+            $scope.storeActorDb(actorData.results[0]) //store the data
+            .then(function(resp){
+              $scope.actorInput = '';
+              $scope.getMovies(); //get the movies for the current actor list
+            })
+            .catch(function(err){
+              console.log("Error storing to database (in addActorInput): ", err);
+              $scope.getMovies() //still want to retrieve movies
+            })
+          } else{
+            console.log("Didn't add this actor to database; (s)he has no picture");
+            $scope.getMovies();
+          }
         }
       })
       .catch(function(err){

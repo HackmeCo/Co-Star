@@ -95,6 +95,19 @@ app.post('/thespians', function (req, res) {
   })
 });
 
+app.delete('/thespians', function(req, res){
+  Thespian.remove({profile_path: null})
+  .exec(function(err, result){
+    res.send(result);
+  })
+})
+
+app.get('/allthespians', function(req, res){
+  Thespian.find({popularity: {$lt: 1.5}}).exec(function(err, result){
+    res.send(result);
+  })
+})
+
 //===============================================
 //              Leaderboard routes
 //===============================================
