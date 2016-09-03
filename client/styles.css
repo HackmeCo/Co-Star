@@ -145,6 +145,11 @@ ul {
   border: none;
 }
 
+.none{
+  height: 150px;
+  padding-top: 150px;
+}
+
 .goHome{
   float: right;
 }

@@ -49,7 +49,10 @@
       {{movie.title}}
     </button>
     
-    <button class="choice" ng-click="submitChoice({title: ''})">None of these!</button>
+    <button class="choice none" ng-click="submitChoice({title: ''})">
+      <img ng-src='https://farm1.staticflickr.com/407/19403171218_995823d153_b.jpg'>
+      None of these!
+    </button>
   </div>
 
   <div class="loseDisplay" ng-show=lost>
