@@ -13,6 +13,7 @@ html {
 .banner{
 max-height: 150px;
 width: 1400px;
+cursor: pointer;
 }
 
 input { 
@@ -219,4 +220,12 @@ tr:hover{
 
 .tmdbmessage{
   display: inline;
+}
+
+.backToGame{
+  cursor: pointer;
+}
+
+.backToGame:hover{
+  text-decoration: underline;
 }
