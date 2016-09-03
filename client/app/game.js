@@ -1,6 +1,6 @@
 angular.module('costars.game', [])
 
-.controller('GameController', function($scope, $location, ApiCalls, DB, Leaderboard){
+.controller('GameController', function($scope, $location, ApiCalls, DB, Leaderboard, $interval){
   $scope.playing = false;
   $scope.loaded = false;
   $scope.lost = false;
@@ -11,10 +11,8 @@ angular.module('costars.game', [])
   $scope.movies2 = [];
   $scope.answer = "";
   $scope.score = 0;
-
-  setInterval(function(){
-   console.log("Answer: ", $scope.answer);
-  }, 3000);
+  $scope.time = 10;
+  var timer;
 
   /*
   * Makes database and API calls to update our actors and movie lists
@@ -102,21 +100,11 @@ angular.module('costars.game', [])
           }
         }
         $scope.loaded = true;
+        startTimer();
         $scope.$apply(); //updates the page
       })
   }
 
-  $scope.checkAnswer = function(movieTitle){
-    console.log("The correct answer is: ", $scope.answer);
-    if($scope.answer === movieTitle){
-      $scope.score++;
-      $scope.create();
-    }
-    else{
-      $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
-      $scope.lost = true;
-    }
-  }
 
   /*
   * Gets a random item out of an array
@@ -137,7 +125,20 @@ angular.module('costars.game', [])
   }
 
   $scope.submitChoice = function(movie){
-    $scope.checkAnswer(movie.title);
+    stopTimer();
+    checkAnswer(movie.title);
+  }
+
+  var checkAnswer = function(movieTitle){
+    console.log("The correct answer is: ", $scope.answer);
+    if($scope.answer === movieTitle){
+      $scope.score++;
+      $scope.create();
+    }
+    else{
+      $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
+      $scope.lost = true;
+    }
   }
 
   $scope.submitScore = function(name){
@@ -156,6 +157,25 @@ angular.module('costars.game', [])
   }
   $scope.goHome = function(){
    $location.path("/");
+ }
+
+ var startTimer = function(){
+  stopTimer();
+  $scope.time = 10; //reset to 10 seconds
+  timer = $interval(function(){
+    $scope.time -= 1;
+    if($scope.time <= 0){
+      $scope.answer = $scope.answer.length ? $scope.answer : "None of these!"; //checks if there was a correct answer
+      $scope.lost = true;
+      stopTimer();
+    }
+  }, 1000)
+ }
+
+ var stopTimer = function(){
+  if(timer){
+    $interval.cancel(timer);
+  }
  }
 
 }) //END OF GAME CONTROLLER

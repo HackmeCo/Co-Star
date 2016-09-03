@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app='costars'>
 <head>
-<title>Co-Star</title>
+<title>Co-STAR</title>
 </head>
 <body>
 <link rel="stylesheet" href="bower_components/lumx/dist/lumx.css">
@@ -14,13 +14,17 @@
 <script src="bower_components/lumx/dist/lumx.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <div>
-  <img class="banner" ng-src=http://i.imgur.com/WIvpRb1.png>
+  <img class="banner" ng-src=http://imgur.com/WRRBDbb.png>
 </div>
 
 	
 <!-- the ng-view directive is where our templates will be loaded into when navigated too-->
-<div ng-view class="jumbotron"><div>
+<div ng-view class="jumbotron"></div>
 
+<div class="tmdbattribute">
+  <img class="tmdblogo" src=https://assets.tmdb.org/assets/8ce4f6ee3ea26190a7f21d1f9e7e9be2/images/v4/logos/182x162.png>
+  <h3 class="tmdbmessage">This product uses the TMDb API but is not endorsed or certified by TMDb</h3>
+</div>
 </body>
 
 <script src="app/token.js"></script> <!--Setting window.token-->
