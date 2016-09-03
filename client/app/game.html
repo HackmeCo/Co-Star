@@ -61,17 +61,19 @@
     <br>
     <div>You lose :( The correct answer was: {{answer}}</div>
     <br>
-    <div class="lowscore" ng-show="!leaderboardPos === null">
+    <div class="lowscore" ng-show="leaderboardPos === null">
       <button class="playAgain searchBtn" ng-click="startGame()">Play Again!</button>
     </div>
     <div class="highscoreform" ng-show="leaderboardPos !== null">
-      <label>Your score places you at the number {{leaderboardPos + 1}} spot on our leaderboard!</label>
+      <label>Congratulations! You've been nominated for the number {{leaderboardPos + 1}} spot on our leaderboard!</label>
+      <br>
+      <h3>Better get your acceptance speech ready...</h3>
       <br>
       <label>Enter your name below to submit your score!</label>
-      <h3>(usernames must be between 2 and 10 characters)</h3>
+      <h3>(names must be between 2 and 10 characters)</h3>
       <input class="username" ng-model="username"><br>
       <br>
-      <button class="searchBtn  submitScore" ng-click="submitScore(username)">Submit your score!</button>
+      <button class="searchBtn  submitScore" ng-click="submitScore(username)">Submit my score!</button>
       <button class="playAgain  searchBtn" ng-click="startGame()">Don't submit, just let me play again!</button>
     </div>
   </div>
