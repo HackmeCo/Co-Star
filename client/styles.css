@@ -178,6 +178,7 @@ td, th {
 
 .place{
   width: 50px;
+  text-align: center;
 }
 
 tr:hover{

@@ -156,8 +156,13 @@ angular.module('costars.game', [])
       alert("Username must be between 2 and 10 characters");
     }
   }
+
   $scope.goHome = function(){
    $location.path("/");
+ }
+
+ $scope.goToLeaderboard = function(){
+  $location.path("/leaderboard");
  }
 
  var startTimer = function(){

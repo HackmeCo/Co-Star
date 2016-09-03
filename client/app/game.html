@@ -63,6 +63,7 @@
     <br>
     <div class="lowscore" ng-show="leaderboardPos === null">
       <button class="playAgain searchBtn" ng-click="startGame()">Play Again!</button>
+      <button class="goToLeaderboard searchBtn" ng-click="goToLeaderboard()">See high scores!</button>
     </div>
     <div class="highscoreform" ng-show="leaderboardPos !== null">
       <label>Congratulations! You've been nominated for the number {{leaderboardPos + 1}} spot on our leaderboard!</label>
