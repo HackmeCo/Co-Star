@@ -6,6 +6,11 @@ var path = require('path');
 
 var db = require('./model/db');
 var helpers = require('./config/helpers');
+if(!process.env.API){
+  var api = require( './api' ).api;
+} else{
+  var api = process.env.API;
+}
 
 var Thespian = require('./model/thespian');
 var Highscore = require('./model/highscore');
@@ -182,6 +187,14 @@ app.post('/leaderboard', function (req, res) {
     
     })
   })
+});
+
+//===============================================
+//              Token Route
+//===============================================
+
+app.get('/tmdb/token', function(req, res){
+  res.send(api);
 });
 
 
