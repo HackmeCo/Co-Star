@@ -57,7 +57,7 @@ app.get('/thespians', function (req, res) {
         return helpers.notInDb(result, req, res);
       }
     }
-  })
+  });
 
 });
 
@@ -77,7 +77,7 @@ app.get('/thespians/random', function(req, res) {
       console.log('success findOneRandom');
       res.send(results);
     }
-  })
+  });
 });
 
     /*
@@ -97,7 +97,7 @@ app.post('/thespians', function (req, res) {
     }
     console.log('NewThespian has entered our DB');
     res.send(post);
-  })
+  });
 });
 
 /*
@@ -107,8 +107,8 @@ app.delete('/thespians', function(req, res){
   Thespian.remove({profile_path: null})
   .exec(function(err, result){
     res.send(result);
-  })
-})
+  });
+});
 
 /*
 * Returns all thespians in the database
@@ -117,8 +117,8 @@ app.delete('/thespians', function(req, res){
 app.get('/allthespians', function(req, res){
   Thespian.find().exec(function(err, result){
     res.send(result);
-  })
-})
+  });
+});
 
 //===============================================
 //              Leaderboard routes
@@ -146,8 +146,8 @@ app.get('/leaderboard', function (req, res) {
         return helpers.noHighScoresYet(result, req, res);
       }
     }
-  })
-})
+  });
+});
 
 /*
 post request to the /leaderboard that deposits a document containing a name and a score into
@@ -168,25 +168,25 @@ app.post('/leaderboard', function (req, res) {
     Highscore.find( {score: {$exists: true}} ).sort({score: -1}).limit(10)
     .exec(function(err, result){
       if(err){
-        return err
+        return err;
       }
       else{
-        console.log("The result is: " + result)
-        var tenth = result[result.length-1].score
+        console.log("The result is: " + result);
+        var tenth = result[result.length-1].score;
         Highscore.find({"score": {'$lt': tenth}}).remove().exec(function(err, result){
           if(err){
-            return err
+            return err;
           }
           else{
-            console.log('The database now only contains the top 10 scores.')
+            console.log('The database now only contains the top 10 scores.');
             res.send(post);
           }
-        })  
+        });
             
       }
     
-    })
-  })
+    });
+  });
 });
 
 //===============================================
