@@ -31,7 +31,7 @@ angular.module('costars.factories', [])
       return $http({
         method: "GET",
         url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + resp.data + "&sort_by=popularity.desc"
-      })
+      });
     })
     .then(function(resp){
       //send response to the database
@@ -41,10 +41,10 @@ angular.module('costars.factories', [])
     })
     .catch(function(err){
       //Do something with the error (display on the page somewhere?)
-      console.log("Error: ", err) //TODO: remove/comment this for release
-      throw new Error(err)
-    })
-  }
+      console.log("Error: ", err); //TODO: remove/comment this for release
+      throw new Error(err);
+    });
+  };
 
   /*
   * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "results"}
@@ -65,7 +65,7 @@ angular.module('costars.factories', [])
       return $http({
         method: "GET",
         url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + actorString + "&sort_by=popularity.desc"
-      })
+      });
     })
     .then(function(resp){
       console.log("Resp directly from discover call: ", resp);
@@ -73,14 +73,14 @@ angular.module('costars.factories', [])
     })
     .catch(function(err){
       //Do something with the error (display on the page?)
-      console.log("Error: ", err) //TODO: remove/comment this before release
-    })
-  }
+      console.log("Error: ", err); //TODO: remove/comment this before release
+    });
+  };
   
   return {
     searchByPerson: searchByPerson,
     discover: discover
-  }
+  };
 }) //END OF API FACTORY
 
 .factory('DB', function($http){
@@ -107,7 +107,7 @@ angular.module('costars.factories', [])
     .catch(function(err){
       console.log("Error retrieving "+ actorName + ", " + err);
       throw new Error(err);
-    })
+    });
   };
 
   /*
@@ -130,11 +130,11 @@ angular.module('costars.factories', [])
       data: {data: attrs}
     })
     .then(function(resp){
-      console.log('store actor resp', resp)
-      console.log('store actor resp.data', resp.data)
+      console.log('store actor resp', resp);
+      console.log('store actor resp.data', resp.data);
       return resp.data;
-    })
-  }
+    });
+  };
 
   var randomActor = function(){
     return $http({
@@ -144,8 +144,8 @@ angular.module('costars.factories', [])
     .then(function(resp){
       console.log("Got Random Actor: ", resp.data);
       return resp.data;
-    })
-  }
+    });
+  };
  return{
   getActor: getActor,
   storeActor: storeActor,
@@ -176,8 +176,8 @@ angular.module('costars.factories', [])
     .catch(function(err){
       console.log("Error getting scores: ", err);
       throw new Error(err);
-    })
-  }
+    });
+  };
 
   /*
   * Posts to the leaderboard table
@@ -198,11 +198,11 @@ angular.module('costars.factories', [])
     .catch(function(err){
       console.log("Error posting score: ", err);
       throw new Error(err);
-    })
-  }
+    });
+  };
 
   return {
     getScores: getScores,
     postScore: postScore
-  }
-})
+  };
+});

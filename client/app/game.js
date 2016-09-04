@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 angular.module('costars.game', [])
 
 .controller('GameController', function($scope, $location, ApiCalls, DB, Leaderboard, $interval){
@@ -29,13 +30,13 @@ angular.module('costars.game', [])
       DB.randomActor()
       .then(function(actor1){ //get actor1
         // console.log("In updateGameState, actor1: ", actor1);
-        $scope.actors.push(actor1)
+        $scope.actors.push(actor1);
       }),
 
       DB.randomActor()
       .then(function(actor2){ //get actor2
         // console.log("In updateGameState, actor2: ", actor2);
-        $scope.actors.push(actor2)
+        $scope.actors.push(actor2);
       })
     ])
     .then(function(){
@@ -54,9 +55,9 @@ angular.module('costars.game', [])
         .then(function(actor2films){
           movies2 = actor2films;
         })
-      ])
-    })
-  }
+      ]);
+    });
+  };
 
   /*
   * Updates the game state, then creates a new question
@@ -78,7 +79,7 @@ angular.module('costars.game', [])
           $scope.choices.push(correctChoice);
         }
         else{
-          if(Math.random() < .7){ //reroll 70% of the time -> Increases the number of good questions at the cost of load time
+          if(Math.random() < 0.7){ //reroll 70% of the time -> Increases the number of good questions at the cost of load time
             return $scope.create();
           }else{
             answer = "";
@@ -105,8 +106,8 @@ angular.module('costars.game', [])
         $scope.loaded = true;
         startTimer();
         $scope.$apply(); //updates the page
-      })
-  }
+      });
+  };
 
 
   /*
@@ -114,11 +115,11 @@ angular.module('costars.game', [])
   */
   var getRand = function(arr){
     return arr[Math.floor(Math.random() * arr.length)];
-  }
+  };
 
   var getRandIndex = function(arr){
     return Math.floor(Math.random() * arr.length);
-  }
+  };
 
   /*
   * Starts a new game and creates the first question
@@ -130,7 +131,7 @@ angular.module('costars.game', [])
     $scope.lost = false;
     $scope.leaderboardPos = null;
     $scope.create();
-  }
+  };
 
   /*
   * Submits an answer; called when a choice is clicked
@@ -139,7 +140,7 @@ angular.module('costars.game', [])
   $scope.submitChoice = function(movie){
     stopTimer();
     checkAnswer(movie.title);
-  }
+  };
 
   /*
   * Checks the submitted answer against the correct answer
@@ -153,9 +154,9 @@ angular.module('costars.game', [])
       $scope.create();
     }
     else{
-      lose()
+      lose();
     }
-  }
+  };
 
   /*
   * Submits the player's score and username to the leaderboard
@@ -170,11 +171,11 @@ angular.module('costars.game', [])
       .catch(function(err){
         console.log("Error submitting score: ", err);
         $location.path('/leaderboard');
-      })
+      });
     } else{
       alert("Username must be between 2 and 10 characters");
     }
-  }
+  };
 
   /*
   * Pathing to other pages
@@ -182,11 +183,11 @@ angular.module('costars.game', [])
 
   $scope.goHome = function(){
    $location.path("/");
-  }
+  };
 
   $scope.goToLeaderboard = function(){
     $location.path("/leaderboard");
-  }
+  };
 
   /*
   * For starting and stopping the game timer
@@ -200,14 +201,14 @@ angular.module('costars.game', [])
       if($scope.time <= 0){
         lose();
       }
-    }, 1000)
-   }
+    }, 1000);
+   };
 
    var stopTimer = function(){
     if(timer){
       $interval.cancel(timer);
     }
-   }
+   };
 
    /*
    * Triggers a loss when called, hiding the game and displaying the losing screen
@@ -237,7 +238,7 @@ angular.module('costars.game', [])
       $scope.lost = true;
       stopTimer();
       $scope.loaded = true;
-    })
-   }
+    });
+   };
 
-}) //END OF GAME CONTROLLER
+}); //END OF GAME CONTROLLER

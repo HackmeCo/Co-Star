@@ -18,7 +18,7 @@ angular.module('costars.home' , [])
     }
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      console.log("In getMovies, length is one, about to make DB call for: ", $scope.currentSearches[0].name)
+      console.log("In getMovies, length is one, about to make DB call for: ", $scope.currentSearches[0].name);
       return DB.getActor($scope.currentSearches[0].name)
       .then(function(data){
         console.log('DB call getActor retrieved: ', data);
@@ -38,8 +38,8 @@ angular.module('costars.home' , [])
           })
           .catch(function(err){
             console.log("Error making SBP call: ", err);
-          }) 
-      })
+          }) ;
+      });
     }
     else{ //list contains multiple actors, we need to make a "discover" call
       return ApiCalls.discover($scope.actorIds)
@@ -58,13 +58,13 @@ angular.module('costars.home' , [])
   */
   $scope.showOverview = function(movie){
     movie.showOverview = true;
-  }
+  };
   /*
   * Hides the movie overview, called when the mouse leaves the movie display
   */
   $scope.hideOverview = function(movie){
     movie.showOverview = false;
-  }
+  };
 
   /*
   * Posts information to our database
@@ -102,7 +102,7 @@ angular.module('costars.home' , [])
       $scope.actorIds.push(actorData.id); //add the id to our list
       for(var i = 0; i < $scope.currentSearches.length; i++){
         if($scope.currentSearches[i].name === actorData.name){ //already searching for this actor
-          alert(actorData.name + " is already in the list")
+          alert(actorData.name + " is already in the list");
           return;
         }
       }
@@ -111,8 +111,8 @@ angular.module('costars.home' , [])
         id: actorData.id,
         profile_path: actorData.profile_path,
         popularity: actorData.popularity
-      }) //add the actor to our current searches
-      console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches)
+      }); //add the actor to our current searches
+      console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches);
       if($scope.currentSearches.length === 1){
         $scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
       }else{
@@ -125,13 +125,13 @@ angular.module('costars.home' , [])
       ApiCalls.searchByPerson(actorInput)
       .then(function(actorData){
         if(!actorData.results.length){ //not found
-          alert(actorInput + " not found!") //TODO: make a better way to display this error
+          alert(actorInput + " not found!"); //TODO: make a better way to display this error
           //no need to getMovies here, list shouldn't have changed
         }else{
           $scope.actorIds.push(actorData.results[0].id); //add the id to our list
           for(var i = 0; i < $scope.currentSearches.length; i++){
             if($scope.currentSearches[i].name === actorData.results[0].name){ //already searching for this actor
-              alert(actorData.results[0].name + " is already in the list")
+              alert(actorData.results[0].name + " is already in the list");
               return;
             }
           }
@@ -140,7 +140,7 @@ angular.module('costars.home' , [])
             id: actorData.results[0].id,
             profile_path: actorData.results[0].profile_path,
             popularity: actorData.results[0].popularity
-          }) //store the actor name
+          }); //store the actor name
           if(actorData.results[0].profile_path){
             $scope.storeActorDb(actorData.results[0]) //store the data
             .then(function(resp){
@@ -149,8 +149,8 @@ angular.module('costars.home' , [])
             })
             .catch(function(err){
               console.log("Error storing to database (in addActorInput): ", err);
-              $scope.getMovies() //still want to retrieve movies
-            })
+              $scope.getMovies(); //still want to retrieve movies
+            });
           } else{
             console.log("Didn't add this actor to database; (s)he has no picture");
             $scope.getMovies();
@@ -159,9 +159,9 @@ angular.module('costars.home' , [])
       })
       .catch(function(err){
         console.log("Error getting actor from tmDB: ", err);
-      })
-    }) 
-  }
+      });
+    });
+  };
 
   /*
   * Removes an actor from our list and refreshes the movie list
@@ -177,17 +177,17 @@ angular.module('costars.home' , [])
     }else{
       console.log("removing actor input failed");
     }
-  }
+  };
 
   $scope.startGame = function(){
     $scope.playing = !$scope.playing;
-  }
+  };
 
   $scope.showRules = function(){
     $scope.rules = !$scope.rules;
-  }
+  };
   
   $scope.goToGame = function(){
    $location.path("/game");
-  }
-}) //END OF CONTROLLER
+  };
+}); //END OF CONTROLLER
