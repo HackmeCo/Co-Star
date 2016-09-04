@@ -1,4 +1,4 @@
-var token = window.token;
+
 angular.module('costars.factories', [])
 
 .factory("ApiCalls", function($http){
@@ -24,8 +24,14 @@ angular.module('costars.factories', [])
     //NB: the API call doesn't care if there's extraneous whitespace in the actor name, but words MUST be separated by whitespace
     console.log("Making SBP call for: ", actor);
     return $http({
-      method: "GET",
-      url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"
+      method: "GET",        //fetches the api token from the server, this is not ideal for security
+      url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
+    })
+    .then(function(resp){
+      return $http({
+        method: "GET",
+        url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + resp.data + "&sort_by=popularity.desc"
+      })
     })
     .then(function(resp){
       //send response to the database
@@ -52,8 +58,14 @@ angular.module('costars.factories', [])
   var discover = function(actorIds){
     var actorString = actorIds.join(','); //the list of actor Ids, now separated by commas in a string
     return $http({
-      method: "GET",
-      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=popularity.desc"
+      method: "GET",        //fetches the api token from the server, this is not ideal for security
+      url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
+    })
+    .then(function(resp){
+      return $http({
+        method: "GET",
+        url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + actorString + "&sort_by=popularity.desc"
+      })
     })
     .then(function(resp){
       console.log("Resp directly from discover call: ", resp);
