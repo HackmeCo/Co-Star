@@ -8,6 +8,7 @@ angular.module('costars.home' , [])
   $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
   $scope.rules = true; //rules display if this is true
+  $scope.loaded = true; //displays loading gif if false
 
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
@@ -24,6 +25,7 @@ angular.module('costars.home' , [])
         // console.log('DB call getActor retrieved: ', data);
         // console.log("Setting $scope.movies to: ", data.known_for);
         $scope.movies = data.known_for; //set it to the well known movies
+        $scope.loaded = true;
       })
       .catch(function(){
         //wasn't in the data base so do an api call, this probably means there's a DB error
@@ -35,9 +37,11 @@ angular.module('costars.home' , [])
             $scope.storeActorDb(data.results[0]);
           }
           $scope.movies = data.results[0].known_for;
+          $scope.loaded = true;
           })
           .catch(function(err){
             console.error("Error making SBP call: ", err);
+            $scope.loaded = true;
           }) ;
       });
     }
@@ -46,9 +50,11 @@ angular.module('costars.home' , [])
         .then(function(movies) {
           // console.log("Movies from discover call: ", movies);
           $scope.movies = movies;
+          $scope.loaded = true;
         })
         .catch(function(error) {
           console.error("Error making discover call: ", error);
+          $scope.loaded = true;
         });
     }
   };
@@ -89,6 +95,7 @@ angular.module('costars.home' , [])
   */
 
   $scope.addActorInput = function (actorInput){
+    $scope.loaded = false;
     actorInput = actorInput.trim();
     actorInput = actorInput.replace(/\s+/g, ' '); //trim down whitespace to single spaces, in case of typos
     actorInput = actorInput.split(' ').map(function(actorName){
@@ -115,6 +122,7 @@ angular.module('costars.home' , [])
       // console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches);
       if($scope.currentSearches.length === 1){
         $scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
+        $scope.loaded = true;
       }else{
         $scope.getMovies();
       }
@@ -169,6 +177,7 @@ angular.module('costars.home' , [])
   */
 
   $scope.removeActorInput = function(actor){
+    $scope.loaded = false;
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
