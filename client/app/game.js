@@ -65,7 +65,7 @@ angular.module('costars.game', [])
 
   $scope.create = function(){
     $scope.loaded = false;
-    console.log("Creating a new question");
+    // console.log("Creating a new question");
     return $scope.updateGameState()
     .then(function(){
         if($scope.actors[0].id === $scope.actors[1].id){
@@ -148,7 +148,7 @@ angular.module('costars.game', [])
   */
 
   var checkAnswer = function(movieTitle){
-    console.log("The correct answer is: ", answer);
+    // console.log("The correct answer is: ", answer);
     if(answer === movieTitle){
       $scope.score++;
       $scope.create();
@@ -169,7 +169,7 @@ angular.module('costars.game', [])
         $location.path('/leaderboard');
       })
       .catch(function(err){
-        console.log("Error submitting score: ", err);
+        console.error("Error submitting score: ", err);
         $location.path('/leaderboard');
       });
     } else{
@@ -234,7 +234,7 @@ angular.module('costars.game', [])
       $scope.loaded = true;
     })
     .catch(function(err){
-      console.log("Scores failed to load: ", err);
+      console.error("Scores failed to load: ", err);
       $scope.lost = true;
       stopTimer();
       $scope.loaded = true;
