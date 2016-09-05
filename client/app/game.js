@@ -65,7 +65,7 @@ angular.module('costars.game', [])
 
   $scope.create = function(){
     $scope.loaded = false;
-    console.log("Creating a new question");
+    // console.log("Creating a new question");
     return $scope.updateGameState()
     .then(function(){
         if($scope.actors[0].id === $scope.actors[1].id){
@@ -88,19 +88,19 @@ angular.module('costars.game', [])
         var numFrom1 = Math.floor(Math.random() * 4); //number of choices we take from the first actor
         // console.log("Taking " + numFrom1 + " from first actor");
         for(var i = 0; i < numFrom1 && movies1.length; i++){
-          var movie = getRandIndex(movies1);
+          var movieFrom1 = getRandIndex(movies1);
           // console.log("Pushing to choices: ", movies1[movie]);
-          if(!$scope.choices.includes(movies1[movie])){
-            $scope.choices.push(movies1.splice(movie, 1)[0]);
+          if(!$scope.choices.includes(movies1[movieFrom1])){
+            $scope.choices.push(movies1.splice(movieFrom1, 1)[0]);
           }
           else{
             i -= 1; //roll again
           }
         }
         while($scope.choices.length < 4 && movies2.length){
-          var movie = getRandIndex(movies2);
-          if(!$scope.choices.includes(movies2[movie])){
-            $scope.choices.push(movies2.splice(movie, 1)[0]);
+          var movieFrom2 = getRandIndex(movies2);
+          if(!$scope.choices.includes(movies2[movieFrom2])){
+            $scope.choices.push(movies2.splice(movieFrom2, 1)[0]);
           }
         }
         $scope.loaded = true;
@@ -148,7 +148,7 @@ angular.module('costars.game', [])
   */
 
   var checkAnswer = function(movieTitle){
-    console.log("The correct answer is: ", answer);
+    // console.log("The correct answer is: ", answer);
     if(answer === movieTitle){
       $scope.score++;
       $scope.create();
@@ -169,7 +169,7 @@ angular.module('costars.game', [])
         $location.path('/leaderboard');
       })
       .catch(function(err){
-        console.log("Error submitting score: ", err);
+        console.error("Error submitting score: ", err);
         $location.path('/leaderboard');
       });
     } else{
@@ -234,7 +234,7 @@ angular.module('costars.game', [])
       $scope.loaded = true;
     })
     .catch(function(err){
-      console.log("Scores failed to load: ", err);
+      console.error("Scores failed to load: ", err);
       $scope.lost = true;
       stopTimer();
       $scope.loaded = true;

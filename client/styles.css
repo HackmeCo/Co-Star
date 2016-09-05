@@ -227,10 +227,10 @@ tr:hover{
   display: inline;
 }
 
-.backToGame{
+.backTo{
   cursor: pointer;
 }
 
-.backToGame:hover{
+.backTo:hover{
   text-decoration: underline;
 }
