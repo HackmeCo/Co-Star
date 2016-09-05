@@ -88,19 +88,19 @@ angular.module('costars.game', [])
         var numFrom1 = Math.floor(Math.random() * 4); //number of choices we take from the first actor
         // console.log("Taking " + numFrom1 + " from first actor");
         for(var i = 0; i < numFrom1 && movies1.length; i++){
-          var movie = getRandIndex(movies1);
+          var movieFrom1 = getRandIndex(movies1);
           // console.log("Pushing to choices: ", movies1[movie]);
-          if(!$scope.choices.includes(movies1[movie])){
-            $scope.choices.push(movies1.splice(movie, 1)[0]);
+          if(!$scope.choices.includes(movies1[movieFrom1])){
+            $scope.choices.push(movies1.splice(movieFrom1, 1)[0]);
           }
           else{
             i -= 1; //roll again
           }
         }
         while($scope.choices.length < 4 && movies2.length){
-          var movie = getRandIndex(movies2);
-          if(!$scope.choices.includes(movies2[movie])){
-            $scope.choices.push(movies2.splice(movie, 1)[0]);
+          var movieFrom2 = getRandIndex(movies2);
+          if(!$scope.choices.includes(movies2[movieFrom2])){
+            $scope.choices.push(movies2.splice(movieFrom2, 1)[0]);
           }
         }
         $scope.loaded = true;
