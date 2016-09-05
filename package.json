@@ -45,6 +45,13 @@
     "url": "git+https://github.com/HackmeCo/Co-Star.git"
   },
   "author": "HackmeCo",
+  "contributors": [
+    "Aaron Ventura",
+    "Chad Griffis",
+    "Kathryn Hansen",
+    "Mitchell Deane",
+    "Elliot Cheung"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HackmeCo/Co-Star/issues"
