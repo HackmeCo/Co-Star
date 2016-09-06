@@ -1,6 +1,7 @@
 <div>
-      <h2>Welcome to Co-STAR!</h2>
+      <h2></h2>
       <button class="gameBtn" ng-click="goToGame()">I like games.</button>
+      <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button>
       <br>
   <div class="rules" ng-show=rules>
       <br>
@@ -11,13 +12,11 @@
       - Enter two or more actors to see which films they BOTH have starred in.
      
     </div>
-    <br>
-    <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button>
-    <br>
+    
     <br>
 
   <form>
-    <input name="actorSearch" placeholder="type here..." type="text" ng-model= "actorInput">
+    <input name="actorSearch" placeholder="enter actor name..." type="text" ng-model= "actorInput">
     <button class="searchBtn" ng-click="addActorInput(actorInput)">Search Actor</button>
   </form>
   <!--Display for each actor-->
