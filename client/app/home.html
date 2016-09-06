@@ -27,8 +27,8 @@
     <img ng-if=!actor.profile_path ng-src='http://imgur.com/Rg00Mu8.png'>
     <h3 class="actorName">  <button class="removeActor" ng-click="removeActorInput(actor)">x</button> {{actor.name}}</h3>
   </div>
-  <div>
-  <div class="movieInfo">
+  <img ng-if="!loaded" class="loadingHome" src="https://i.imgur.com/TGGiq9Z.gif">
+  <div class="movieInfo" ng-if="loaded">
   <!--If no movies are found for the current list (and there is a list)-->
   <div ng-if="currentSearches.length && !movies.length">No movies found</div>
   <ul>
