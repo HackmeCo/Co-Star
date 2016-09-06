@@ -34,7 +34,7 @@ angular.module('costars.factories', [])
       });
     })
     .then(function(resp){
-      // console.log("Success retrieving " + actor + "!\nGot back: ", resp);
+      console.log("Success retrieving " + actor + "!\nGot back: ", resp);
       return resp.data;
     })
     .catch(function(err){
