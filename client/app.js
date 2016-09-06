@@ -21,7 +21,7 @@ angular.module('costars', [
     })
     .otherwise({
       redirectTo: '/'
-    })
+    });
 })
 
-.run()
+.run();

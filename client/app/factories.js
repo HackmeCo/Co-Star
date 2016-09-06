@@ -1,4 +1,4 @@
-var token = window.token;
+
 angular.module('costars.factories', [])
 
 .factory("ApiCalls", function($http){
@@ -22,23 +22,28 @@ angular.module('costars.factories', [])
   
   var searchByPerson = function(actor){
     //NB: the API call doesn't care if there's extraneous whitespace in the actor name, but words MUST be separated by whitespace
-    console.log("Making SBP call for: ", actor);
+    // console.log("Making SBP call for: ", actor);
     return $http({
-      method: "GET",
-      url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + token + "&sort_by=popularity.desc"
+      method: "GET",        //fetches the api token from the server, this is not ideal for security
+      url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
+    })
+    .then(function(resp){
+      return $http({
+        method: "GET",
+        url: "https://api.themoviedb.org/3/search/person?query='" + actor + "'&api_key=" + resp.data + "&sort_by=popularity.desc"
+      });
     })
     .then(function(resp){
       //send response to the database
       //display on the page
-      console.log("Success retrieving " + actor + "!\nGot back: ", resp);
+      // console.log("Success retrieving " + actor + "!\nGot back: ", resp);
       return resp.data;
     })
     .catch(function(err){
-      //Do something with the error (display on the page somewhere?)
-      console.log("Error: ", err) //TODO: remove/comment this for release
-      throw new Error(err)
-    })
-  }
+      console.error("Error: ", err);
+      throw new Error(err);
+    });
+  };
 
   /*
   * Makes the discover API call for comparing several actors, returning a list of movies {"page" & "results"}
@@ -52,23 +57,30 @@ angular.module('costars.factories', [])
   var discover = function(actorIds){
     var actorString = actorIds.join(','); //the list of actor Ids, now separated by commas in a string
     return $http({
-      method: "GET",
-      url: "https://api.themoviedb.org/3/discover/movie?api_key=" + token + "&with_people=" + actorString + "&sort_by=popularity.desc"
+      method: "GET",        //fetches the api token from the server, this is not ideal for security
+      url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
     })
     .then(function(resp){
-      console.log("Resp directly from discover call: ", resp);
+      return $http({
+        method: "GET",
+        url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + actorString + "&sort_by=popularity.desc"
+      });
+    })
+    .then(function(resp){
+      // console.log("Resp directly from discover call: ", resp);
       return resp.data.results;
     })
     .catch(function(err){
       //Do something with the error (display on the page?)
-      console.log("Error: ", err) //TODO: remove/comment this before release
-    })
-  }
+      console.error("Error: ", err);
+      throw new Error(err);
+    });
+  };
   
   return {
     searchByPerson: searchByPerson,
     discover: discover
-  }
+  };
 }) //END OF API FACTORY
 
 .factory('DB', function($http){
@@ -81,7 +93,7 @@ angular.module('costars.factories', [])
   */
 
   var getActor = function(actorName){
-    console.log("Making DB call for: ", actorName);
+    // console.log("Making DB call for: ", actorName);
     actorName = actorName.trim();
     var dataString = actorName.replace(/\s+/g, '+'); //replaces all whitespace blocks with '+'
     return $http({
@@ -89,13 +101,13 @@ angular.module('costars.factories', [])
       url: '/thespians?name=' + dataString
     })
     .then(function(resp){
-      console.log('Response from DB.getActor (in DB.getActor): ', resp.data);
+      // console.log('Response from DB.getActor (in DB.getActor): ', resp.data);
       return resp.data;
     })
     .catch(function(err){
-      console.log("Error retrieving "+ actorName + ", " + err);
+      console.error("Error retrieving "+ actorName + ", " + err);
       throw new Error(err);
-    })
+    });
   };
 
   /*
@@ -118,11 +130,11 @@ angular.module('costars.factories', [])
       data: {data: attrs}
     })
     .then(function(resp){
-      console.log('store actor resp', resp)
-      console.log('store actor resp.data', resp.data)
+      // console.log('store actor resp', resp);
+      // console.log('store actor resp.data', resp.data);
       return resp.data;
-    })
-  }
+    });
+  };
 
   var randomActor = function(){
     return $http({
@@ -130,10 +142,11 @@ angular.module('costars.factories', [])
       url:'/thespians/random'
     })
     .then(function(resp){
-      console.log("Got Random Actor: ", resp.data);
+      // console.log("Got Random Actor: ", resp.data);
       return resp.data;
-    })
-  }
+    });
+  };
+
  return{
   getActor: getActor,
   storeActor: storeActor,
@@ -158,14 +171,14 @@ angular.module('costars.factories', [])
       url:'/leaderboard'
     })
     .then(function(resp){
-      console.log("Got from leaderboard.getScores: ", resp);
+      // console.log("Got from leaderboard.getScores: ", resp);
       return resp.data; //filters to only the scores
     })
     .catch(function(err){
-      console.log("Error getting scores: ", err);
+      console.error("Error getting scores: ", err);
       throw new Error(err);
-    })
-  }
+    });
+  };
 
   /*
   * Posts to the leaderboard table
@@ -181,16 +194,16 @@ angular.module('costars.factories', [])
       data: {name: name, score: score}
     })
     .then(function(resp){
-      console.log("Success posting score");
+      // console.log("Success posting score");
     })
     .catch(function(err){
-      console.log("Error posting score: ", err);
+      console.error("Error posting score: ", err);
       throw new Error(err);
-    })
-  }
+    });
+  };
 
   return {
     getScores: getScores,
     postScore: postScore
-  }
-})
+  };
+});
