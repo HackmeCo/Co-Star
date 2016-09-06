@@ -1,8 +1,10 @@
-<div>
+<div class="wrapper">
       <h2></h2>
       <button class="gameBtn" ng-click="goToGame()">I like games.</button>
       <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button>
       <br>
+    <div class="movieOverview" ng-repeat="movie in movies" ng-show=movie.showOverview>{{movie.title}}
+    <br><br>{{movie.overview}}</div>
   <div class="rules" ng-show=rules>
       <br>
       How it works:
@@ -33,8 +35,6 @@
   <ul>
     <!--Format for each movie display-->
     <li class="movies" ng-repeat="movie in movies" ng-mouseover="showOverview(movie)" ng-mouseleave="hideOverview(movie)">
-    <div class="movieOverview" ng-show=movie.showOverview>{{movie.title}}
-    <br><br>{{movie.overview}}</div>
       <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
       <!--"Image not found" image-->
       <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>

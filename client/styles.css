@@ -44,17 +44,21 @@ h3 {
   font-size: 13px;
 }
 
+.wrapper {
+  margin-left: 30px;
+}
+
 .movieOverview {
-  position: absolute;
+  margin-right: 30px;
+  float: right;
   display: inline-table;
-  width: 300px;
+  width: 600px;
   height: 200px;
   padding: 3px;
   font-size: 15px;
   border-style: solid;
   border-color: #a97930;
   border-width: 2px 2px 2px 2px;
-  margin: 3px;
   border-radius: 6px;
   border-collapse: separate;
   border-spacing: inherit;
