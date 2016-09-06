@@ -72,7 +72,7 @@ button.gameBtn {
    background-color: #E50914;
    border-color: #FF0A16;
    font-size: 1vw;
-   margin-right: .75em;
+   margin-right: -0.5em;
    padding: .57em 1.35em;
    border: 1px solid rgba(255,255,255,.4);
    box-shadow: 0 1px 2px rgba(0,0,0,.3);
