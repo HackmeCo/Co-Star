@@ -234,3 +234,7 @@ tr:hover{
 .backTo:hover{
   text-decoration: underline;
 }
+
+.tmdbmessage {
+  bottom: 0;
+}
