@@ -15,7 +15,7 @@ angular.module('costars.factories', [])
   * Used when the list of current searches is size 1
   * Also sends the information to our database
   * @params actor: The name of the actor to search, as a string
-  * @return the API call as a Promise, resolving with ???
+  * @return the API call as a Promise, resolving with the actor's data
   * always searchByPerson for anyone new to gain the actor id so the discover call
   * can be made
   */
@@ -34,8 +34,6 @@ angular.module('costars.factories', [])
       });
     })
     .then(function(resp){
-      //send response to the database
-      //display on the page
       // console.log("Success retrieving " + actor + "!\nGot back: ", resp);
       return resp.data;
     })
