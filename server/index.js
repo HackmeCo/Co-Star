@@ -153,6 +153,9 @@ app.get('/leaderboard', function (req, res) {
 post request to the /leaderboard that deposits a document containing a name and a score into
 the LeaderboardSchema database. It should generate a uuid for the id key.
 Example: {name: James, score: 4}
+Also, to self regulate database storage space, it deletes everything in the database that has a score lower than 
+the 10th highest score, making it so that the database only keeps scores that show up on the 
+leaderboard. 
 */
 
 app.post('/leaderboard', function (req, res) {
