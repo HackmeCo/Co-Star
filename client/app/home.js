@@ -183,6 +183,7 @@ angular.module('costars.home' , [])
       $scope.currentSearches.splice(index, 1);
       $scope.actorIds.splice(index, 1);
       $scope.getMovies();
+      $scope.loaded = true;
     }else{
       console.error("Error finding actor in list");
     }
