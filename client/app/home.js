@@ -191,7 +191,19 @@ angular.module('costars.home' , [])
 
   $scope.watchForFree = function(movieInfo){
     var movie = movieInfo.original_title
-    window.open("http://putlocker.is/watch-" + movie.split(' ').join('-') + "-online-free-putlocker.html", '_blank');
+    window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
+  }
+
+  $scope.watchOnNetflix = function(movieInfo){
+    var movie = movieInfo.original_title
+    window.open("http://www.netflix.com/search/" + movie.split(' ').join('-'));
+  }
+
+  $scope.watchOnAmazon = function(movieInfo){
+    var movie = movieInfo.original_title
+    console.log("Link clicked to watch " + movie + " on Amazon.")
+    // The following line needs to be changed to work with amazon maybe???
+    // window.open("http://www.netflix.com/search/" + movie.split(' ').join('-'));
   }
 
   $scope.startGame = function(){
