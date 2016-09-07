@@ -43,6 +43,7 @@
       <div class="movieYear">{{movie.release_date.slice(0,4)}}</div>
       <!--Only shows if movie.showOverview, which changes on mouseEnter and mouseLeave-->
       <div class="rating">Rating: {{movie.vote_average}}</div>
+      <button class="watch-free" ng-click="watchForFree(movie)"><img src="http://www.elizabethan-era.org.uk/images/calico-jack-rackhams-pirate-flag.jpg" style="width:25px;height:25px;"></button>
     </li>
   </ul>
   </div>

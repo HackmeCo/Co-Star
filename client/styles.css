@@ -48,6 +48,12 @@ h3 {
   margin-left: 30px;
 }
 
+.watch-free {
+  color: black;
+  background-color: black;
+  bottom: 2px;
+}
+
 .movieOverview {
   margin-right: 30px;
   float: right;
@@ -162,7 +168,7 @@ li.movies {
   display: inline-table;
   position: relative;
   width: 150px;
-  height: 200px;
+  height: 100px;
   padding: 3px;
   font-size: 15px;
   border-style: solid;
@@ -220,6 +226,7 @@ tr:hover{
 }
 
 .tmdblogo{
+  margin-left: 30px;
   height: 30px;
   width: 30px;
   display: inline;
