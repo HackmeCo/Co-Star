@@ -189,6 +189,11 @@ angular.module('costars.home' , [])
     }
   };
 
+  $scope.watchForFree = function(movieInfo){
+    var movie = movieInfo.original_title
+    window.open("http://putlocker.is/watch-" + movie.split(' ').join('-') + "-online-free-putlocker.html", '_blank');
+  }
+
   $scope.startGame = function(){
     $scope.playing = !$scope.playing;
   };
