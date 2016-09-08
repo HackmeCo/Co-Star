@@ -1,8 +1,11 @@
 <div class="wrapper">
       <h2></h2>
       <button class="gameBtn" ng-click="goToGame()">I like games.</button>
-      <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button>
+      <!-- <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button> -->
       <br>
+    <div class="embedded">
+      <iframe width=728px height=410px ng-src="{{detailFrame}}"></iframe>
+    </div>  
     <div class="movieOverview" ng-repeat="movie in movies" ng-show=movie.showOverview>{{movie.title}}
     <br><br>{{movie.overview}}</div>
   <div class="rules" ng-show=rules>
@@ -43,6 +46,7 @@
       <div class="movieYear">{{movie.release_date.slice(0,4)}}</div>
       <!--Only shows if movie.showOverview, which changes on mouseEnter and mouseLeave-->
       <div class="rating">Rating: {{movie.vote_average}}</div>
+      <button class="watch-trailer" ng-click="watchTrailer(movie)" style="width:137px;">Watch Trailer!</button>
       <span>
       <button class="watch-free" ng-click="watchForFree(movie)"><img src="http://www.elizabethan-era.org.uk/images/calico-jack-rackhams-pirate-flag.jpg" style="width:25px;height:25px;"></button>
       <button class="watch-netflix" ng-click="watchOnNetflix(movie)"><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT0bhEwqCrhqX42YYmEWN9vRWIqai50-Ds-nQXG_mSZfc1bQMj3iA" style="width:25px;height:25px;"></button>
