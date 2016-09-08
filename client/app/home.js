@@ -24,12 +24,24 @@ angular.module('costars.home' , [])
       //console.log("In getMovies, length is one, about to make DB call for: ", $scope.currentSearches[0].name);
       return DB.getActor($scope.currentSearches[0].name)
       .then(function(data){
-        // console.log('DB call getActor retrieved: ', data);
-        // console.log("Setting $scope.movies to: ", data.known_for);
+        //console.log('DB call getActor retrieved: ', data);
+        //console.log("Setting $scope.movies to: ", data.known_for);
         // adds pirate links for movies currently in DB
-        data.known_for.forEach(movieObj => PirateShip.getAndVerifyLink(movieObj) );
-        $scope.movies = data.known_for; //set it to the well known movies
-        $scope.loaded = true;
+        data.known_for.forEach(function(val){ //*** val.original_title
+          // set data from netflix call
+          val.onNetflix = false;
+          val.external_id = 0;
+
+          ApiCalls.netflix(val.original_title)
+          .then(function(netflixInfo){
+            val.onNetflix   = netflixInfo.data.available;
+            val.external_id = netflixInfo.data.netflixId;
+            PirateShip.getAndVerifyLink(val);
+            console.log('object after netflix call', data.known_for);
+            $scope.loaded   = true;
+          })
+        })
+            $scope.movies = data.known_for; 
       })
       .catch(function(){
         //wasn't in the data base so do an api call, this probably means there's a DB error
@@ -40,11 +52,21 @@ angular.module('costars.home' , [])
           if(data.results[0].profile_path){ //don't store if they don't have a picture
             $scope.storeActorDb(data.results[0]);
           }
-          data.results[0].known_for.forEach(movieObj => {
-            PirateShip.getAndVerifyLink(movieObj);
-          });
-          $scope.movies = data.results[0].known_for;
-          $scope.loaded = true;
+          data.results[0].known_for.forEach(function(val){ //*** val.original_title
+          // set data from netflix call
+          val.onNetflix = false;
+          val.external_id = 0;
+
+          ApiCalls.netflix(val.original_title)
+          .then(function(netflixInfo){
+            $scope.loaded    = true;
+            val.onNetflix   = netflixInfo.data.available;
+            val.external_id = netflixInfo.data.netflixId;
+            PirateShip.getAndVerifyLink(val);
+            console.log('object after netflix call', data.results[0].known_for);
+          })
+        })
+            $scope.movies = data.results[0].known_for; 
           })
           .catch(function(err){
             console.error("Error making SBP call: ", err);
@@ -56,11 +78,21 @@ angular.module('costars.home' , [])
       return ApiCalls.discover($scope.actorIds)
         .then(function(movies) {
           // console.log("Movies from discover call: ", movies);
-          movies.forEach(movieObj => {
-            PirateShip.getAndVerifyLink(movieObj);
-          });
-          $scope.movies = movies;
-          $scope.loaded = true;
+          movies.forEach(function(val){ //*** val.original_title
+          // set data from netflix call
+          val.onNetflix = false;
+          val.external_id = 0;
+
+          ApiCalls.netflix(val.original_title)
+          .then(function(netflixInfo){
+            $scope.loaded   = true;
+            val.onNetflix   = netflixInfo.data.available;
+            val.external_id = netflixInfo.data.netflixId;
+            PirateShip.getAndVerifyLink(val);
+            console.log('object after netflix call', movies[0]);
+          })
+        })
+            $scope.movies = movies; 
         })
         .catch(function(error) {
           console.error("Error making discover call: ", error);
@@ -135,32 +167,21 @@ angular.module('costars.home' , [])
       }); //add the actor to our current searches
       // console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches);
       if($scope.currentSearches.length === 1){
-        actorData.known_for.forEach(movieObj => {
-            PirateShip.getAndVerifyLink(movieObj);
-        });
-        var newData = [];
         actorData.known_for.forEach(function(val){ //*** val.original_title
-          // set data from netflix call
-          var temp = {
-            onNetflix: false,
-            external_id: 0
-          };
+        // set data from netflix call
+          val.onNetflix = false;
+          val.external_id = 0;
 
           ApiCalls.netflix(val.original_title)
           .then(function(netflixInfo){
             $scope.loaded    = true;
-            temp.onNetflix   = netflixInfo.data.available;
-            temp.external_id = netflixInfo.data.netflixId;
-
-            //console.log('Test netflixData title', netflixInfo.data);
-            //console.log('What temp will look like: ', temp);
-            Object.assign(temp, val);
-            newData.push(temp)
-            console.log('New data that will go in place of known_for: ', newData);
-            $scope.movies = newData //set the movies here, no need to make another DB call
+            val.onNetflix   = netflixInfo.data.available;
+            val.external_id = netflixInfo.data.netflixId;
+            PirateShip.getAndVerifyLink(val);
+            console.log('object after netflix call', actorData.known_for);
           })
         })
-        //$scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
+        $scope.movies = actorData.known_for; 
       }else{
         $scope.getMovies();
       }
@@ -216,8 +237,6 @@ angular.module('costars.home' , [])
 
   $scope.removeActorInput = function(actor){
     $scope.loaded = false;
-    $scope.netflixData = [];   //*** resets netflix info per actor
-    $scope.disableNetflix();   //***
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
