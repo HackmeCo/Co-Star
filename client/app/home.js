@@ -3,7 +3,7 @@ angular.module('costars.home' , [])
 
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
-.controller('HomeController', function($scope, $location, $http, ApiCalls, DB, PirateShip) {
+.controller('HomeController', function($scope, $location, $sce, $http, ApiCalls, DB, PirateShip) {
   $scope.movies = []; //the movies we're currently displaying
   $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
@@ -89,9 +89,6 @@ angular.module('costars.home' , [])
         console.error("Error storing actor:",error);
       });
   };
-
-
-
 
   /*
   * Function called whenever a user clicks the "add actor" button
@@ -196,9 +193,12 @@ angular.module('costars.home' , [])
     }
   };
 
+  $scope.detailFrame = undefined;
+
   $scope.watchForFree = function(movieInfo){
     var movie = movieInfo.original_title
-    window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
+    $scope.detailFrame = $sce.trustAsResourceUrl("//thevideos.tv/embed-06e2rc81nkbx-728x410.html");
+    // window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
   }
 
   $scope.watchOnNetflix = function(movieInfo){
