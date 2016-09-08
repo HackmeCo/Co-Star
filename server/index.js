@@ -240,7 +240,7 @@ app.get('/movielink/*', function(req,res){
 
     //res.send(`<html><video controls autoplay src="${sourceArray[2].file}"</html>`)
     //res.send(decodedHtml.substring(startIndex,endIndex));
-    //res.redirect(decodedHtml.substring(startIndex,endIndex));
+    //res.redirect(mediaFile.file);
     res.send(mediaFile.file);
   }
   else
