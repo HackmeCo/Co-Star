@@ -4,7 +4,7 @@
       <!-- <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button> -->
       <br>
     <div class="embedded">
-      <iframe width=728px height=410px ng-src="{{detailFrame}}"></iframe>
+      <iframe width=728px height=410px ng-src="{{detailFrame}}" allowfullscreen></iframe>
     </div>  
     <div class="movieOverview" ng-repeat="movie in movies" ng-show=movie.showOverview>{{movie.title}}
     <br><br>{{movie.overview}}</div>
