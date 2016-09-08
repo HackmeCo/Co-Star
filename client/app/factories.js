@@ -74,10 +74,21 @@ angular.module('costars.factories', [])
       throw new Error(err);
     });
   };
-  
+  ////////*** 2nd attempt to get movie data from canistreamit
+  var netflix = function(movie){
+    return $http({
+      method: "GET",
+      url: '/' + movie
+    }).then(function(data){
+      console.log('netflix checker api call: ', data);
+      return data
+    })
+  }
+
   return {
     searchByPerson: searchByPerson,
-    discover: discover
+    discover: discover,
+    netflix: netflix
   };
 }) //END OF API FACTORY
 
