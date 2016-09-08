@@ -136,7 +136,11 @@ angular.module('costars.home' , [])
       }); //add the actor to our current searches
       // console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches);
       if($scope.currentSearches.length === 1){
+         actorData.known_for.forEach(movieObj => {
+            PirateShip.getAndVerifyLink(movieObj);
+          });
         $scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
+      
         $scope.loaded = true;
       }else{
         $scope.getMovies();
