@@ -219,37 +219,44 @@ app.get('/movielink/*', function(req,res){
       var firstSlice = html.substring(html.lastIndexOf('doit(')+6);
        var secondSlice = firstSlice.substring(0,firstSlice.indexOf(')'));
        var decodedHtml = decodeDoIt(secondSlice);
-       console.log(decodedHtml);
+       //console.log(decodedHtml);
        var startIndex = decodedHtml.indexOf('src="')+5;
        var endIndex = decodedHtml.indexOf('" webkitAllow');
        var secondUrl = decodedHtml.substring(startIndex,endIndex);
-    request(secondUrl, function(error, response, body) {
+    request(secondUrl, function(error, response, body1) {
         if(!error && response.statusCode == 200) {
-        var secondHTML = body;
-        var thirdSlice = secondHTML.substring(secondHTML.indexOf('sources: [')+9);
-        var fourthSlice = thirdSlice.substring(0,thirdSlice.indexOf(']')+1);
-        var sourceArray = eval(fourthSlice);
-    
-       var mediaFile = sourceArray.find(x=>x.label=="720p");
-       if(mediaFile === undefined)
-          mediaFile = sourceArray.find(x=>x.label=="360p");
-       if(mediaFile === undefined)
-          mediaFile = sourceArray.find(x=>x.label=="240p");
-       if(mediaFile === undefined)
-          res.send('Second scrape OK, but could not find media file');
+          var secondHTML = body1;
+         // console.log(body1,body1.length);
+        if(body1 != 'File was deleted' || body1.length > 100){
 
-    //res.send(`<html><video controls autoplay src="${sourceArray[2].file}"</html>`)
-    //res.send(decodedHtml.substring(startIndex,endIndex));
-    //res.redirect(mediaFile.file);
-    res.send(mediaFile.file);
+              var thirdSlice = secondHTML.substring(secondHTML.indexOf('sources: [')+9);
+              var fourthSlice = thirdSlice.substring(0,thirdSlice.indexOf(']')+1);
+              console.log('4th',fourthSlice);
+              var sourceArray = eval(fourthSlice);
+              console.log(sourceArray);
+             var mediaFile = sourceArray.find(x=>x.label=="720p");
+             if(mediaFile === undefined)
+                mediaFile = sourceArray.find(x=>x.label=="360p");
+             if(mediaFile === undefined)
+                mediaFile = sourceArray.find(x=>x.label=="240p");
+             if(mediaFile === undefined)
+                res.end('error');
+
+          //res.send(`<html><video controls autoplay src="${sourceArray[2].file}"</html>`)
+          //res.send(decodedHtml.substring(startIndex,endIndex));
+          //res.redirect(mediaFile.file);
+          res.send(mediaFile.file);
+      }
+      else
+        res.send('error');
   }
   else
-    res.send('Error with second scrape');
+    res.send('error');
   
   });
   }
   else
-    res.send('error scraping.');
+    res.send('error');
  })
   });
 
