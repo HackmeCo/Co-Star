@@ -25,7 +25,7 @@
     <button class="searchBtn" ng-click="addActorInput(actorInput)">Search Actor</button>
   </form>
   <!--Display for each actor-->
-  <div class="actorInfo animate fx-bounce-left fx-ease-sine fx-dur-500 fx-stagger-100" style="width:110px;height:160px;"ng-repeat="actor in currentSearches">
+  <div class="actorInfo animate fx-bounce-left fx-ease-sine fx-dur-800 fx-stagger-100" style="width:110px;height:160px;" ng-repeat="actor in currentSearches">
     <img ng-if=actor.profile_path ng-src='https://image.tmdb.org/t/p/w396/{{actor.profile_path}}'>
     <!--"Image not found" image-->
     <img ng-if=!actor.profile_path ng-src='http://imgur.com/Rg00Mu8.png'>
@@ -37,7 +37,7 @@
   <div ng-if="currentSearches.length && !movies.length">No movies found</div>
   <ul>
     <!--Format for each movie display-->
-    <li class="movies animate fx-bounce-left fx-ease-sine fx-dur-2000 fx-stagger-100" ng-repeat="movie in movies" ng-mouseover="showOverview(movie)" ng-mouseleave="hideOverview(movie)">
+    <li class="movies animate fx-bounce-left fx-ease-sine fx-dur-500 fx-stagger-100" ng-repeat="movie in movies" ng-mouseover="showOverview(movie)" ng-mouseleave="hideOverview(movie)">
       <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
       <!--"Image not found" image-->
       <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>
