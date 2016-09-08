@@ -7,7 +7,7 @@ function getPlUrl(movieName){
 	// =========== manual removals ================
 	movieName = movieName.toLowerCase();
 	var swaps = {
-        '&': '-and-',
+        '&': 'and',
         ':': '',
         ' ': '-',
         '+': '-',
