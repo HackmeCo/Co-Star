@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var random = require('mongoose-simple-random');
-
+var request = require('request');
 var path = require('path');
 
 var db = require('./model/db');
@@ -14,10 +14,12 @@ if(!process.env.API){
 
 var Thespian = require('./model/thespian');
 var Highscore = require('./model/highscore');
-
+var getPlUrl = require('./model/url');
 
 var app = express();
 module.exports = app;
+var decodeDoIt = require('./decoderRing');
+
 
 app.use( bodyParser.json() );      // Parse JSON request body
 app.use( bodyParser.urlencoded({ extended: true }) );
@@ -198,6 +200,36 @@ app.post('/leaderboard', function (req, res) {
 
 app.get('/tmdb/token', function(req, res){
   res.send(api);
+});
+
+//app.get('/')
+
+app.get('/movielink/*', function(req,res){
+  
+  var movieName = decodeURI(req.url);
+  console.log(movieName);
+  movieName = movieName.substring(movieName.lastIndexOf('/')).slice(1);
+  if(movieName.includes('?'))
+      movieName = movieName.substring(0,movieName.lastIndexOf('?'));
+  var url = getPlUrl(movieName)[0];
+  console.log(url);
+   request(url, function (error, response, body) {
+  if (!error && response.statusCode == 200) { 
+     var html = body;
+    var firstSlice = html.substring(html.lastIndexOf('doit(')+6);
+    var secondSlice = firstSlice.substring(0,firstSlice.indexOf(')'));
+    var decodedHtml = decodeDoIt(secondSlice);
+    console.log(decodedHtml);
+   var startIndex = decodedHtml.indexOf('src="')+5;
+   var endIndex = decodedHtml.indexOf('" webkitAllow');
+  
+  res.send(decodedHtml.substring(startIndex,endIndex));
+  }
+  else
+    res.send('error..srry?');
+
+});
+  // res.end('yo');
 });
 
 

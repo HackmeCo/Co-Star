@@ -65,7 +65,7 @@ angular.module('costars.factories', [])
       });
     })
     .then(function(resp){
-      // console.log("Resp directly from discover call: ", resp);
+      console.log("Resp directly from discover call: ", resp);
       return resp.data.results;
     })
     .catch(function(err){
@@ -204,4 +204,24 @@ angular.module('costars.factories', [])
     getScores: getScores,
     postScore: postScore
   };
+}).factory('PirateShip', function($http){
+  var getAndVerifyLink = function(movieObj) {
+    console.log(movieObj);
+    //use newly created endpoint to get URL, the
+    var urlTitle = movieObj.original_title.replace(' ','+');
+    
+   // console.log('getAndVerifyLink:',movieObj);
+      //  window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
+   
+
+   // readme: need to send server the year.
+    $http({method: 'GET',url: '/movielink/'+urlTitle+'?'+movieObj.release_date.substring(0,4)}).then(resp=>{
+      var url = resp.data;
+
+      movieObj.pirate_src = url; 
+      movieObj.pirate_src_fallback = 'not_ready_yet';
+      console.log(movieObj);
+    });
+  };
+  return {getAndVerifyLink: getAndVerifyLink };
 });

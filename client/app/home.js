@@ -3,7 +3,7 @@ angular.module('costars.home' , [])
 
 //THE CONTROLLER FOR THE ENTIRE COSTARS WEBSITE
 
-.controller('HomeController', function($scope, $location, $http, ApiCalls, DB) {
+.controller('HomeController', function($scope, $location, $http, ApiCalls, DB, PirateShip) {
   $scope.movies = []; //the movies we're currently displaying
   $scope.currentSearches = []; //array of actor objects, stored as {name: String, id: Number, profile_path: String, popularity: Number}
   $scope.actorIds = []; //it will be a list of ids
@@ -57,6 +57,7 @@ angular.module('costars.home' , [])
           $scope.loaded = true;
         });
     }
+    
   };
 
   /*
@@ -77,6 +78,9 @@ angular.module('costars.home' , [])
   * @param data should be an object, formatted the same as the "results" returned from a SBP API call
   */
   $scope.storeActorDb = function(data){
+    console.log('Store actor Db: ',data);
+    PirateShip.getAndVerifyLink(data.known_for[0]);
+    console.log('storeActorDb:',data.known_for[0]);
     return DB.storeActor(data)
       .then(function(resp){
         // console.log("actor stored",resp);
@@ -85,6 +89,9 @@ angular.module('costars.home' , [])
         console.error("Error storing actor:",error);
       });
   };
+
+
+
 
   /*
   * Function called whenever a user clicks the "add actor" button
