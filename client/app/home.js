@@ -41,6 +41,9 @@ angular.module('costars.home' , [])
           if(data.results[0].profile_path){ //don't store if they don't have a picture
             $scope.storeActorDb(data.results[0]);
           }
+          data.results[0].known_for.forEach(movieObj => {
+            PirateShip.getAndVerifyLink(movieObj);
+          });
           $scope.movies = data.results[0].known_for;
           $scope.loaded = true;
           })
@@ -54,6 +57,9 @@ angular.module('costars.home' , [])
       return ApiCalls.discover($scope.actorIds)
         .then(function(movies) {
           // console.log("Movies from discover call: ", movies);
+          movies.forEach(movieObj => {
+            PirateShip.getAndVerifyLink(movieObj);
+          });
           $scope.movies = movies;
           $scope.loaded = true;
         })
