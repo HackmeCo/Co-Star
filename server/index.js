@@ -213,24 +213,45 @@ app.get('/movielink/*', function(req,res){
       movieName = movieName.substring(0,movieName.lastIndexOf('?'));
   var url = getPlUrl(movieName)[0];
   console.log(url);
-   request(url, function (error, response, body) {
-  if (!error && response.statusCode == 200) { 
-     var html = body;
-    var firstSlice = html.substring(html.lastIndexOf('doit(')+6);
-    var secondSlice = firstSlice.substring(0,firstSlice.indexOf(')'));
-    var decodedHtml = decodeDoIt(secondSlice);
-    console.log(decodedHtml);
-   var startIndex = decodedHtml.indexOf('src="')+5;
-   var endIndex = decodedHtml.indexOf('" webkitAllow');
-  
-  res.send(decodedHtml.substring(startIndex,endIndex));
+  request(url, function (error, response, body) {
+      if (!error && response.statusCode == 200) { 
+      var html = body;
+      var firstSlice = html.substring(html.lastIndexOf('doit(')+6);
+       var secondSlice = firstSlice.substring(0,firstSlice.indexOf(')'));
+       var decodedHtml = decodeDoIt(secondSlice);
+       console.log(decodedHtml);
+       var startIndex = decodedHtml.indexOf('src="')+5;
+       var endIndex = decodedHtml.indexOf('" webkitAllow');
+       var secondUrl = decodedHtml.substring(startIndex,endIndex);
+    request(secondUrl, function(error, response, body) {
+        if(!error && response.statusCode == 200) {
+        var secondHTML = body;
+        var thirdSlice = secondHTML.substring(secondHTML.indexOf('sources: [')+9);
+        var fourthSlice = thirdSlice.substring(0,thirdSlice.indexOf(']')+1);
+        var sourceArray = eval(fourthSlice);
+    
+       var mediaFile = sourceArray.find(x=>x.label=="720p");
+       if(mediaFile === undefined)
+          mediaFile = sourceArray.find(x=>x.label=="360p");
+       if(mediaFile === undefined)
+          mediaFile = sourceArray.find(x=>x.label=="240p");
+       if(mediaFile === undefined)
+          res.send('Second scrape OK, but could not find media file');
+
+    //res.send(`<html><video controls autoplay src="${sourceArray[2].file}"</html>`)
+    //res.send(decodedHtml.substring(startIndex,endIndex));
+    //res.redirect(decodedHtml.substring(startIndex,endIndex));
+    res.send(mediaFile.file);
   }
   else
-    res.send('error..srry?');
-
-});
-  // res.end('yo');
-});
+    res.send('Error with second scrape');
+  
+  });
+  }
+  else
+    res.send('error scraping.');
+ })
+  });
 
 
 //        Start the server on PORT or 3000
