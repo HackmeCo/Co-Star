@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var random = require('mongoose-simple-random');
+var netflix = require('canistreamit');
 var request = require('request');
 var path = require('path');
 
@@ -193,6 +194,44 @@ app.post('/leaderboard', function (req, res) {
     });
   });
 });
+
+
+//===============================================
+//              canistreamit routes
+//===============================================
+
+
+app.get('/:movie', function(req, res){
+  var found = {
+    title: req.params.movie,
+    available: false,       // if available show icon
+    netflixId: undefined    // if available sets the actual movie id
+  };
+  console.log('Movie: ', req.params.movie);
+  netflix.search(req.params.movie) // make api call to search by movie title
+    .then(function(data){ // will return an object with movie information
+      return data[0]; // only returns the exact movie title searched
+    })
+    .then(function(movieData){
+      return netflix.streaming(movieData) // checks to see if it is on netflix
+      .then(function(streamData){ // if found set the netflix id
+        found.netflixId = streamData.netflix_instant.external_id;
+        if(found.netflixId.length > 0){ // if there was no match it
+          found.available = true;       // it will return an empty array.
+          }
+        console.log('Found ' + req.params.movie);
+        res.send(found);
+        return streamData;
+      })
+    })
+    .catch(function(err){
+      console.log('Movie not available');
+      res.send(found);
+      throw err;
+    })
+});
+
+
 
 //===============================================
 //              Token Route

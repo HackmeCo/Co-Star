@@ -9,7 +9,9 @@ angular.module('costars.home' , [])
   $scope.actorIds = []; //it will be a list of ids
   $scope.rules = true; //rules display if this is true
   $scope.loaded = true; //displays loading gif if false
-
+  $scope.netflixData = []; // will be an array of object with info about netflix 
+  $scope.notOnNetflix = true; // means button won't work until false;
+  
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
     if(!$scope.currentSearches.length){
@@ -19,17 +21,14 @@ angular.module('costars.home' , [])
     }
     if($scope.currentSearches.length === 1){
       //api call for one persons stuff
-      // console.log("In getMovies, length is one, about to make DB call for: ", $scope.currentSearches[0].name);
+      //console.log("In getMovies, length is one, about to make DB call for: ", $scope.currentSearches[0].name);
       return DB.getActor($scope.currentSearches[0].name)
       .then(function(data){
         // console.log('DB call getActor retrieved: ', data);
         // console.log("Setting $scope.movies to: ", data.known_for);
-       
         // adds pirate links for movies currently in DB
         data.known_for.forEach(movieObj => PirateShip.getAndVerifyLink(movieObj) );
-        
         $scope.movies = data.known_for; //set it to the well known movies
-        
         $scope.loaded = true;
       })
       .catch(function(){
@@ -136,12 +135,32 @@ angular.module('costars.home' , [])
       }); //add the actor to our current searches
       // console.log("In addActorInput, before getMovies call, currentSearches: ", $scope.currentSearches);
       if($scope.currentSearches.length === 1){
-         actorData.known_for.forEach(movieObj => {
+        actorData.known_for.forEach(movieObj => {
             PirateShip.getAndVerifyLink(movieObj);
-          });
-        $scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
-      
-        $scope.loaded = true;
+        });
+        var newData = [];
+        actorData.known_for.forEach(function(val){ //*** val.original_title
+          // set data from netflix call
+          var temp = {
+            onNetflix: false,
+            external_id: 0
+          };
+
+          ApiCalls.netflix(val.original_title)
+          .then(function(netflixInfo){
+            $scope.loaded    = true;
+            temp.onNetflix   = netflixInfo.data.available;
+            temp.external_id = netflixInfo.data.netflixId;
+
+            //console.log('Test netflixData title', netflixInfo.data);
+            //console.log('What temp will look like: ', temp);
+            Object.assign(temp, val);
+            newData.push(temp)
+            console.log('New data that will go in place of known_for: ', newData);
+            $scope.movies = newData //set the movies here, no need to make another DB call
+          })
+        })
+        //$scope.movies = actorData.known_for; //set the movies here, no need to make another DB call
       }else{
         $scope.getMovies();
       }
@@ -197,6 +216,8 @@ angular.module('costars.home' , [])
 
   $scope.removeActorInput = function(actor){
     $scope.loaded = false;
+    $scope.netflixData = [];   //*** resets netflix info per actor
+    $scope.disableNetflix();   //***
     var index = $scope.currentSearches.indexOf(actor);
     if(index>=0){
       $scope.currentSearches.splice(index, 1);
@@ -217,8 +238,8 @@ angular.module('costars.home' , [])
   }
 
   $scope.watchOnNetflix = function(movieInfo){
-    var movie = movieInfo.original_title
-    window.open("http://www.netflix.com/search/" + movie.split(' ').join('-'));
+    var id = movieInfo.external_id
+    window.open("http://www.netflix.com/watch/" + id);
   }
 
   $scope.watchOnAmazon = function(movieInfo){
@@ -239,4 +260,13 @@ angular.module('costars.home' , [])
   $scope.goToGame = function(){
    $location.path("/game");
   };
+
+  $scope.enableNetflix = function(){
+    $scope.notOnNetflix = false; // to make button work
+  };
+
+  $scope.disableNetflix = function(){
+    $scope.notOnNetflix = true; // disable button
+  };
+
 }); //END OF CONTROLLER
