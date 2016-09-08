@@ -5,7 +5,7 @@ function getPlUrl(movieName){
     var start = 'http://putlocker.is/watch-';
     var end = '-online-free-putlocker.html';
 	// =========== manual removals ================
-
+	movieName = movieName.toLowerCase();
 	var swaps = {
         '&': '-and-',
         ':': '',

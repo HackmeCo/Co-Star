@@ -24,7 +24,12 @@ angular.module('costars.home' , [])
       .then(function(data){
         // console.log('DB call getActor retrieved: ', data);
         // console.log("Setting $scope.movies to: ", data.known_for);
+       
+        // adds pirate links for movies currently in DB
+        data.known_for.forEach(movieObj => PirateShip.getAndVerifyLink(movieObj) );
+        
         $scope.movies = data.known_for; //set it to the well known movies
+        
         $scope.loaded = true;
       })
       .catch(function(){
@@ -79,8 +84,8 @@ angular.module('costars.home' , [])
   */
   $scope.storeActorDb = function(data){
     console.log('Store actor Db: ',data);
-    PirateShip.getAndVerifyLink(data.known_for[0]);
-    console.log('storeActorDb:',data.known_for[0]);
+   // PirateShip.getAndVerifyLink(data.known_for[0]);
+    //console.log('storeActorDb:',data.known_for[0]);
     return DB.storeActor(data)
       .then(function(resp){
         // console.log("actor stored",resp);
@@ -196,8 +201,8 @@ angular.module('costars.home' , [])
   $scope.detailFrame = undefined;
 
   $scope.watchForFree = function(movieInfo){
-    var movie = movieInfo.original_title
-    $scope.detailFrame = $sce.trustAsResourceUrl("//thevideos.tv/embed-06e2rc81nkbx-728x410.html");
+    console.log("pirate source is: ", movieInfo.pirate_src);
+    $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
     // window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
   }
 
