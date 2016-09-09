@@ -250,7 +250,7 @@ angular.module('costars.factories', [])
    
 
    // readme: need to send server the year.
-    $http({method: 'GET',url: '/movielink/'+urlTitle+'?'+movieObj.release_date.substring(0,4)}).then(resp=>{
+    return $http({method: 'GET',url: '/movielink/'+urlTitle+'?'+movieObj.release_date.substring(0,4)}).then(resp=>{
       var url = resp.data;
 
       movieObj.pirate_src = url; 
