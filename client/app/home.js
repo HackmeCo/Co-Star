@@ -255,6 +255,7 @@ angular.module('costars.home' , [])
     console.log("make tmdb request with this id: ", movieInfo.id);
     ApiCalls.searchByID(movieInfo.id)
     .then(function(resp){
+      // searchByID returns a promise which is resolved to the youtube key as resp
       $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + resp);
     })
     .catch(function(err){

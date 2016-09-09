@@ -85,7 +85,7 @@ angular.module('costars.factories', [])
     })
   };
 
-  // Search by movie ID
+  // Search by movie ID -- This is used to get trailers for specific movies home.js 253
   var searchByID = function(movieID){
     return $http({
       method: "GET",        //fetches the api token from the server, this is not ideal for security
