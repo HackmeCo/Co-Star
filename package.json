@@ -45,19 +45,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HackmeCo/Co-Star.git"
+    "url": "git+https://github.com/Bromigos/Co-Star.git"
   },
-  "author": "HackmeCo",
+  "author": "Bromigos",
   "contributors": [
-    "Aaron Ventura",
-    "Chad Griffis",
-    "Kathryn Hansen",
-    "Mitchell Deane",
-    "Elliot Cheung"
+    "Anjum Faraz",
+    "Jimmy Stevenson",
+    "Garret Holmes",
+    "Abel Costilla",
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HackmeCo/Co-Star/issues"
+    "url": "https://github.com/Bromigos/Co-Star/issues"
   },
   "homepage": "https://github.com/HackmeCo/Co-Star#readme"
 }
