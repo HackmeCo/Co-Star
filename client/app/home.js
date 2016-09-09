@@ -250,6 +250,18 @@ angular.module('costars.home' , [])
 
   $scope.detailFrame = undefined;
 
+  $scope.watchTrailer = function(movie){
+    console.log("movie info is: ", movie.title)
+    $http.get("https://www.googleapis.com/youtube/v3/search?part=snippet&order=rating&q=" + movie.title.split(' ').join('+').split(':').join('').split('&').join('and') + movie.release_date.slice(0,4) + "+official+trailer&type=video&videoEmbeddable=true&key=AIzaSyAPOEAEiT5MYrlCXLxn2eVMAShpSTcDpS4")
+    .then(function(response) {
+      $scope.showIFrame = true;
+      var videoId = response.data.items[0].id.videoId;
+      console.log('youtube api call: ', response.data.items[0].id.videoId);
+      $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + videoId + "?autoplay=1");
+        // $scope.myWelcome = response.data;
+    });
+  }
+
   $scope.watchForFree = function(movieInfo){
     $scope.showIFrame = true; // display iframe on pirate click
     console.log("pirate source is: ", movieInfo.pirate_src);
@@ -262,9 +274,17 @@ angular.module('costars.home' , [])
     window.open("http://www.netflix.com/watch/" + id);
   }
 
-  $scope.watchOnAmazon = function(movieInfo){
-    var movie = movieInfo.original_title
-    console.log("Link clicked to watch " + movie + " on Amazon.")
+  $scope.buyOnItunes = function(movieTitle){
+    console.log("Link clicked to watch " + movieTitle + " on Amazon.")
+    $http.jsonp("https://itunes.apple.com/search?callback=JSON_CALLBACK&media=movie&entity=movie&limit=1&explict=yes&term=" + movieTitle.split(' ').join('+').split(':').join('').split('&').join('and'))
+      .then(function(response) {
+        var itunesUrl = response.data.results[0].trackViewUrl;
+        console.log('itunes api call: ', itunesUrl);
+        window.open(itunesUrl);
+    })
+      // $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + videoId + "?autoplay=1");
+        // $scope.myWelcome = response.data;
+    // window.open("http://www.netflix.com/search/" + movie.split(' ').join('-'));
     // The following line needs to be changed to work with amazon maybe???
     // window.open("http://www.netflix.com/search/" + movie.split(' ').join('-'));
   }
