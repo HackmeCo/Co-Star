@@ -11,7 +11,7 @@ angular.module('costars.home' , [])
   $scope.loaded = true; //displays loading gif if false
   $scope.netflixData = []; // will be an array of object with info about netflix 
   $scope.notOnNetflix = true; // means button won't work until false;
-  
+  $scope.showIFrame = false; // don't display iframe on load
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
     if(!$scope.currentSearches.length){
@@ -251,6 +251,7 @@ angular.module('costars.home' , [])
   $scope.detailFrame = undefined;
 
   $scope.watchForFree = function(movieInfo){
+    $scope.showIFrame = true; // display iframe on pirate click
     console.log("pirate source is: ", movieInfo.pirate_src);
     $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
     // window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');

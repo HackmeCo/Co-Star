@@ -3,7 +3,10 @@ angular.module('costars', [
   'costars.home',
   'costars.game',
   'costars.leaderboard',
-  'ngRoute'])
+  'ngRoute',
+  'ng-fx',
+  'ngAnimate'
+])
 
 .config(function($routeProvider, $httpProvider){
   $routeProvider

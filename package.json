@@ -18,6 +18,7 @@
     "mongodb": "^2.2.8",
     "mongoose": "^4.5.10",
     "mongoose-simple-random": "^0.3.3",
+    "ng-fx": "^2.0.4",
     "node-uuid": "^1.4.7",
     "nodemon": "^1.10.2",
     "promised-mongo": "github:makersquare/promised-mongo",
