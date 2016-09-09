@@ -79,7 +79,7 @@ angular.module('costars.game', [])
           $scope.choices.push(correctChoice);
         }
         else{
-          if(Math.random() < 0.7){ //reroll 70% of the time -> Increases the number of good questions at the cost of load time
+          if(Math.random() < 0.99){ //reroll 70% of the time -> Increases the number of good questions at the cost of load time
             return $scope.create();
           }else{
             answer = "";
@@ -195,7 +195,7 @@ angular.module('costars.game', [])
 
    var startTimer = function(){
     stopTimer();
-    $scope.time = 10; //reset to 10 seconds
+    $scope.time = 30; //reset to 10 seconds
     timer = $interval(function(){
       $scope.time -= 1;
       if($scope.time <= 0){
