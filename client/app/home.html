@@ -4,7 +4,7 @@
       <!-- <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button> -->
       <br>
     <div class="embedded">
-      <iframe ng-show="showIFrame" width=728px height=410px ng-src="{{detailFrame}}" allowfullscreen></iframe>
+      <iframe ng-show="showIFrame" width=728px height=410px type="text/html" ng-src="{{detailFrame}}" frameborder="1" allowfullscreen></iframe>
     </div>  
     <div class="movieOverview" ng-repeat="movie in movies" ng-show=movie.showOverview>{{movie.title}}
     <br><br>{{movie.overview}}</div>
@@ -41,7 +41,7 @@
       <img ng-if=movie.poster_path ng-src='https://image.tmdb.org/t/p/w396/{{movie.poster_path}}'>
       <!--"Image not found" image-->
       <img ng-if=!movie.poster_path ng-src='http://imgur.com/Rg00Mu8.png'>
-      <div class="movieTitle"><a href='{{movie.pirate_src}}'>{{movie.title}}</a></div>
+      <div class="movieTitle">{{movie.title}}</div>
       <!--Slices the year out of the full release date-->
       <div class="movieYear">{{movie.release_date.slice(0,4)}}</div>
       <!--Only shows if movie.showOverview, which changes on mouseEnter and mouseLeave-->
@@ -50,7 +50,7 @@
       <span>
       <button class="watch-free" ng-click="watchForFree(movie)"><img src="http://www.elizabethan-era.org.uk/images/calico-jack-rackhams-pirate-flag.jpg" style="width:25px;height:25px;"></button>
       <button class="watch-netflix" ng-disabled="!movie.onNetflix" ng-click="watchOnNetflix(movie)"><img ng-if="movie.onNetflix" ng-src="http://a4.mzstatic.com/eu/r30/Purple71/v4/f9/73/38/f9733819-8408-d6d1-2208-94365fc6e36f/icon175x175.png" style="width:25px;height:25px;"><img ng-if="!movie.onNetflix" ng-src="http://i.imgur.com/Q8jXEk9.png" style="width:25px;height:25px;"></button>
-      <button class="watch-amazon" ng-click="watchOnAmazon(movie)"><img src="http://www.teleread.com/wp-content/uploads/2014/09/unnamed.png" style="width:25px;height:25px;"></button>
+      <button class="buy-itunes" ng-click="buyOnItunes(movie.title)"><img src="http://www.teleread.com/wp-content/uploads/2014/09/unnamed.png" style="width:25px;height:25px;"></button>
       </span>
     </li>
   </ul>
