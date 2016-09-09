@@ -91,6 +91,21 @@ angular.module('costars.factories', [])
       method: "GET",        //fetches the api token from the server, this is not ideal for security
       url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
     })
+    .then(function(resp){
+      return $http({
+        method: "GET",
+        url: "http://api.themoviedb.org/3/movie/" + movieID + "/videos?api_key=" + resp.data
+      })
+    })
+    .then(function(resp){
+      //console.log('success retrieving youtube key: ', resp.data.results[0].key);
+      console.log('https://www.youtube.com/watch?v=' + resp.data.results[0].key)
+      return resp.data.results[0].key;
+    })
+    .catch(function(err){
+      console.log('Error: ', err);
+      throw new Error(err);
+    });
   };
 
   return {
