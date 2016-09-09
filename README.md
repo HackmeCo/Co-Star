@@ -5,7 +5,7 @@ Co-Star also contains a trivia game component, in which users see if they can na
 
 Added features: 
 - Ability to see the ratings for the movie.
-- Ability to watch any movie on the click of a button.
-- Ability to determine whether the movie is streamable on Netflix and be able to navigate to it.
-- Ability to navigate to the movie on iTunes Store.
+- Ability to watch any movie at the click of a button.
+- Ability to determine whether the movie is streamable on Netflix and be able to navigate to its direct link.
+- Ability to navigate to the movie on the iTunes Store.
 - Ability to watch the offical trailer directly on the page.
