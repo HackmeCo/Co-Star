@@ -7,6 +7,211 @@ form {
   background-color: black;
 }
 
+.back {
+  cursor: pointer;
+}
+
+.b10_tveffect div {
+  /*background-color: black;*/
+  font-size: 1vw;
+   margin-right: 3px;
+   margin-top: 3px;
+   padding: .57em 1.35em;
+   box-shadow: 0 1px 2px rgba(0,0,0,.3);
+    position: absolute;
+    text-align: center;
+    width: 10%;
+    height: 50px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.b10_tveffect div:nth-child(1) {
+    color: #222222;
+    background-color: #000000;
+    -webkit-transition: all 0.1s ease;
+    padding: 10px;
+    border: #000000 solid 1px;
+}
+
+.b10_tveffect div:nth-child(2) {
+    overflow: hidden;
+}
+
+.b10_tveffect div:nth-child(2) div {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 10px;
+    border: #000000 hidden 1px;
+}
+
+.b10_tveffect div:nth-child(2) div:nth-child(1) {
+    color: rgba(200, 120, 120, 0.8);
+    opacity: 0;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAF0lEQVQIW2NkwAIYgWKS6OIgQQxAoUoAE4AAUnD/0ugAAAAASUVORK5CYII=) repeat;
+}
+
+.b10_tveffect div:nth-child(2) div:nth-child(2) {
+    color: rgba(120, 200, 120, 0.8);
+    opacity: 0;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAF0lEQVQIW2NkwAIYgWKS6OIgQQxAoUoAE4AAUnD/0ugAAAAASUVORK5CYII=) repeat;
+}
+
+.b10_tveffect div:nth-child(2) div:nth-child(3) {
+    color: rgba(120, 120, 200, 0.8);
+    opacity: 0;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAF0lEQVQIW2NkwAIYgWKS6OIgQQxAoUoAE4AAUnD/0ugAAAAASUVORK5CYII=) repeat;
+}
+
+.b10_tveffect:hover div:nth-child(1) {
+    color: #ffffff;
+    background-color: #000000;
+    transition: color 0s ease;
+    -webkit-transition: color 0s ease;
+    -moz-transition: color 0s ease;
+    transition: background-color 0.3s ease 0.2s;
+    -webkit-transition: background-color 0.3s ease 0.2s;
+    -moz-transition: background-color 0.3s ease 0.2s;
+}
+
+.b10_tveffect:hover div:nth-child(2) div:nth-child(1) {
+    animation: b10_tveffect_red 0.25s linear;
+    -webkit-animation: b10_tveffect_red 0.25s linear;
+    -moz-animation: b10_tveffect_red 0.25s linear;
+}
+
+.b10_tveffect:hover div:nth-child(2) div:nth-child(2) {
+    animation: b10_tveffect_green 0.25s linear;
+    -webkit-animation: b10_tveffect_green 0.25s linear;
+    -moz-animation: b10_tveffect_green 0.25s linear;
+}
+
+.b10_tveffect:hover div:nth-child(2) div:nth-child(3) {
+    animation: b10_tveffect_blue 0.25s linear;
+    -webkit-animation: b10_tveffect_blue 0.25s linear;
+    -moz-animation: b10_tveffect_blue 0.25s linear;
+}
+
+@-webkit-keyframes b10_tveffect_red {
+    from,
+    to {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+        -webkit-transform: scale(1.8, 1.6) translate(-10px, 3px) skewX(30deg);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.5, 1.2) translate(20px, 6px) skewX(5deg);
+    }
+    75% {
+        opacity: 1;
+        -webkit-transform: scale(0.9, 1.8) translate(-16px, -1px) skewX(-20deg);
+    }
+}
+
+@-webkit-keyframes b10_tveffect_green {
+    from,
+    to {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+        -webkit-transform: scale(1.3, 1.5) translate(3px, 6px) skewX(25deg);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.6, 1.1) translate(-16px, -5px) skewX(-15deg);
+    }
+    75% {
+        opacity: 1;
+        -webkit-transform: scale(1, 1.8) translate(18px, 4px) skewX(15deg);
+    }
+}
+
+@-webkit-keyframes b10_tveffect_blue {
+    from,
+    to {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+        -webkit-transform: scale(1.2, 1.4) translate(-10px, -3px) skewX(-25deg);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.9, 1.1) translate(16px, 3px) skewX(5deg);
+    }
+    75% {
+        opacity: 1;
+        -webkit-transform: scale(1.3, 2) translate(-30px, -3px) skewX(20deg);
+    }
+}
+
+@-moz-keyframes b10_tveffect_red {
+    from,
+    to {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+        transform: scale(1.8, 1.6) translate(-10px, 3px) skewX(30deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5, 1.2) translate(20px, 6px) skewX(5deg);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(0.9, 1.8) translate(-16px, -1px) skewX(-20deg);
+    }
+}
+
+@-moz-keyframes b10_tveffect_green {
+    from,
+    to {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+        transform: scale(1.3, 1.5) translate(3px, 6px) skewX(25deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.6, 1.1) translate(-16px, -5px) skewX(-15deg);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1, 1.8) translate(18px, 4px) skewX(15deg);
+    }
+}
+
+@-moz-keyframes b10_tveffect_blue {
+    from,
+    to {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+        transform: scale(1.2, 1.4) translate(-10px, -3px) skewX(-25deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.9, 1.1) translate(16px, 3px) skewX(5deg);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1.3, 2) translate(-30px, -3px) skewX(20deg);
+    }
+}
+
 html {
   background-color: black;
 }
@@ -16,8 +221,12 @@ width: 1400px;
 cursor: pointer;
 }
 
-input { 
-  color:black;
+input {
+  border-top: 1px;
+  border-right: 1px;
+  border-left: 1px;
+  color:white;
+  background-color: black;
 }
 
 div.movieInfo {
@@ -144,7 +353,7 @@ h3 {
   font-size: 30px;
 }
 
-button.gameBtn {
+/*button.gameBtn {
    background-color: #E50914;
    border-color: #FF0A16;
    font-size: 1vw;
@@ -159,7 +368,7 @@ button.gameBtn {
    font-weight: 700;
    display: inline-block;
    position: relative;
-}
+}*/
 
 /*button.rulesBtn {
    background-color: #E50914;
@@ -179,6 +388,7 @@ button.gameBtn {
 }*/
 
 button.searchBtn {
+   border-radius: 5px;
    background-color: #E50914;
    border-color: #FF0A16;
    font-size: 1vw;
