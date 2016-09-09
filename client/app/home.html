@@ -3,6 +3,9 @@
       <button class="gameBtn" ng-click="goToGame()">I like games.</button>
       <!-- <button class="rulesBtn" ng-click="showRules()">{{rules ? "I know how it works" : "I don't know how it works"}}</button> -->
       <br>
+    <div class="trailer404 animate-show" ng-show="youtube404" ng-hide="!youtube404">
+      Couldn't find that trailer! Just watch this. 
+    </div>
     <div class="embedded">
       <iframe ng-show="showIFrame" width=728px height=410px type="text/html" ng-src="{{detailFrame}}" frameborder="1" allowfullscreen></iframe>
     </div>  

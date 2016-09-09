@@ -12,6 +12,8 @@ angular.module('costars.home' , [])
   $scope.netflixData = []; // will be an array of object with info about netflix 
   $scope.notOnNetflix = true; // means button won't work until false;
   $scope.showIFrame = false; // don't display iframe on load
+  $scope.youtube404 = false;
+
   //getMovies is called every time an actor is removed or added to the list
   $scope.getMovies = function (){
     if(!$scope.currentSearches.length){
@@ -256,21 +258,32 @@ angular.module('costars.home' , [])
     ApiCalls.searchByID(movieInfo.id)
     .then(function(resp){
       // searchByID returns a promise which is resolved to the youtube key as resp
-      $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + resp);
+      $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + resp + "?autoplay=1");
+      $scope.youtube404 = false;
+
     })
     .catch(function(err){
-      console.log("Error: ", err);
+      var rickRoll = "dQw4w9WgXcQ";
+      $scope.youtube404 = true;
+      setTimeout(function(){
+        $scope.youtube404 = false;
+        console.log('timout true or false: ', $scope.youtube404);
+      }, 4000);
+      $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + rickRoll + "?autoplay=1");
+      //alert("Sorry, No original trailer could be found");
     });
   };
 
   $scope.watchForFree = function(movieInfo){
     $scope.showIFrame = true; // display iframe on pirate click
+    $scope.youtube404 = false;
     console.log("pirate source is: ", movieInfo.pirate_src);
     $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
     // window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
   };
 
   $scope.watchOnNetflix = function(movieInfo){
+    $scope.youtube404 = false;
     var id = movieInfo.external_id
     window.open("http://www.netflix.com/watch/" + id);
   };
