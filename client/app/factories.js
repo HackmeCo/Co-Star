@@ -83,12 +83,21 @@ angular.module('costars.factories', [])
       console.log('netflix checker api call: ', data);
       return data
     })
-  }
+  };
+
+  // Search by movie ID
+  var searchByID = function(movieID){
+    return $http({
+      method: "GET",        //fetches the api token from the server, this is not ideal for security
+      url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
+    })
+  };
 
   return {
     searchByPerson: searchByPerson,
     discover: discover,
-    netflix: netflix
+    netflix: netflix,
+    searchByID: searchByID
   };
 }) //END OF API FACTORY
 

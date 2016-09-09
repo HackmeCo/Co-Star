@@ -250,16 +250,10 @@ angular.module('costars.home' , [])
 
   $scope.detailFrame = undefined;
 
-  $scope.watchTrailer = function(movie){
-    console.log("movie info is: ", movie.title)
-    $http.get("https://www.googleapis.com/youtube/v3/search?part=snippet&order=rating&q=" + movie.title.split(' ').join('+').split(':').join('').split('&').join('and') + movie.release_date.slice(0,4) + "+official+trailer&type=video&videoEmbeddable=true&key=AIzaSyAPOEAEiT5MYrlCXLxn2eVMAShpSTcDpS4")
-    .then(function(response) {
-      $scope.showIFrame = true;
-      var videoId = response.data.items[0].id.videoId;
-      console.log('youtube api call: ', response.data.items[0].id.videoId);
-      $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + videoId + "?autoplay=1");
-        // $scope.myWelcome = response.data;
-    });
+  $scope.watchTrailer = function(movieInfo){
+    $scope.showIFrame = true; // display iframe on trailer click
+    console.log("make tmdb request with this id: ", movieInfo.id);
+
   }
 
   $scope.watchForFree = function(movieInfo){
