@@ -34,7 +34,7 @@ angular.module('costars.home' , [])
           val.onNetflix = false;
           val.external_id = 0;
 
-          ApiCalls.netflix(val.original_title)
+          ApiCalls.netflix(val.original_title || val.original_name)
           .then(function(netflixInfo){
             val.onNetflix   = netflixInfo.data.available;
             val.external_id = netflixInfo.data.netflixId;
@@ -59,7 +59,7 @@ angular.module('costars.home' , [])
           val.onNetflix = false;
           val.external_id = 0;
 
-          ApiCalls.netflix(val.original_title)
+          ApiCalls.netflix(val.original_title || val.original_name)
           .then(function(netflixInfo){
             $scope.loaded    = true;
             val.onNetflix   = netflixInfo.data.available;
@@ -85,7 +85,7 @@ angular.module('costars.home' , [])
           val.onNetflix = false;
           val.external_id = 0;
 
-          ApiCalls.netflix(val.original_title)
+          ApiCalls.netflix(val.original_title || val.original_name)
           .then(function(netflixInfo){
             $scope.loaded   = true;
             val.onNetflix   = netflixInfo.data.available;
@@ -174,7 +174,7 @@ angular.module('costars.home' , [])
           val.onNetflix = false;
           val.external_id = 0;
 
-          ApiCalls.netflix(val.original_title)
+          ApiCalls.netflix(val.original_title || val.original_name)
           .then(function(netflixInfo){
             $scope.loaded    = true;
             val.onNetflix   = netflixInfo.data.available;
@@ -292,12 +292,21 @@ angular.module('costars.home' , [])
   };
 
   $scope.buyOnItunes = function(movieTitle){
-    console.log("Link clicked to watch " + movieTitle + " on Amazon.")
+    console.log("Link clicked to purchase " + movieTitle + " on iTunes.")
     $http.jsonp("https://itunes.apple.com/search?callback=JSON_CALLBACK&media=movie&entity=movie&limit=1&explict=yes&term=" + movieTitle.split(' ').join('+').split(':').join('').split('&').join('and'))
       .then(function(response) {
-        var itunesUrl = response.data.results[0].trackViewUrl;
-        console.log('itunes api call: ', itunesUrl);
-        window.open(itunesUrl);
+        var itunesUrl;
+        if(response.data.results[0] === undefined){
+          $http.jsonp("https://itunes.apple.com/search?callback=JSON_CALLBACK&media=tvShow&limit=1&explict=yes&term=" + movieTitle.split(' ').join('+').split(':').join('').split('&').join('and'))
+          .then(function(response) {
+             itunesUrl = response.data.results[0].trackViewUrl;
+             window.open(itunesUrl);
+          })
+        } else {
+          console.log('itunes api call: ', itunesUrl);
+          itunesUrl = response.data.results[0].trackViewUrl;
+          window.open(itunesUrl);
+        }
     })
       // $scope.detailFrame = $sce.trustAsResourceUrl("https://www.youtube.com/embed/" + videoId + "?autoplay=1");
         // $scope.myWelcome = response.data;
