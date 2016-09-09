@@ -36,7 +36,7 @@ angular.module('costars.home' , [])
           .then(function(netflixInfo){
             val.onNetflix   = netflixInfo.data.available;
             val.external_id = netflixInfo.data.netflixId;
-            PirateShip.getAndVerifyLink(val);
+           // PirateShip.getAndVerifyLink(val);
             console.log('object after netflix call', data.known_for);
             $scope.loaded   = true;
           })
@@ -62,7 +62,7 @@ angular.module('costars.home' , [])
             $scope.loaded    = true;
             val.onNetflix   = netflixInfo.data.available;
             val.external_id = netflixInfo.data.netflixId;
-            PirateShip.getAndVerifyLink(val);
+            //PirateShip.getAndVerifyLink(val);
             console.log('object after netflix call', data.results[0].known_for);
           })
         })
@@ -88,7 +88,7 @@ angular.module('costars.home' , [])
             $scope.loaded   = true;
             val.onNetflix   = netflixInfo.data.available;
             val.external_id = netflixInfo.data.netflixId;
-            PirateShip.getAndVerifyLink(val);
+            //PirateShip.getAndVerifyLink(val);
             console.log('object after netflix call', movies[0]);
           })
         })
@@ -177,7 +177,7 @@ angular.module('costars.home' , [])
             $scope.loaded    = true;
             val.onNetflix   = netflixInfo.data.available;
             val.external_id = netflixInfo.data.netflixId;
-            PirateShip.getAndVerifyLink(val);
+            //PirateShip.getAndVerifyLink(val);
             console.log('object after netflix call', actorData.known_for);
           })
         })
@@ -263,9 +263,12 @@ angular.module('costars.home' , [])
   }
 
   $scope.watchForFree = function(movieInfo){
-    $scope.showIFrame = true; // display iframe on pirate click
-    console.log("pirate source is: ", movieInfo.pirate_src);
-    $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
+    PirateShip.getAndVerifyLink(movieInfo).then(resp=>{
+      $scope.showIFrame = true; // display iframe on pirate click
+      console.log("pirate source is: ", movieInfo.pirate_src);
+     $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
+    });
+    
     // window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
   }
 
