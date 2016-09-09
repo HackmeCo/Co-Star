@@ -279,7 +279,7 @@ angular.module('costars.home' , [])
       $scope.showIFrame = true; // display iframe on pirate click
       $scope.youtube404 = false;
       console.log("pirate source is: ", movieInfo.pirate_src);
-     $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
+      $scope.detailFrame = $sce.trustAsResourceUrl(movieInfo.pirate_src);
     });
     
     // window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
