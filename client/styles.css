@@ -81,21 +81,21 @@ form {
 }
 
 .b10_tveffect:hover div:nth-child(2) div:nth-child(1) {
-    animation: b10_tveffect_red 0.25s linear;
-    -webkit-animation: b10_tveffect_red 0.25s linear;
-    -moz-animation: b10_tveffect_red 0.25s linear;
+    animation: b10_tveffect_red 1.5s linear;
+    -webkit-animation: b10_tveffect_red 1.5s linear;
+    -moz-animation: b10_tveffect_red 1.5s linear;
 }
 
 .b10_tveffect:hover div:nth-child(2) div:nth-child(2) {
-    animation: b10_tveffect_green 0.25s linear;
-    -webkit-animation: b10_tveffect_green 0.25s linear;
-    -moz-animation: b10_tveffect_green 0.25s linear;
+    animation: b10_tveffect_green 1.5s linear;
+    -webkit-animation: b10_tveffect_green 1.5s linear;
+    -moz-animation: b10_tveffect_green 1.5s linear;
 }
 
 .b10_tveffect:hover div:nth-child(2) div:nth-child(3) {
-    animation: b10_tveffect_blue 0.25s linear;
-    -webkit-animation: b10_tveffect_blue 0.25s linear;
-    -moz-animation: b10_tveffect_blue 0.25s linear;
+    animation: b10_tveffect_blue 1.5s linear;
+    -webkit-animation: b10_tveffect_blue 1.5s linear;
+    -moz-animation: b10_tveffect_blue 1.5s linear;
 }
 
 @-webkit-keyframes b10_tveffect_red {
