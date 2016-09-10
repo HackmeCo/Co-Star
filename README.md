@@ -9,3 +9,4 @@ Added features:
 - Ability to determine whether the movie is streamable on Netflix and be able to navigate to its direct link.
 - Ability to navigate to the movie on the iTunes Store.
 - Ability to watch the offical trailer directly on the page.
+- Styling updated.
