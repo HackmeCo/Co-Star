@@ -34,7 +34,7 @@ angular.module('costars.factories', [])
       });
     })
     .then(function(resp){
-      // console.log("Success retrieving " + actor + "!\nGot back: ", resp);
+      console.log("Success retrieving " + actor + "!\nGot back: ", resp);
       return resp.data;
     })
     .catch(function(err){
@@ -65,7 +65,7 @@ angular.module('costars.factories', [])
       });
     })
     .then(function(resp){
-      // console.log("Resp directly from discover call: ", resp);
+      console.log("Resp directly from discover call: ", resp);
       return resp.data.results;
     })
     .catch(function(err){
@@ -74,10 +74,21 @@ angular.module('costars.factories', [])
       throw new Error(err);
     });
   };
-  
+  ////////*** 2nd attempt to get movie data from canistreamit
+  var netflix = function(movie){
+    return $http({
+      method: "GET",
+      url: '/' + movie
+    }).then(function(data){
+      console.log('netflix checker api call: ', data);
+      return data
+    })
+  }
+
   return {
     searchByPerson: searchByPerson,
-    discover: discover
+    discover: discover,
+    netflix: netflix
   };
 }) //END OF API FACTORY
 
@@ -204,4 +215,24 @@ angular.module('costars.factories', [])
     getScores: getScores,
     postScore: postScore
   };
+}).factory('PirateShip', function($http){
+  var getAndVerifyLink = function(movieObj) {
+    console.log(movieObj);
+    //use newly created endpoint to get URL, the
+    var urlTitle = movieObj.original_title.replace(' ','+');
+    
+   // console.log('getAndVerifyLink:',movieObj);
+      //  window.open("http://putlocker.is/watch-" + movie.split(' ').join('-').split(':').join('').split('&').join('and') + "-online-free-putlocker.html", '_blank');
+   
+
+   // readme: need to send server the year.
+    return $http({method: 'GET',url: '/movielink/'+urlTitle+'?'+movieObj.release_date.substring(0,4)}).then(resp=>{
+      var url = resp.data;
+
+      movieObj.pirate_src = url; 
+      movieObj.pirate_src_fallback = 'not_ready_yet';
+      console.log(movieObj);
+    });
+  };
+  return {getAndVerifyLink: getAndVerifyLink };
 });

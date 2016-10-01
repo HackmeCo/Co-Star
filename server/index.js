@@ -1,7 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var random = require('mongoose-simple-random');
-
+var netflix = require('canistreamit');
+var request = require('request');
 var path = require('path');
 
 var db = require('./model/db');
@@ -14,10 +15,12 @@ if(!process.env.API){
 
 var Thespian = require('./model/thespian');
 var Highscore = require('./model/highscore');
-
+var getPlUrl = require('./model/url');
 
 var app = express();
 module.exports = app;
+var decodeDoIt = require('./decoderRing');
+
 
 app.use( bodyParser.json() );      // Parse JSON request body
 app.use( bodyParser.urlencoded({ extended: true }) );
@@ -192,6 +195,44 @@ app.post('/leaderboard', function (req, res) {
   });
 });
 
+
+//===============================================
+//              canistreamit routes
+//===============================================
+
+
+app.get('/:movie', function(req, res){
+  var found = {
+    title: req.params.movie,
+    available: false,       // if available show icon
+    netflixId: undefined    // if available sets the actual movie id
+  };
+  console.log('Movie: ', req.params.movie);
+  netflix.search(req.params.movie) // make api call to search by movie title
+    .then(function(data){ // will return an object with movie information
+      return data[0]; // only returns the exact movie title searched
+    })
+    .then(function(movieData){
+      return netflix.streaming(movieData) // checks to see if it is on netflix
+      .then(function(streamData){ // if found set the netflix id
+        found.netflixId = streamData.netflix_instant.external_id;
+        if(found.netflixId.length > 0){ // if there was no match it
+          found.available = true;       // it will return an empty array.
+          }
+        console.log('Found ' + req.params.movie);
+        res.send(found);
+        return streamData;
+      })
+    })
+    .catch(function(err){
+      console.log('Movie not available');
+      res.send(found);
+      throw err;
+    })
+});
+
+
+
 //===============================================
 //              Token Route
 //===============================================
@@ -199,6 +240,64 @@ app.post('/leaderboard', function (req, res) {
 app.get('/tmdb/token', function(req, res){
   res.send(api);
 });
+
+//app.get('/')
+
+app.get('/movielink/*', function(req,res){
+  
+  var movieName = decodeURI(req.url);
+  console.log(movieName);
+  movieName = movieName.substring(movieName.lastIndexOf('/')).slice(1);
+  if(movieName.includes('?'))
+      movieName = movieName.substring(0,movieName.lastIndexOf('?'));
+  var url = getPlUrl(movieName)[0];
+  console.log(url);
+  request(url, function (error, response, body) {
+      if (!error && response.statusCode == 200) { 
+      var html = body;
+      var firstSlice = html.substring(html.lastIndexOf('doit(')+6);
+       var secondSlice = firstSlice.substring(0,firstSlice.indexOf(')'));
+       var decodedHtml = decodeDoIt(secondSlice);
+       //console.log(decodedHtml);
+       var startIndex = decodedHtml.indexOf('src="')+5;
+       var endIndex = decodedHtml.indexOf('" webkitAllow');
+       var secondUrl = decodedHtml.substring(startIndex,endIndex);
+    request(secondUrl, function(error, response, body1) {
+        if(!error && response.statusCode == 200) {
+          var secondHTML = body1;
+         // console.log(body1,body1.length);
+        if(body1 != 'File was deleted' || body1.length > 100){
+
+              var thirdSlice = secondHTML.substring(secondHTML.indexOf('sources: [')+9);
+              var fourthSlice = thirdSlice.substring(0,thirdSlice.indexOf(']')+1);
+              console.log('4th',fourthSlice);
+              var sourceArray = eval(fourthSlice);
+              console.log(sourceArray);
+             var mediaFile = sourceArray.find(x=>x.label=="720p");
+             if(mediaFile === undefined)
+                mediaFile = sourceArray.find(x=>x.label=="360p");
+             if(mediaFile === undefined)
+                mediaFile = sourceArray.find(x=>x.label=="240p");
+             if(mediaFile === undefined)
+                res.end('error');
+
+          //res.send(`<html><video controls autoplay src="${sourceArray[2].file}"</html>`)
+          //res.send(decodedHtml.substring(startIndex,endIndex));
+          //res.redirect(mediaFile.file);
+          res.send(mediaFile.file);
+      }
+      else
+        res.send('error');
+  }
+  else
+    res.send('error');
+  
+  });
+  }
+  else
+    res.send('error');
+ })
+  });
 
 
 //        Start the server on PORT or 3000
