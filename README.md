@@ -24,17 +24,17 @@ The npm install script will also run a bower install for client-side dependencie
 
 ## Built With
 Co-Star's tech stack employs:
-  -AngularJS 1
-  -MongoDB
-  -Node
-  -Express
+  - AngularJS 1
+  - MongoDB
+  - Node
+  - Express
 
 ## Authors
-  - [Chad Griffis](https://github.com/gryffs)
-  - [Elliot Cheung](https://github.com/ezcheung)
-  - [Kathryn Hansen](https://github.com/kathrynmhansen)
   - [Aaron Ventura](https://github.com/macabre1)
+  - [Chad Griffis](https://github.com/gryffs)
+  - [Kathryn Hansen](https://github.com/kathrynmhansen)
   - [Mitchell Deane](https://github.com/gmdiv)
+  - [Elliot Cheung](https://github.com/ezcheung)
 
 ## Acknowledgements
 ![tmdb logo](https://assets.tmdb.org/assets/8ce4f6ee3ea26190a7f21d1f9e7e9be2/images/v4/logos/182x162.png)
