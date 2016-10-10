@@ -22,6 +22,13 @@ $ npm install
 
 The npm install script will also run a bower install for client-side dependencies.
 
+That's it! You're ready to start continuing development of Co-Star!
+
+To start the local server, run:
+```
+$ npm start
+```
+
 ## Built With
 Co-Star's tech stack employs:
   - AngularJS 1
