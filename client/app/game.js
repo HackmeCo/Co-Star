@@ -79,7 +79,7 @@ angular.module('costars.game', [])
           $scope.choices.push(correctChoice);
         }
         else{
-          if(Math.random() < 0.7){ //reroll 70% of the time -> Increases the number of good questions at the cost of load time
+          if(Math.random() < 0.85){ //reroll 85% of the time -> Increases the number of good questions at the cost of load time
             return $scope.create();
           }else{
             answer = "";
