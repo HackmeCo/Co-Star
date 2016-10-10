@@ -11,7 +11,7 @@ For movie trivia buffs, Co-Star also features a game component, which turns the 
 If you would like to contribute to Co-Star, there are a few steps you'll need to take:
 
 Clone down the repo:
-```js
+```
 $ git clone https://github.com/hackmeco/co-star
 ```
 
