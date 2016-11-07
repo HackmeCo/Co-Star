@@ -79,46 +79,50 @@ angular.module('costars.factories', [])
       url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
     })
     .then(function(resp){
-    var promises = [];
-    actorIds.forEach(function(id) {
-      promises.push($http({
-        method: "GET",
-        url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + id + "&sort_by=popularity.desc"
-      }).then(function(movies) {
-        return $http({
+      var promises = [];
+      actorIds.forEach(function(id) {
+        promises.push($http({
           method: "GET",
-          url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + id + "&sort_by=popularity.asc"
-        })
-        .then(function(movies2) {
-          return movies.data.results.concat(movies2.data.results);
-        })
-      }))
-    })
-    return Promise.all(promises)
-    .then(function(movies) {
-      // console.log("Movies in promise.all: ", movies);
-      // console.log("Movies per actor: ", movies);
-      var idMap = {}; // map from movies ids to full movie objects
-      var commonIds = {}; // current list of ids in common
-      for(var i = 0; i < movies[0].length; i++) { //populate with first actor's movies
-        idMap[movies[0][i].id] = movies[0][i];
-        commonIds[movies[0][i].id] = true;
-      }
-      for(var j = 1; j < movies.length; j++) {
-        // console.log("Current common ids: ", commonIds);
-        var tempCommons = {};
-        for(var k = 0; k < movies[j].length; k++) {
-          var id = movies[j][k].id;
-          if(commonIds[id]) {
-            tempCommons[id] = true;
-            idMap[id] = movies[j][k];
-          }
+          url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + id + "&sort_by=popularity.desc"
+        }).then(function(movies) {
+          return $http({
+            method: "GET",
+            url: "https://api.themoviedb.org/3/discover/movie?api_key=" + resp.data + "&with_people=" + id + "&sort_by=popularity.asc"
+          })
+          .then(function(movies2) {
+            return movies.data.results.concat(movies2.data.results);
+          })
+        }))
+      })
+      return Promise.all(promises)
+      .then(function(movies) {
+        // console.log("Movies in promise.all: ", movies);
+        // console.log("Movies per actor: ", movies);
+        var idMap = {}; // map from movies ids to full movie objects
+        var commonIds = {}; // current list of ids in common
+        for(var i = 0; i < movies[0].length; i++) { //populate with first actor's movies
+          idMap[movies[0][i].id] = movies[0][i];
+          commonIds[movies[0][i].id] = true;
         }
-        commonIds = tempCommons;
-      }
-      return Object.keys(commonIds).map((id) => idMap[id]);
+        for(var j = 1; j < movies.length; j++) {
+          // console.log("Current common ids: ", commonIds);
+          var tempCommons = {};
+          for(var k = 0; k < movies[j].length; k++) {
+            var id = movies[j][k].id;
+            if(commonIds[id]) {
+              tempCommons[id] = true;
+              idMap[id] = movies[j][k];
+            }
+          }
+          commonIds = tempCommons;
+        }
+        return Object.keys(commonIds).map((id) => idMap[id]);
+      })
     })
-  });
+    .catch(function(err) {
+      console.error("Error with discover call: ", err);
+      throw new Error(err);
+    })
   }
   
   return {
