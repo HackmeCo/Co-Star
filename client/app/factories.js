@@ -73,7 +73,7 @@ angular.module('costars.factories', [])
     //   console.error("Error: ", err);
     //   throw new Error(err);
     // });
-    console.log("ActorIds Receieved: ", actorIds);
+    // console.log("ActorIds Receieved: ", actorIds);
     return $http({
       method: "GET",        //fetches the api token from the server, this is not ideal for security
       url: "/tmdb/token"    //and will need to be refactored for longterm deployment to internet
@@ -96,11 +96,8 @@ angular.module('costars.factories', [])
     })
     return Promise.all(promises)
     .then(function(movies) {
-      console.log("Movies in promise.all: ", movies);
-      // movies = movies.map(function(perActor) {
-      //   return perActor.data.results;
-      // })
-      console.log("Movies per actor: ", movies);
+      // console.log("Movies in promise.all: ", movies);
+      // console.log("Movies per actor: ", movies);
       var idMap = {}; // map from movies ids to full movie objects
       var commonIds = {}; // current list of ids in common
       for(var i = 0; i < movies[0].length; i++) { //populate with first actor's movies
@@ -108,7 +105,7 @@ angular.module('costars.factories', [])
         commonIds[movies[0][i].id] = true;
       }
       for(var j = 1; j < movies.length; j++) {
-        console.log("Current common ids: ", commonIds);
+        // console.log("Current common ids: ", commonIds);
         var tempCommons = {};
         for(var k = 0; k < movies[j].length; k++) {
           var id = movies[j][k].id;
